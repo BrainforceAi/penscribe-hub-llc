@@ -3,29 +3,409 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The PenScribe Hub — Government Contracting Consultancy</title>
-  <meta name="description" content="Isaac Adetoyese helps small and mid-size service businesses win federal, state, and municipal contracts. 90% proposal win rate. CPCM and FAC-C certified.">
+  <title>Government Contracting Consultant | The Penscribe | 90% Win Rate</title>
+  <meta name="description" content="The Penscribe helps small and mid-size businesses win federal, state, and municipal government contracts. 90% proposal win rate. CPCM and FAC-C certified. Free first review.">
+  <meta property="og:title" content="Government Contracting Consultant | The Penscribe">
+  <meta property="og:description" content="We write the proposals that win. 90% award rate. Federal, state, and municipal contracts for service businesses. Free first review.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brainforceai.github.io/penscribe-hub-llc/">
+  <link rel="canonical" href="https://brainforceai.github.io/penscribe-hub-llc/">
   <link rel="icon" href="project/assets/penscribe-logo-on-white.jpg">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "The Penscribe",
+    "description": "Government contracting consultancy specializing in proposal writing and strategy for federal, state, and municipal contracts.",
+    "telephone": "+18324498631",
+    "email": "isaac@thepenscribe.com",
+    "url": "https://brainforceai.github.io/penscribe-hub-llc/",
+    "areaServed": "United States",
+    "serviceType": "Government Contracting Consulting",
+    "sameAs": [
+      "https://www.linkedin.com/in/isaac-adetoyese",
+      "https://www.upwork.com/freelancers/~018a7b32ee0a61e4d0"
+    ]
+  }
+  </script>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<nav class="nav" id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-mark">
+      <img src="project/assets/penscribe-logo-on-white.jpg" alt="The Penscribe" width="32" height="32">
+      <div class="word"><div class="t">THE</div><div class="p">PENSCRIBE</div></div>
+    </a>
+    <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contracts.html">Contracts Won</a>
+      <a href="contact.html">Contact</a>
+      <button class="btn btn-primary" style="padding:10px 18px;font-size:14px;" onclick="openBooking()">Book a consultation →</button>
+    </div>
+  </div>
+</nav>
 
-  <script src="data.js"></script>
+<main>
 
-  <script type="text/babel" data-presets="react" src="Layout.jsx"></script>
-  <script type="text/babel" data-presets="react" src="HomePage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="AboutPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="ServicesPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="ServiceDetailPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="ContractsPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="ContractDetailPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="ContactPage.jsx"></script>
-  <script type="text/babel" data-presets="react" src="App.jsx"></script>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="overline">
+        <div class="pulse"></div>
+        <p class="eyebrow" style="color:var(--ps-success);">90% win rate across all submitted proposals.</p>
+      </div>
+      <h1>Your competitors are winning<br>federal contracts right now.<br><em>You should be next.</em></h1>
+      <p class="lead">We write the proposals that win. Federal, state, and municipal contracts for small and mid-size service businesses. You bring the opportunity. We deliver the award.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" style="font-size:16px;padding:16px 28px;" onclick="openBooking()">Book a free consultation →</button>
+        <a class="btn btn-secondary" href="contracts.html">See contracts we have won</a>
+      </div>
+      <div class="creds">
+        <span class="cert-chip">CPCM Certified</span>
+        <span class="cert-chip">FAC-C Certified</span>
+        <span class="cert-chip">Top Rated on Upwork</span>
+        <span class="cert-chip">90% Win Rate</span>
+        <span class="cert-chip">Federal, State and Municipal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stat strip -->
+  <section class="stat-strip" aria-label="Key metrics">
+    <div class="container">
+      <div class="stat-strip-inner">
+        <div class="s">
+          <div class="num">90%</div>
+          <div class="lab">Proposal Win Rate</div>
+          <div class="sub">Across every submitted proposal. Not cherry-picked.</div>
+        </div>
+        <div class="s">
+          <div class="num">$2.4M</div>
+          <div class="lab">Largest Contract Value</div>
+          <div class="sub">A single engagement. Full proposal lifecycle managed by our team.</div>
+        </div>
+        <div class="s">
+          <div class="num">50+</div>
+          <div class="lab">Government Agencies Served</div>
+          <div class="sub">Federal departments, state authorities, and municipal buyers across the country.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Risk reversal -->
+  <section class="risk-bar">
+    <div class="container">
+      <div class="risk-bar-inner">
+        <div class="risk-item">
+          <div class="rk">First Review</div>
+          <div class="rv">Free, no commitment</div>
+        </div>
+        <div class="risk-item">
+          <div class="rk">Response Time</div>
+          <div class="rv">Within one business day</div>
+        </div>
+        <div class="risk-item">
+          <div class="rk">No-bid recommendation</div>
+          <div class="rv">If it is not winnable, we will tell you before you spend a dollar</div>
+        </div>
+        <div class="risk-item">
+          <div class="rk">Track Record</div>
+          <div class="rv">9 out of 10 proposals win</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected contracts -->
+  <section class="section section-tint">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Selected Contracts</div>
+        <h2>A small sample of the contracts we have won for clients.</h2>
+        <p class="lead">These four case studies represent a fraction of our awarded portfolio. Every contract below started with a business that had never touched government procurement. Every one ended with a signed award.</p>
+      </div>
+      <div class="contracts">
+
+        <a class="contract-card" href="contracts/shaw-afb-laundry.html">
+          <div class="contract-head">
+            <div>
+              <div class="contract-eyebrow">Contract 01, Federal</div>
+              <div class="contract-title">Laundry and Dry Cleaning Services</div>
+              <div class="contract-sub">Tebebi LLC, 20th Contracting Squadron, Shaw AFB, SC</div>
+            </div>
+            <span class="contract-badge"><span class="dot"></span>Contract Awarded</span>
+          </div>
+          <div class="contract-foot">
+            <span class="read">Read case study →</span>
+            <span style="font-family:var(--font-display);font-size:22px;color:var(--fg-1);">Firm-Fixed Unit Price</span>
+          </div>
+        </a>
+
+        <a class="contract-card" href="contracts/winter-park-lot-cleaning.html">
+          <div class="contract-head">
+            <div>
+              <div class="contract-eyebrow">Contract 02, Municipal</div>
+              <div class="contract-title">Lot Cleaning Services for Code Enforcement</div>
+              <div class="contract-sub">Seven Cleaning Service, LLC, City of Winter Park, Florida</div>
+            </div>
+            <span class="contract-badge"><span class="dot"></span>Contract Awarded</span>
+          </div>
+          <div class="contract-foot">
+            <span class="read">Read case study →</span>
+            <span style="font-family:var(--font-display);font-size:22px;color:var(--fg-1);">$138,540 per year est.</span>
+          </div>
+        </a>
+
+        <a class="contract-card" href="contracts/rbha-advertising.html">
+          <div class="contract-head">
+            <div>
+              <div class="contract-eyebrow">Contract 03, State</div>
+              <div class="contract-title">Employment Advertising Services</div>
+              <div class="contract-sub">3XG Enterprises LLC, Richmond Behavioral Health Authority, Richmond, VA</div>
+            </div>
+            <span class="contract-badge"><span class="dot"></span>Contract Awarded</span>
+          </div>
+          <div class="contract-foot">
+            <span class="read">Read case study →</span>
+            <span style="font-family:var(--font-display);font-size:22px;color:var(--fg-1);">Up to $124,800 per year</span>
+          </div>
+        </a>
+
+        <a class="contract-card" href="contracts/wright-patterson-bpa.html">
+          <div class="contract-head">
+            <div>
+              <div class="contract-eyebrow">Contract 04, Federal</div>
+              <div class="contract-title">Laundry Services Blanket Purchase Agreement</div>
+              <div class="contract-sub">Tebebi LLC, 711th Human Performance Wing, Wright-Patterson AFB, OH</div>
+            </div>
+            <span class="contract-badge"><span class="dot"></span>Contract Awarded</span>
+          </div>
+          <div class="contract-foot">
+            <span class="read">Read case study →</span>
+            <span style="font-family:var(--font-display);font-size:22px;color:var(--fg-1);">BPA, 5-year term</span>
+          </div>
+        </a>
+
+      </div>
+      <p style="font-family:var(--font-sans);font-size:13px;color:var(--fg-3);margin-top:24px;font-style:italic;">
+        Additional contracts from our portfolio are being documented and will be published shortly.
+      </p>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">How We Work</div>
+        <h2>Four decisions that determine whether you win or lose before a single word is written.</h2>
+        <p class="lead">Every engagement follows the same structure. Here is what working with our team looks like from the moment you bring us a solicitation to the day you receive the award notice.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="n">01</div>
+          <div>
+            <h3>Opportunity Analysis</h3>
+            <p>We review the full solicitation, evaluate fit against your capabilities, identify evaluation criteria and scoring weights, flag compliance risks, and give you a clear go or no-go recommendation before any writing begins. You never waste money bidding on contracts you cannot win.</p>
+            <span class="outcome">Result: clarity before commitment</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="n">02</div>
+          <div>
+            <h3>Strategy and Research</h3>
+            <p>We map your strengths against the agency's stated priorities, research competing vendors, develop your win themes, and build the pricing strategy. This is where the proposal is won before a single word is written.</p>
+            <span class="outcome">Result: a winning plan on paper</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="n">03</div>
+          <div>
+            <h3>Proposal Development</h3>
+            <p>We write all required volumes: technical approach, management plan, past performance, pricing narrative, and compliance matrix. Every section is written to evaluation criteria, not just to answer the question.</p>
+            <span class="outcome">Result: a submission-ready proposal</span>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="n">04</div>
+          <div>
+            <h3>Submission and Debrief</h3>
+            <p>We conduct a final compliance review before submission. After award or rejection we provide debrief analysis to identify what worked and what to improve on the next bid.</p>
+            <span class="outcome">Result: a contract or a lesson that pays for itself</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="testimonial">
+    <div class="testimonial-inner">
+      <span class="quote-mark">"</span>
+      <blockquote class="q">Our proposal had the highest rating of all the vendors and we have been invited for a final in-person interview.</blockquote>
+      <div class="attr">
+        Broderick Thomas, CEO of 3XG Enterprises LLC, Richmond, VA
+        <div class="result">They won. Up to $124,800 per year.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead magnet -->
+  <section class="lead-magnet">
+    <div class="container">
+      <div class="lead-magnet-inner">
+        <div>
+          <div class="eyebrow">No-Cost First Review</div>
+          <h2>Send us your solicitation. We will tell you if it is worth bidding. In writing. In 48 hours. Free.</h2>
+          <p>Most businesses spend weeks writing proposals they were never going to win. The very first thing we do for every new client is a free go or no-go review. Our team reads your RFP, evaluates fit against your capabilities, and delivers a written recommendation within 48 hours. No obligation to engage further.</p>
+        </div>
+        <div class="form-card">
+          <div class="lbl">Free RFP Review</div>
+          <h3>Submit a solicitation now</h3>
+          <form action="mailto:isaac@thepenscribe.com" method="get" enctype="text/plain">
+            <div class="field">
+              <label for="lm-email">Your email</label>
+              <input type="email" id="lm-email" name="email" required placeholder="you@company.com">
+            </div>
+            <div class="field">
+              <label for="lm-sol">Solicitation number or link</label>
+              <input type="text" id="lm-sol" name="solicitation" required placeholder="e.g. FA480325A0013">
+            </div>
+            <button type="submit" class="btn btn-primary" style="justify-content:center;">Send to our team →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services preview -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="eyebrow">Services</div>
+        <h2>From zero government presence to awarded contract. We handle every step.</h2>
+        <p class="lead">You do not need to understand the procurement process to win a government contract. That is our job. Here is what our team does for clients from day one through signed award.</p>
+      </div>
+      <div class="services-grid">
+        <a class="service-item linked" href="services/proposal-preparation.html">
+          <i data-lucide="pen-tool" class="ico"></i>
+          <div><h4>Proposal Preparation</h4><p>End-to-end proposal writing: technical volumes, pricing narratives, compliance matrices, past performance.</p></div>
+          <i data-lucide="arrow-right" class="arr" style="width:18px;height:18px;stroke-width:1.5;"></i>
+        </a>
+        <a class="service-item linked" href="services/rfp-analysis.html">
+          <i data-lucide="file-search" class="ico"></i>
+          <div><h4>RFP and Solicitation Analysis</h4><p>Detailed breakdown of RFPs and RFQs: risks, requirements, evaluation criteria, and a go or no-go recommendation.</p></div>
+          <i data-lucide="arrow-right" class="arr" style="width:18px;height:18px;stroke-width:1.5;"></i>
+        </a>
+        <a class="service-item linked" href="services/sam-gov-registration.html">
+          <i data-lucide="shield-check" class="ico"></i>
+          <div><h4>SAM.gov Registration</h4><p>Full setup and activation of your System for Award Management profile. Required for every federal contract.</p></div>
+          <i data-lucide="arrow-right" class="arr" style="width:18px;height:18px;stroke-width:1.5;"></i>
+        </a>
+        <a class="service-item linked" href="services/sba-certifications.html">
+          <i data-lucide="award" class="ico"></i>
+          <div><h4>SBA Certifications</h4><p>Application support for 8(a), HUBZone, WOSB, EDWOSB, SDVOSB, and VOSB certifications.</p></div>
+          <i data-lucide="arrow-right" class="arr" style="width:18px;height:18px;stroke-width:1.5;"></i>
+        </a>
+        <a class="service-item linked" href="services/capability-statement.html">
+          <i data-lucide="file-text" class="ico"></i>
+          <div><h4>Capability Statement</h4><p>A one-page capability statement built for your target agencies, NAICS codes, and core competencies.</p></div>
+          <i data-lucide="arrow-right" class="arr" style="width:18px;height:18px;stroke-width:1.5;"></i>
+        </a>
+        <div class="service-item">
+          <i data-lucide="search" class="ico"></i>
+          <div><h4>Contract Opportunity Research</h4><p>Targeted research on federal, state, and local bid opportunities that match your business profile.</p></div>
+          <div></div>
+        </div>
+      </div>
+      <div style="margin-top:32px;text-align:center;">
+        <a class="btn btn-secondary" href="services.html">See all 12 services →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container">
+      <div class="eyebrow">Ready to Win?</div>
+      <h2>If there is a solicitation on the table and you are ready to compete, this is where it starts.</h2>
+      <p class="lead">The first review is free. Our team responds within one business day. If the contract is not winnable, we will tell you that too. You only pay when we move forward together.</p>
+      <div class="row">
+        <button class="btn btn-primary" style="font-size:16px;padding:16px 28px;" onclick="openBooking()">Book a consultation →</button>
+        <a class="btn btn-secondary" href="contact.html">Send us a message</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-mark">
+          <img src="project/assets/penscribe-logo-on-blue.jpg" alt="The Penscribe" width="36" height="36">
+          <div class="word"><div class="t">THE</div><div class="p">PENSCRIBE</div></div>
+        </div>
+        <p class="footer-bio">Government contracting consultancy. Full-cycle proposal strategy and writing for service businesses entering federal, state, and municipal procurement. 90% proposal win rate.</p>
+      </div>
+      <div>
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contracts.html">Contracts Won</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+18324498631">832-449-8631</a></li>
+          <li><a href="mailto:isaac@thepenscribe.com">isaac@thepenscribe.com</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~018a7b32ee0a61e4d0" target="_blank" rel="noopener">Upwork profile</a></li>
+          <li><a href="https://www.linkedin.com/in/isaac-adetoyese" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Credentials</h5>
+        <ul>
+          <li>CPCM Certified</li>
+          <li>FAC-C Certified</li>
+          <li>Top Rated on Upwork</li>
+          <li>90% proposal win rate</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>2026 The Penscribe. All rights reserved.</div>
+      <div>CPCM, FAC-C Certified</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Booking modal -->
+<div class="modal-overlay" id="booking-modal" style="display:none;" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="eyebrow">Start the conversation</div>
+    <h3 style="margin-top:8px;">Tell us about your opportunity.</h3>
+    <p>Send us a short note about your business, the solicitation (if you have one), and your timeline. Our team will reply within one business day. There is no charge for the first review.</p>
+    <div style="margin-top:24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <a class="btn btn-primary" id="booking-email-link" href="mailto:isaac@thepenscribe.com">Open email →</a>
+      <a class="btn btn-secondary" href="contact.html">Use the contact form</a>
+    </div>
+    <button class="modal-close" onclick="closeBooking()">Close</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="site.js"></script>
 </body>
 </html>
