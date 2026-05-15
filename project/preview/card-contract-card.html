@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Contract card</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px; background: var(--ps-paper); }
+  .card-c { background: #fff; border: 1px solid var(--border-1); border-radius: 8px; padding: 28px; max-width: 640px; box-shadow: 0 1px 0 rgba(11,14,26,0.04), 0 1px 2px rgba(11,14,26,0.05); }
+  .eyebrow { font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ps-brand); }
+  h3 { font-family: var(--font-serif); font-size: 26px; font-weight: 600; line-height: 1.15; margin: 6px 0 16px; color: var(--fg-1); }
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border-1); }
+  .meta .k { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-4); }
+  .meta .v { font-family: var(--font-sans); font-size: 14px; color: var(--fg-1); margin-bottom: 6px; }
+  .meta .v.mono { font-family: var(--font-mono); }
+  .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border-1); }
+  .b { font-family: var(--font-sans); font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 2px; background: #E6F4EC; color: #1F8A5B; display: inline-flex; align-items: center; gap: 6px; }
+  .b .dot { width: 6px; height: 6px; border-radius: 999px; background: #1F8A5B; }
+  .value { font-family: var(--font-display); font-size: 22px; color: var(--fg-1); letter-spacing: 0.01em; }
+</style></head>
+<body>
+<div class="card-c">
+  <div class="eyebrow">Contract 03</div>
+  <h3>Employment Advertising Services</h3>
+  <div class="meta">
+    <div><div class="k">Client</div><div class="v">3XG Enterprises LLC</div></div>
+    <div><div class="k">Agency</div><div class="v">Richmond Behavioral Health Authority</div></div>
+    <div><div class="k">RFP Number</div><div class="v mono">2025-HR-0004</div></div>
+    <div><div class="k">Term</div><div class="v">2-year initial · 4×2-year renewals</div></div>
+  </div>
+  <div class="foot">
+    <span class="b"><span class="dot"></span>Contract Awarded</span>
+    <div class="value">$124,800<span style="font-family:var(--font-sans);font-size:13px;color:var(--fg-3);font-weight:400;letter-spacing:0;">&nbsp;/&nbsp;yr</span></div>
+  </div>
+</div>
+</body></html>

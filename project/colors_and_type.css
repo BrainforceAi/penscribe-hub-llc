@@ -1,0 +1,230 @@
+/* ============================================================
+   PenScribe Design System — Core Tokens
+   Brand: The PenScribe Hub / Isaac PenScribe
+   Domain: Government contracting consultancy
+   ============================================================ */
+
+/* Webfonts — load Google Fonts (substitutes pending source files).
+   - Anton          → match for compressed bold cap wordmark on logo
+   - Spectral       → editorial serif for headlines/quotes/long-form
+   - Manrope        → clean geometric sans for UI / body
+*/
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* ---------- BRAND COLOR ------------------------------------ */
+  /* Primary — sampled directly from the wordmark logo */
+  --ps-blue-50:  #EEF0FF;
+  --ps-blue-100: #DCE0FF;
+  --ps-blue-200: #B6BEFF;
+  --ps-blue-300: #8A95FF;
+  --ps-blue-400: #4E5DF5;
+  --ps-blue-500: #1226E6;   /* PRIMARY — the logo blue */
+  --ps-blue-600: #0F1FCC;
+  --ps-blue-700: #0B17A0;
+  --ps-blue-800: #08106F;
+  --ps-blue-900: #050A45;
+
+  --ps-brand:        var(--ps-blue-500);
+  --ps-brand-deep:   var(--ps-blue-700);
+  --ps-brand-darker: var(--ps-blue-900);
+
+  /* ---------- NEUTRALS (warm-cool slightly cool) -------------- */
+  --ps-ink:      #0B0E1A;   /* near-black, primary text */
+  --ps-graphite: #2A2F40;   /* secondary heading */
+  --ps-slate:    #5A6075;   /* body muted */
+  --ps-mute:     #8A90A4;   /* tertiary / metadata */
+  --ps-line:     #E3E5EE;   /* hairline dividers */
+  --ps-tint:     #F4F5FA;   /* surface tint */
+  --ps-paper:    #FAFAF7;   /* off-white background — document feel */
+  --ps-white:    #FFFFFF;
+
+  /* ---------- SEMANTIC --------------------------------------- */
+  --ps-success:  #1F8A5B;   /* "Contract Awarded" */
+  --ps-success-tint: #E6F4EC;
+  --ps-warn:     #B8761A;
+  --ps-warn-tint:   #FBF1E2;
+  --ps-danger:   #B43232;
+  --ps-info:     var(--ps-blue-500);
+
+  /* ---------- FOREGROUND / BACKGROUND ROLES ------------------ */
+  --fg-1: var(--ps-ink);
+  --fg-2: var(--ps-graphite);
+  --fg-3: var(--ps-slate);
+  --fg-4: var(--ps-mute);
+  --fg-on-brand: var(--ps-white);
+
+  --bg-1: var(--ps-paper);   /* canvas / page */
+  --bg-2: var(--ps-white);   /* card */
+  --bg-3: var(--ps-tint);    /* subtle panel */
+  --bg-brand: var(--ps-brand);
+  --bg-brand-deep: var(--ps-brand-deep);
+
+  --border-1: var(--ps-line);
+  --border-strong: #C9CCD9;
+
+  /* ---------- TYPOGRAPHY FAMILIES ---------------------------- */
+  --font-display: 'Anton', 'Oswald', 'Impact', sans-serif;          /* logo / mega headlines */
+  --font-serif:   'Spectral', 'Source Serif 4', Georgia, serif;     /* editorial / long-form */
+  --font-sans:    'Manrope', 'Helvetica Neue', Arial, sans-serif;   /* UI / body */
+  --font-mono:    ui-monospace, 'JetBrains Mono', Menlo, monospace; /* contract numbers, codes */
+
+  /* ---------- TYPE SCALE (modular, 1.250 major-third) -------- */
+  --t-eyebrow: 0.75rem;    /* 12 */
+  --t-xs:      0.8125rem;  /* 13 */
+  --t-sm:      0.9375rem;  /* 15 */
+  --t-base:    1rem;       /* 16 */
+  --t-lg:      1.1875rem;  /* 19 */
+  --t-xl:      1.5rem;     /* 24 */
+  --t-2xl:     1.875rem;   /* 30 */
+  --t-3xl:     2.375rem;   /* 38 */
+  --t-4xl:     3rem;       /* 48 */
+  --t-5xl:     3.75rem;    /* 60 */
+  --t-6xl:     4.75rem;    /* 76 */
+
+  /* ---------- SPACING (4-pt baseline) ------------------------ */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;
+  --s-7:  48px;
+  --s-8:  64px;
+  --s-9:  96px;
+  --s-10: 128px;
+
+  /* ---------- RADII ------------------------------------------ */
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  /* ---------- SHADOWS (restrained, document-like) ------------ */
+  --sh-1: 0 1px 0 rgba(11, 14, 26, 0.04), 0 1px 2px rgba(11, 14, 26, 0.05);
+  --sh-2: 0 2px 4px rgba(11, 14, 26, 0.06), 0 4px 12px rgba(11, 14, 26, 0.06);
+  --sh-3: 0 8px 24px rgba(11, 14, 26, 0.08), 0 2px 4px rgba(11, 14, 26, 0.04);
+  --sh-brand: 0 6px 20px rgba(18, 38, 230, 0.20);
+  --sh-inset: inset 0 0 0 1px var(--border-1);
+}
+
+/* ============================================================
+   SEMANTIC TYPE PRIMITIVES — apply as classes or via @extend
+   ============================================================ */
+
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { font-family: var(--font-sans); color: var(--fg-1); background: var(--bg-1); font-size: var(--t-base); line-height: 1.55; }
+
+.ps-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--t-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ps-brand);
+}
+
+.ps-display, h1.ps-display {
+  font-family: var(--font-display);
+  font-weight: 400;          /* Anton ships at 400 only */
+  font-size: var(--t-6xl);
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ps-h1, h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--t-4xl);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+
+.ps-h2, h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--t-3xl);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+
+.ps-h3, h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--t-xl);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: var(--fg-1);
+}
+
+.ps-h4, h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--t-lg);
+  line-height: 1.3;
+  color: var(--fg-1);
+}
+
+.ps-lead {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--t-lg);
+  line-height: 1.55;
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+
+.ps-body, p {
+  font-family: var(--font-sans);
+  font-size: var(--t-base);
+  line-height: 1.6;
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+
+.ps-small {
+  font-size: var(--t-sm);
+  color: var(--fg-3);
+}
+
+.ps-meta {
+  font-family: var(--font-sans);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.ps-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--t-2xl);
+  line-height: 1.3;
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+
+.ps-stat {
+  font-family: var(--font-display);
+  font-size: var(--t-5xl);
+  line-height: 1;
+  color: var(--ps-brand);
+}
+
+.ps-mono, code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-3);
+  padding: 0.1em 0.4em;
+  border-radius: var(--r-sm);
+}

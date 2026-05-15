@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Brand colors</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .scale { display: grid; grid-template-columns: repeat(9, 1fr); gap: 0; border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border-1); }
+  .sw { aspect-ratio: 1 / 1.1; padding: 10px 8px; display: flex; flex-direction: column; justify-content: space-between; }
+  .sw .num { font-family: var(--font-sans); font-size: 11px; font-weight: 700; }
+  .sw .hex { font-family: var(--font-mono); font-size: 10px; letter-spacing: -0.01em; background: none; padding: 0; }
+  .sw.dark { color: rgba(255,255,255,0.92); }
+  .sw.dark .hex { color: rgba(255,255,255,0.78); }
+  .sw.light { color: var(--fg-1); }
+  .sw.light .hex { color: var(--fg-3); }
+  .ribbon { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--ps-brand); color: var(--ps-white); border-radius: var(--r-md); }
+  .ribbon .label { font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .ribbon .name { font-family: var(--font-display); font-size: 26px; letter-spacing: 0.02em; }
+  .ribbon .hex { font-family: var(--font-mono); font-size: 14px; opacity: 0.85; }
+</style></head>
+<body>
+<div class="card">
+  <div class="ribbon">
+    <div class="label">Primary</div>
+    <div class="name">PENSCRIBE BLUE</div>
+    <div class="hex">#1226E6</div>
+  </div>
+  <div class="scale">
+    <div class="sw light" style="background:#EEF0FF"><div class="num">50</div><div class="hex">#EEF0FF</div></div>
+    <div class="sw light" style="background:#DCE0FF"><div class="num">100</div><div class="hex">#DCE0FF</div></div>
+    <div class="sw light" style="background:#B6BEFF"><div class="num">200</div><div class="hex">#B6BEFF</div></div>
+    <div class="sw light" style="background:#8A95FF"><div class="num">300</div><div class="hex">#8A95FF</div></div>
+    <div class="sw dark"  style="background:#4E5DF5"><div class="num">400</div><div class="hex">#4E5DF5</div></div>
+    <div class="sw dark"  style="background:#1226E6"><div class="num">500</div><div class="hex">#1226E6</div></div>
+    <div class="sw dark"  style="background:#0F1FCC"><div class="num">600</div><div class="hex">#0F1FCC</div></div>
+    <div class="sw dark"  style="background:#0B17A0"><div class="num">700</div><div class="hex">#0B17A0</div></div>
+    <div class="sw dark"  style="background:#050A45"><div class="num">900</div><div class="hex">#050A45</div></div>
+  </div>
+</div>
+</body></html>

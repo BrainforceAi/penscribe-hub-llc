@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Iconography</title>
+<link rel="stylesheet" href="_card.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  body { padding: 28px; }
+  .header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+  .h-name { font-family: var(--font-sans); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ps-brand); }
+  .h-tag { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
+  .grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px 12px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border-radius: 6px; }
+  .cell svg { stroke-width: 1.5; color: var(--fg-2); width: 24px; height: 24px; }
+  .name { font-family: var(--font-mono); font-size: 10px; color: var(--fg-4); }
+  .sizes { display: flex; gap: 18px; align-items: center; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-1); }
+  .sz { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 8px; }
+  .sz .lab { font-family: var(--font-mono); font-size: 10px; color: var(--fg-4); }
+</style></head>
+<body>
+<div class="header">
+  <div class="h-name">Iconography · Lucide</div>
+  <div class="h-tag">1.5 stroke · currentColor · 16/20/24px</div>
+</div>
+<div class="grid">
+  <div class="cell"><i data-lucide="file-text"></i><div class="name">file-text</div></div>
+  <div class="cell"><i data-lucide="award"></i><div class="name">award</div></div>
+  <div class="cell"><i data-lucide="shield-check"></i><div class="name">shield-check</div></div>
+  <div class="cell"><i data-lucide="briefcase"></i><div class="name">briefcase</div></div>
+  <div class="cell"><i data-lucide="building-2"></i><div class="name">building-2</div></div>
+  <div class="cell"><i data-lucide="landmark"></i><div class="name">landmark</div></div>
+  <div class="cell"><i data-lucide="search"></i><div class="name">search</div></div>
+  <div class="cell"><i data-lucide="check-circle"></i><div class="name">check-circle</div></div>
+  <div class="cell"><i data-lucide="calendar"></i><div class="name">calendar</div></div>
+  <div class="cell"><i data-lucide="arrow-right"></i><div class="name">arrow-right</div></div>
+  <div class="cell"><i data-lucide="mail"></i><div class="name">mail</div></div>
+  <div class="cell"><i data-lucide="linkedin"></i><div class="name">linkedin</div></div>
+  <div class="cell"><i data-lucide="download"></i><div class="name">download</div></div>
+  <div class="cell"><i data-lucide="users"></i><div class="name">users</div></div>
+  <div class="cell"><i data-lucide="bar-chart-3"></i><div class="name">bar-chart-3</div></div>
+  <div class="cell"><i data-lucide="pen-tool"></i><div class="name">pen-tool</div></div>
+</div>
+<div class="sizes">
+  <div class="sz"><i data-lucide="file-text" style="width:16px;height:16px;stroke-width:1.5;color:var(--fg-2)"></i><div class="lab">16</div></div>
+  <div class="sz"><i data-lucide="file-text" style="width:20px;height:20px;stroke-width:1.5;color:var(--fg-2)"></i><div class="lab">20</div></div>
+  <div class="sz"><i data-lucide="file-text" style="width:24px;height:24px;stroke-width:1.5;color:var(--fg-2)"></i><div class="lab">24</div></div>
+  <div class="sz" style="margin-left:18px"><i data-lucide="file-text" style="width:20px;height:20px;stroke-width:1.5;color:var(--ps-brand)"></i><div class="lab">brand</div></div>
+</div>
+<script>lucide.createIcons();</script>
+</body></html>

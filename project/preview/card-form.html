@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Form</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  label { display: block; }
+  .lab { font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-2); margin-bottom: 6px; }
+  .inp { width: 100%; font-family: var(--font-sans); font-size: 14px; padding: 12px 14px; border: 1px solid var(--border-1); background: #fff; border-radius: 4px; color: var(--fg-1); }
+  .inp:focus { outline: 2px solid var(--ps-blue-300); outline-offset: 2px; border-color: var(--ps-brand); }
+  .help { font-family: var(--font-sans); font-size: 12px; color: var(--fg-3); margin-top: 6px; }
+  .err { color: var(--ps-danger); }
+  .err-inp { border-color: var(--ps-danger); }
+  textarea.inp { resize: none; min-height: 80px; }
+  select.inp { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--fg-3) 50%), linear-gradient(135deg, var(--fg-3) 50%, transparent 50%); background-position: calc(100% - 18px) center, calc(100% - 13px) center; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 36px; }
+</style></head>
+<body>
+<div class="grid">
+  <label><div class="lab">Full name</div><input class="inp" value="Broderick Thomas"></label>
+  <label><div class="lab">Company</div><input class="inp" placeholder="3XG Enterprises LLC"></label>
+  <label><div class="lab">Agency type</div>
+    <select class="inp"><option>Federal</option><option>State</option><option>Municipal</option></select>
+  </label>
+  <label><div class="lab">Solicitation #</div><input class="inp err-inp" value="2025-HR-XXXX"><div class="help err">Solicitation number format not recognized.</div></label>
+  <label style="grid-column: 1 / -1;"><div class="lab">RFP summary</div><textarea class="inp" placeholder="Paste a paragraph from the solicitation..."></textarea></label>
+</div>
+</body></html>

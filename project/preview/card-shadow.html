@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Shadows</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 32px; background: var(--ps-paper); }
+  h4 { font-family: var(--font-sans); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ps-brand); margin-bottom: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .box { aspect-ratio: 1 / 0.7; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .meta { margin-top: 12px; }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
+  .name { font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--fg-1); }
+  .one { box-shadow: 0 1px 0 rgba(11,14,26,0.04), 0 1px 2px rgba(11,14,26,0.05); border: 1px solid var(--border-1); }
+  .two { box-shadow: 0 2px 4px rgba(11,14,26,0.06), 0 4px 12px rgba(11,14,26,0.06); }
+  .three { box-shadow: 0 8px 24px rgba(11,14,26,0.08), 0 2px 4px rgba(11,14,26,0.04); }
+  .brand { box-shadow: 0 6px 20px rgba(18,38,230,0.20); background: var(--ps-brand); color: #fff; font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+</style></head>
+<body>
+<h4>Elevation</h4>
+<div class="grid">
+  <div><div class="box one"></div><div class="meta"><div class="name">sh-1</div><div class="tok">Default cards</div></div></div>
+  <div><div class="box two"></div><div class="meta"><div class="name">sh-2</div><div class="tok">Floating panel</div></div></div>
+  <div><div class="box three"></div><div class="meta"><div class="name">sh-3</div><div class="tok">Modal / overlay</div></div></div>
+  <div><div class="box brand">CTA</div><div class="meta"><div class="name">sh-brand</div><div class="tok">Primary action</div></div></div>
+</div>
+</body></html>

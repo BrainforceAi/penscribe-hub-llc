@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Badges</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+  .label { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-4); width: 100%; margin-bottom: 4px; }
+  .b { font-family: var(--font-sans); font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 2px; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 6px; }
+  .b .dot { width: 6px; height: 6px; border-radius: 999px; }
+  .awarded { background: #E6F4EC; color: #1F8A5B; }
+  .awarded .dot { background: #1F8A5B; }
+  .pending { background: #FBF1E2; color: #B8761A; }
+  .pending .dot { background: #B8761A; }
+  .nogo { background: #FBE7E7; color: #B43232; }
+  .nogo .dot { background: #B43232; }
+  .info { background: var(--ps-blue-50); color: var(--ps-brand); }
+  .info .dot { background: var(--ps-brand); }
+  .chip { background: #fff; border: 1px solid var(--border-1); color: var(--fg-2); border-radius: 999px; padding: 6px 12px; }
+  .cert { background: var(--fg-1); color: #fff; border-radius: 2px; padding: 5px 10px; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+</style></head>
+<body>
+<div class="row"><div class="label">Outcome badges</div>
+  <span class="b awarded"><span class="dot"></span>Contract Awarded</span>
+  <span class="b pending"><span class="dot"></span>In Review</span>
+  <span class="b nogo"><span class="dot"></span>No-Go</span>
+  <span class="b info"><span class="dot"></span>Submitted</span>
+</div>
+<div class="row"><div class="label">Certifications</div>
+  <span class="cert">CPCM</span>
+  <span class="cert">FAC-C</span>
+  <span class="cert">Top Rated · Upwork</span>
+  <span class="cert">SBA WOSB</span>
+  <span class="cert">8(a)</span>
+  <span class="cert">HUBZone</span>
+</div>
+<div class="row"><div class="label">Filter chips</div>
+  <span class="b chip">All Agencies</span>
+  <span class="b chip">Federal</span>
+  <span class="b chip">State</span>
+  <span class="b chip">Municipal</span>
+</div>
+</body></html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Radius</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px; }
+  h4 { font-family: var(--font-sans); font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ps-brand); margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .box { aspect-ratio: 1 / 1; background: var(--ps-blue-50); border: 1.5px solid var(--ps-brand); display: flex; align-items: flex-end; justify-content: center; padding: 8px; }
+  .meta { display: flex; flex-direction: column; align-items: center; margin-top: 8px; }
+  .tok { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+  .name { font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--fg-1); }
+</style></head>
+<body>
+<h4>Border radius</h4>
+<div class="grid">
+  <div><div class="box" style="border-radius:2px"></div><div class="meta"><div class="name">xs</div><div class="tok">2px</div></div></div>
+  <div><div class="box" style="border-radius:4px"></div><div class="meta"><div class="name">sm</div><div class="tok">4px</div></div></div>
+  <div><div class="box" style="border-radius:8px"></div><div class="meta"><div class="name">md</div><div class="tok">8px · default</div></div></div>
+  <div><div class="box" style="border-radius:14px"></div><div class="meta"><div class="name">lg</div><div class="tok">14px</div></div></div>
+  <div><div class="box" style="border-radius:22px"></div><div class="meta"><div class="name">xl</div><div class="tok">22px</div></div></div>
+  <div><div class="box" style="border-radius:999px"></div><div class="meta"><div class="name">pill</div><div class="tok">chips only</div></div></div>
+</div>
+</body></html>

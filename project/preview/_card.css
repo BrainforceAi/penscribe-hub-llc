@@ -1,0 +1,22 @@
+/* Card frame shared by all preview cards. Cards render in ~700×<h> tiles. */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  padding: 24px;
+  min-height: 100vh;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.row { display: flex; gap: 12px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 12px; }

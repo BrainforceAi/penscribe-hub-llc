@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Semantic colors</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .sw { border: 1px solid var(--border-1); border-radius: var(--r-md); overflow: hidden; background: #fff; }
+  .head { padding: 16px 18px; display: flex; align-items: center; gap: 10px; color: #fff; }
+  .head .dot { width: 10px; height: 10px; border-radius: 999px; background: #fff; opacity: 0.9; }
+  .head .name { font-family: var(--font-sans); font-size: 14px; font-weight: 700; letter-spacing: 0.02em; }
+  .body { padding: 14px 18px 16px; }
+  .row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); margin-top: 4px; }
+  .use { font-family: var(--font-sans); font-size: 12px; color: var(--fg-2); }
+  .tint { display: inline-block; padding: 4px 10px; border-radius: var(--r-sm); font-family: var(--font-sans); font-size: 12px; font-weight: 700; margin-top: 8px; }
+</style></head>
+<body>
+<div class="grid">
+  <div class="sw">
+    <div class="head" style="background:#1F8A5B"><div class="dot"></div><div class="name">Success</div></div>
+    <div class="body">
+      <div class="use">"Contract Awarded" badge</div>
+      <div class="row"><span>solid</span><span>#1F8A5B</span></div>
+      <div class="row"><span>tint</span><span>#E6F4EC</span></div>
+      <span class="tint" style="background:#E6F4EC;color:#1F8A5B">Contract Awarded</span>
+    </div>
+  </div>
+  <div class="sw">
+    <div class="head" style="background:#B8761A"><div class="dot"></div><div class="name">Warn</div></div>
+    <div class="body">
+      <div class="use">Compliance flags, deadlines</div>
+      <div class="row"><span>solid</span><span>#B8761A</span></div>
+      <div class="row"><span>tint</span><span>#FBF1E2</span></div>
+      <span class="tint" style="background:#FBF1E2;color:#B8761A">Review required</span>
+    </div>
+  </div>
+  <div class="sw">
+    <div class="head" style="background:#B43232"><div class="dot"></div><div class="name">Danger</div></div>
+    <div class="body">
+      <div class="use">No-go / rejection</div>
+      <div class="row"><span>solid</span><span>#B43232</span></div>
+      <div class="row"><span>tint</span><span>#FBE7E7</span></div>
+      <span class="tint" style="background:#FBE7E7;color:#B43232">No-go</span>
+    </div>
+  </div>
+</div>
+</body></html>

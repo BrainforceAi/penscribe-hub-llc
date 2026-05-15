@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 28px; }
+  .group { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .label { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-4); width: 110px; }
+  .btn {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 700;
+    padding: 12px 20px; border-radius: 8px; border: 1px solid transparent;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    transition: background 150ms cubic-bezier(.2,.6,.2,1), transform 80ms;
+    letter-spacing: 0.01em;
+  }
+  .primary { background: var(--ps-brand); color: #fff; }
+  .primary:hover { background: var(--ps-blue-600); }
+  .primary.pressed { background: var(--ps-blue-700); transform: scale(0.985); }
+  .secondary { background: #fff; color: var(--ps-brand); border-color: var(--ps-brand); }
+  .secondary:hover { background: var(--ps-blue-50); }
+  .ghost { background: transparent; color: var(--fg-1); }
+  .ghost:hover { background: var(--bg-3); }
+  .link { background: transparent; color: var(--ps-brand); padding: 4px 0; border-radius: 0; text-decoration: underline; text-underline-offset: 4px; }
+  .arrow { font-family: var(--font-sans); font-weight: 700; }
+  .small { font-size: 12px; padding: 8px 14px; }
+</style></head>
+<body>
+<div class="group">
+  <div class="row"><div class="label">Primary</div>
+    <button class="btn primary">Book a consultation <span class="arrow">→</span></button>
+    <button class="btn primary" disabled style="opacity:0.5;cursor:not-allowed">Disabled</button>
+    <button class="btn primary pressed">Pressed state</button>
+  </div>
+  <div class="row"><div class="label">Secondary</div>
+    <button class="btn secondary">See the contracts</button>
+    <button class="btn secondary small">Download portfolio</button>
+  </div>
+  <div class="row"><div class="label">Ghost</div>
+    <button class="btn ghost">Read the process</button>
+  </div>
+  <div class="row"><div class="label">Link</div>
+    <a class="btn link" href="#">View on Upwork →</a>
+  </div>
+</div>
+</body></html>

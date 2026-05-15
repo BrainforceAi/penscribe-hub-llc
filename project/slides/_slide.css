@@ -1,0 +1,191 @@
+/* Slide styles — 1920×1080 canvas. Used by deck/index.html sections and standalone slide files. */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* When standalone, body becomes the slide canvas. When inside deck-stage, .slide is. */
+.slide,
+body.slide {
+  width: 1920px;
+  height: 1080px;
+  background: var(--ps-paper);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  position: relative;
+  overflow: hidden;
+  padding: 96px;
+  display: flex;
+  flex-direction: column;
+}
+
+body.slide-standalone { margin: 0; }
+
+/* Brand bar (always present, top edge) */
+.brand-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 8px;
+  background: var(--ps-brand);
+}
+
+/* Footer with mark + page identifier */
+.slide-foot {
+  position: absolute; left: 96px; right: 96px; bottom: 56px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  font-family: var(--font-sans); font-size: 18px; color: var(--fg-3);
+  letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+}
+.slide-foot .mark {
+  display: flex; align-items: center; gap: 14px; color: var(--fg-2);
+}
+.slide-foot .mark img { width: 44px; height: 44px; object-fit: contain; }
+.slide-foot .mark .word { font-family: var(--font-display); line-height: 0.85; }
+.slide-foot .mark .t { font-size: 14px; letter-spacing: 0.06em; color: var(--ps-brand); }
+.slide-foot .mark .p { font-size: 22px; letter-spacing: 0.02em; color: var(--ps-brand); }
+
+.eyebrow {
+  font-family: var(--font-sans); font-size: 20px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ps-brand);
+}
+
+/* ---------- Title slide ---------- */
+.title-slide { justify-content: center; align-items: flex-start; padding: 96px 120px; }
+.title-slide .super {
+  font-family: var(--font-sans); font-size: 20px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--ps-brand);
+  margin-bottom: 48px;
+}
+.title-slide h1 {
+  font-family: var(--font-serif); font-weight: 600; font-size: 124px;
+  line-height: 0.98; letter-spacing: -0.02em; color: var(--fg-1);
+  max-width: 1500px;
+}
+.title-slide h1 em { font-style: italic; color: var(--ps-brand); font-weight: 600; }
+.title-slide .by {
+  margin-top: 56px; font-family: var(--font-sans); font-size: 22px;
+  color: var(--fg-2); display: flex; gap: 20px; align-items: center;
+}
+.title-slide .by .name { font-weight: 700; color: var(--fg-1); font-size: 24px; }
+.title-slide .by .sep { color: var(--border-strong); }
+.title-slide .by .cert { font-size: 18px; color: var(--fg-3); }
+
+/* ---------- Stat slide ---------- */
+.stat-slide { background: var(--ps-brand); color: #fff; padding: 0; justify-content: center; }
+.stat-slide .brand-bar { display: none; }
+.stat-slide .inner { padding: 120px 120px; display: flex; flex-direction: column; gap: 36px; }
+.stat-slide .super {
+  font-family: var(--font-sans); font-size: 22px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--ps-blue-200);
+}
+.stat-slide .big {
+  font-family: var(--font-display); font-size: 360px; line-height: 0.9;
+  color: #fff; letter-spacing: 0;
+}
+.stat-slide .caption {
+  font-family: var(--font-serif); font-size: 48px; line-height: 1.2;
+  color: #fff; max-width: 1500px; text-wrap: balance;
+}
+.stat-slide .sub {
+  font-family: var(--font-sans); font-size: 22px; color: var(--ps-blue-200);
+  margin-top: 16px;
+}
+.stat-slide .slide-foot { color: var(--ps-blue-200); }
+.stat-slide .slide-foot .mark .t,
+.stat-slide .slide-foot .mark .p { color: #fff; }
+
+/* ---------- Process slide ---------- */
+.process-slide h2 {
+  font-family: var(--font-serif); font-size: 76px; font-weight: 600;
+  line-height: 1.05; letter-spacing: -0.015em; color: var(--fg-1);
+  margin-top: 20px; margin-bottom: 64px; max-width: 1400px;
+}
+.process-slide .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; flex: 1; }
+.process-slide .step {
+  padding: 36px 32px 0 0; border-top: 2px solid var(--ps-brand);
+  display: flex; flex-direction: column; gap: 18px;
+}
+.process-slide .step:not(:last-child) { margin-right: 24px; }
+.process-slide .step .n {
+  font-family: var(--font-display); font-size: 88px; line-height: 0.95;
+  color: var(--ps-brand);
+}
+.process-slide .step h3 {
+  font-family: var(--font-sans); font-size: 30px; font-weight: 700;
+  color: var(--fg-1); letter-spacing: -0.005em;
+}
+.process-slide .step p {
+  font-family: var(--font-sans); font-size: 21px; line-height: 1.5;
+  color: var(--fg-2);
+}
+
+/* ---------- Contract case slide ---------- */
+.case-slide h2 {
+  font-family: var(--font-serif); font-size: 72px; font-weight: 600;
+  line-height: 1.05; letter-spacing: -0.015em; color: var(--fg-1);
+  margin-top: 16px; margin-bottom: 56px;
+}
+.case-slide .layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; flex: 1; }
+.case-slide .narrative p {
+  font-family: var(--font-serif); font-size: 26px; line-height: 1.55;
+  color: var(--fg-2);
+}
+.case-slide .narrative p + p { margin-top: 20px; }
+.case-slide .meta {
+  background: #fff; border: 1px solid var(--border-1); border-radius: 8px;
+  padding: 44px 36px; height: fit-content;
+}
+.case-slide .meta .badge {
+  font-family: var(--font-sans); font-size: 16px; font-weight: 700;
+  padding: 8px 16px; border-radius: 2px; background: #E6F4EC; color: #1F8A5B;
+  letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px;
+  margin-bottom: 28px;
+}
+.case-slide .meta .badge .dot { width: 8px; height: 8px; border-radius: 999px; background: #1F8A5B; }
+.case-slide .meta dl { display: grid; grid-template-columns: 1fr; gap: 22px; }
+.case-slide .meta dt {
+  font-family: var(--font-sans); font-size: 16px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-4);
+}
+.case-slide .meta dd {
+  font-family: var(--font-sans); font-size: 22px; color: var(--fg-1); margin-top: 4px;
+}
+.case-slide .meta .value {
+  font-family: var(--font-display); font-size: 56px; color: var(--fg-1);
+  letter-spacing: 0; line-height: 1; margin-top: 4px;
+}
+
+/* ---------- Quote slide ---------- */
+.quote-slide { background: var(--ps-brand); color: #fff; justify-content: center; padding: 140px 160px; }
+.quote-slide .brand-bar { display: none; }
+.quote-slide .mark {
+  font-family: var(--font-serif); font-style: italic; font-size: 280px;
+  line-height: 0.6; color: var(--ps-blue-300); margin-bottom: 16px;
+}
+.quote-slide .q {
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  font-size: 72px; line-height: 1.2; max-width: 1500px; text-wrap: balance;
+}
+.quote-slide .attr {
+  font-family: var(--font-sans); font-size: 24px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--ps-blue-100);
+  margin-top: 64px;
+}
+.quote-slide .attr .sep { color: var(--ps-blue-300); margin: 0 16px; }
+.quote-slide .slide-foot { color: var(--ps-blue-200); }
+.quote-slide .slide-foot .mark .t,
+.quote-slide .slide-foot .mark .p { color: #fff; }
+
+/* ---------- Closing slide ---------- */
+.closing-slide { justify-content: center; padding-left: 120px; }
+.closing-slide .super { margin-bottom: 32px; }
+.closing-slide h1 {
+  font-family: var(--font-serif); font-weight: 600; font-size: 96px;
+  line-height: 1.05; letter-spacing: -0.015em; max-width: 1500px; text-wrap: balance;
+}
+.closing-slide .contact { margin-top: 64px; display: flex; gap: 80px; flex-wrap: wrap; }
+.closing-slide .contact .item .k {
+  font-family: var(--font-sans); font-size: 18px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ps-brand);
+}
+.closing-slide .contact .item .v {
+  font-family: var(--font-sans); font-size: 32px; color: var(--fg-1);
+  margin-top: 8px; font-weight: 500;
+}

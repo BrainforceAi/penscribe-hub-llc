@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Type scale</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: grid; grid-template-columns: 100px 1fr 80px; align-items: baseline; column-gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border-1); }
+  .row:last-child { border-bottom: 0; }
+  .tag { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); }
+  .size { font-family: var(--font-mono); font-size: 11px; color: var(--fg-4); text-align: right; }
+  .sample { color: var(--fg-1); }
+</style></head>
+<body>
+<div class="stack">
+  <div class="row"><div class="tag">display</div><div class="sample" style="font-family:var(--font-display);font-size:60px;line-height:0.95;letter-spacing:-0.005em;text-transform:uppercase;">90% Win Rate</div><div class="size">60 / Anton</div></div>
+  <div class="row"><div class="tag">h1</div><div class="sample" style="font-family:var(--font-serif);font-weight:600;font-size:38px;line-height:1.1;">Portfolio of contract wins</div><div class="size">38 / Spectral</div></div>
+  <div class="row"><div class="tag">h2</div><div class="sample" style="font-family:var(--font-serif);font-weight:600;font-size:30px;line-height:1.15;">Scope of Work</div><div class="size">30 / Spectral</div></div>
+  <div class="row"><div class="tag">h3</div><div class="sample" style="font-family:var(--font-sans);font-weight:700;font-size:24px;">Step 02 — Strategy &amp; Research</div><div class="size">24 / Manrope</div></div>
+  <div class="row"><div class="tag">lead</div><div class="sample" style="font-family:var(--font-serif);font-size:19px;line-height:1.5;color:var(--fg-2);">This is where the proposal is won before a single word is written.</div><div class="size">19 / Spectral</div></div>
+  <div class="row"><div class="tag">body</div><div class="sample" style="font-family:var(--font-sans);font-size:16px;line-height:1.6;color:var(--fg-2);">I review the full solicitation, evaluate fit against your capabilities, and give you a clear go or no-go recommendation.</div><div class="size">16 / Manrope</div></div>
+  <div class="row"><div class="tag">small</div><div class="sample" style="font-family:var(--font-sans);font-size:15px;color:var(--fg-3);">Confidential · CPCM, FAC-C Certified · Top Rated on Upwork</div><div class="size">15 / Manrope</div></div>
+  <div class="row"><div class="tag">meta</div><div class="sample" style="font-family:var(--font-sans);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ps-brand);">AWARDED CONTRACTS</div><div class="size">12 / Manrope</div></div>
+</div>
+</body></html>
