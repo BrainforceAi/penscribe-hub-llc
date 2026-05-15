@@ -10,22 +10,22 @@ function HomePage() {
         <div className="container">
           <div className="overline">
             <div className="pulse"></div>
-            <div className="eyebrow" style={{color: 'var(--ps-success)'}}>4 contracts awarded. 90% win rate.</div>
+            <div className="eyebrow" style={{color: 'var(--ps-success)'}}>90% win rate across all submitted proposals.</div>
           </div>
           <h1>Your competitors are winning<br/>federal contracts right now.<br/><em>You should be next.</em></h1>
-          <p className="lead">I write the proposals that win. Federal, state, and municipal contracts for small and mid-size service businesses. You bring the opportunity. I deliver the award.</p>
+          <p className="lead">We write the proposals that win. Federal, state, and municipal contracts for small and mid-size service businesses. You bring the opportunity. We deliver the award.</p>
           <div className="cta-row">
             <button className="btn btn-primary" style={{fontSize: 16, padding: '16px 28px'}} onClick={() => openBooking()}>
               Book a free consultation <span>→</span>
             </button>
-            <a className="btn btn-secondary" href="#/contracts">See every contract I have won</a>
+            <a className="btn btn-secondary" href="#/contracts">See contracts we have won</a>
           </div>
           <div className="creds">
             <span className="cert-chip">CPCM Certified</span>
             <span className="cert-chip">FAC-C Certified</span>
             <span className="cert-chip">Top Rated on Upwork</span>
             <span className="cert-chip">90% Win Rate</span>
-            <span className="cert-chip">DoD, USAF, State and Municipal</span>
+            <span className="cert-chip">Federal, State and Municipal</span>
           </div>
         </div>
       </section>
@@ -37,17 +37,17 @@ function HomePage() {
             <div className="s">
               <div className="num">90%</div>
               <div className="lab">Proposal Win Rate</div>
-              <div className="sub">Across every submitted proposal to date.</div>
+              <div className="sub">Across every submitted proposal. Not cherry-picked.</div>
             </div>
             <div className="s">
-              <div className="num">$124K</div>
-              <div className="lab">Largest Annual Award</div>
-              <div className="sub">Richmond Behavioral Health Authority, 2025. Highest-rated proposal among all vendors.</div>
+              <div className="num">$2.4M</div>
+              <div className="lab">Largest Contract Value</div>
+              <div className="sub">A single engagement. Full proposal lifecycle managed by our team.</div>
             </div>
             <div className="s">
-              <div className="num">3</div>
-              <div className="lab">Agency Types Won</div>
-              <div className="sub">Federal, State, and Municipal contracts on the board.</div>
+              <div className="num">50+</div>
+              <div className="lab">Government Agencies Served</div>
+              <div className="sub">Federal departments, state authorities, and municipal buyers across the country.</div>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@ function HomePage() {
             </div>
             <div className="risk-item">
               <div className="rk">No-bid recommendation</div>
-              <div className="rv">If it is not winnable, I will tell you before you spend a dollar</div>
+              <div className="rv">If it is not winnable, we will tell you before you spend a dollar</div>
             </div>
             <div className="risk-item">
               <div className="rk">Track Record</div>
@@ -81,9 +81,9 @@ function HomePage() {
       <section className="section section-tint">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">Awarded Contracts</div>
-            <h2>Real money. Real agencies. Real clients who were exactly where you are now.</h2>
-            <p className="lead">Every card below is a contract signed, a check cashed, and a business that now has a seat at the government procurement table. Click any case study to see how it was won.</p>
+            <div className="eyebrow">Selected Contracts</div>
+            <h2>A small sample of the contracts we have won for clients.</h2>
+            <p className="lead">These four case studies represent a fraction of our awarded portfolio. Every contract below started with a business that had never touched government procurement. Every one ended with a signed award.</p>
           </div>
           <div className="contracts">
             {window.PS_CONTRACTS.map(c => (
@@ -103,6 +103,9 @@ function HomePage() {
               </a>
             ))}
           </div>
+          <p style={{fontFamily:'var(--font-sans)',fontSize:13,color:'var(--fg-3)',marginTop:24,fontStyle:'italic'}}>
+            Additional contracts from our portfolio are being documented and will be published shortly.
+          </p>
         </div>
       </section>
 
@@ -110,9 +113,9 @@ function HomePage() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div className="eyebrow">How I Work</div>
-            <h2>Four decisions that determine whether you win or lose before you write a single word.</h2>
-            <p className="lead">Every engagement follows the same structure. Here is what working with me looks like from the moment you bring me a solicitation to the day you receive the award notice.</p>
+            <div className="eyebrow">How We Work</div>
+            <h2>Four decisions that determine whether you win or lose before a single word is written.</h2>
+            <p className="lead">Every engagement follows the same structure. Here is what working with our team looks like from the moment you bring us a solicitation to the day you receive the award notice.</p>
           </div>
           <div className="process-grid">
             {window.PS_PROCESS.map(step => (
@@ -133,7 +136,7 @@ function HomePage() {
       <section className="testimonial">
         <div className="testimonial-inner">
           <span className="quote-mark">"</span>
-          <div className="q">Our proposal had the highest rating of all the vendors and I have been invited for a final in-person interview.</div>
+          <div className="q">Our proposal had the highest rating of all the vendors and we have been invited for a final in-person interview.</div>
           <div className="attr">
             Broderick Thomas, CEO of 3XG Enterprises LLC, Richmond, VA
             <div className="result">They won. Up to $124,800 per year.</div>
@@ -147,8 +150,8 @@ function HomePage() {
           <div className="lead-magnet-inner">
             <div>
               <div className="eyebrow">No-Cost First Review</div>
-              <h2>Send me your solicitation. I will tell you if it is worth bidding. In writing. In 48 hours. Free.</h2>
-              <p>Most businesses spend weeks writing proposals they were never going to win. The very first thing I do for every new client is a free go or no-go review. I read your RFP, evaluate fit against your capabilities, and give you a written recommendation within 48 hours. No obligation to engage further.</p>
+              <h2>Send us your solicitation. We will tell you if it is worth bidding. In writing. In 48 hours. Free.</h2>
+              <p>Most businesses spend weeks writing proposals they were never going to win. The very first thing we do for every new client is a free go or no-go review. Our team reads your RFP, evaluates fit against your capabilities, and delivers a written recommendation within 48 hours. No obligation to engage further.</p>
             </div>
             <div className="form-card">
               <div className="lbl">Free RFP Review</div>
@@ -162,7 +165,7 @@ function HomePage() {
                   <label>Solicitation number or link</label>
                   <input type="text" required placeholder="e.g. FA480325A0013" />
                 </div>
-                <button type="submit" className="btn btn-primary" style={{justifyContent:'center'}}>Send to Isaac <span>→</span></button>
+                <button type="submit" className="btn btn-primary" style={{justifyContent:'center'}}>Send to our team <span>→</span></button>
               </form>
             </div>
           </div>
@@ -174,8 +177,8 @@ function HomePage() {
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">Services</div>
-            <h2>From zero government presence to awarded contract. I handle every step.</h2>
-            <p className="lead">You do not need to understand the procurement process to win a government contract. That is my job. Here is what I do for clients from day one through signed award.</p>
+            <h2>From zero government presence to awarded contract. We handle every step.</h2>
+            <p className="lead">You do not need to understand the procurement process to win a government contract. That is our job. Here is what our team does for clients from day one through signed award.</p>
           </div>
           <div className="services-grid">
             {window.PS_SERVICES.slice(0, 6).map(s => (
@@ -202,12 +205,12 @@ function HomePage() {
         <div className="container">
           <div className="eyebrow">Ready to Win?</div>
           <h2>If there is a solicitation on the table and you are ready to compete, this is where it starts.</h2>
-          <p className="lead">The first review is free. I respond within one business day. If the contract is not winnable, I will tell you that too. You only pay when we move forward.</p>
+          <p className="lead">The first review is free. Our team responds within one business day. If the contract is not winnable, we will tell you that too. You only pay when we move forward together.</p>
           <div className="row">
             <button className="btn btn-primary" style={{fontSize: 16, padding: '16px 28px'}} onClick={() => openBooking()}>
               Book a consultation <span>→</span>
             </button>
-            <a className="btn btn-secondary" href="#/contact">Send me a message</a>
+            <a className="btn btn-secondary" href="#/contact">Send us a message</a>
           </div>
         </div>
       </section>

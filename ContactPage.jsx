@@ -19,7 +19,7 @@ function ContactPage() {
       'Message:',
       form.message,
     ].join('\r\n');
-    window.location.href = `mailto:isaac@thepenscribehub.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:isaac@thepenscribe.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
@@ -27,8 +27,8 @@ function ContactPage() {
       <section className="page-hero">
         <div className="container">
           <div className="eyebrow">Contact</div>
-          <h1>Tell me about your <em>opportunity.</em></h1>
-          <p className="lead">The first review is free. I respond within one business day. If the contract is not winnable, I will tell you that in writing before you spend a dollar on proposal development.</p>
+          <h1>Tell us about your <em>opportunity.</em></h1>
+          <p className="lead">The first review is free. Our team responds within one business day. If the contract is not winnable, we will tell you that in writing before you spend a dollar on proposal development.</p>
         </div>
       </section>
 
@@ -81,11 +81,11 @@ function ContactPage() {
                 </div>
                 <div className="field">
                   <label>Message</label>
-                  <textarea required value={form.message} onChange={onChange('message')} placeholder="Tell me about your business, your past government contracting experience, and the contract you are trying to win."></textarea>
+                  <textarea required value={form.message} onChange={onChange('message')} placeholder="Tell us about your business, your past government contracting experience, and the contract you are trying to win."></textarea>
                 </div>
-                <div style={{display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'space-between', marginTop: 8}}>
+                <div style={{display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'space-between', marginTop: 8, flexWrap: 'wrap'}}>
                   <div style={{fontFamily:'var(--font-sans)',fontSize:13,color:'var(--fg-3)'}}>This opens your email client with the message pre-filled.</div>
-                  <button type="submit" className="btn btn-primary">Send to Isaac <span>→</span></button>
+                  <button type="submit" className="btn btn-primary">Send to our team <span>→</span></button>
                 </div>
               </form>
             </div>
@@ -94,7 +94,7 @@ function ContactPage() {
               <dl>
                 <div>
                   <dt>Email</dt>
-                  <dd><a href="mailto:isaac@thepenscribehub.com">isaac@thepenscribehub.com</a></dd>
+                  <dd><a href="mailto:isaac@thepenscribe.com">isaac@thepenscribe.com</a></dd>
                 </div>
                 <div>
                   <dt>Upwork</dt>
@@ -120,13 +120,13 @@ function ContactPage() {
 
               <div className="response-promise">
                 <div className="lbl">Response Promise</div>
-                <p>I reply to every legitimate inquiry within one business day. If your solicitation deadline is within 5 business days, mark your email <strong>URGENT</strong> in the subject line and I will prioritize it.</p>
+                <p>Our team replies to every legitimate inquiry within one business day. If your solicitation deadline is within 5 business days, mark your email <strong>URGENT</strong> in the subject line and we will prioritize it.</p>
               </div>
 
               <div style={{marginTop: 28, padding: '20px 24px', background: 'var(--ps-tint)', borderRadius: 8, border: '1px solid var(--border-1)'}}>
                 <div style={{fontFamily: 'var(--font-sans)', fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--fg-4)', marginBottom: 8}}>First engagement</div>
                 <div style={{fontFamily: 'var(--font-sans)', fontSize: 15, fontWeight: 600, color: 'var(--fg-1)', marginBottom: 6}}>The first review is always free.</div>
-                <div style={{fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--fg-2)', lineHeight: 1.5}}>Send me your RFP. I will evaluate it and tell you whether it is worth bidding before you commit to anything. No invoice. No obligation.</div>
+                <div style={{fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--fg-2)', lineHeight: 1.5}}>Send us your RFP. We will evaluate it and tell you whether it is worth bidding before you commit to anything. No invoice. No obligation.</div>
               </div>
             </div>
           </div>
