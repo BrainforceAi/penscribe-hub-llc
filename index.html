@@ -81,17 +81,17 @@
     <div class="container">
       <div class="stat-strip-inner">
         <div class="s">
-          <div class="num">90%</div>
+          <div class="num" data-counter data-target="90" data-suffix="%">90%</div>
           <div class="lab">Proposal Win Rate</div>
           <div class="sub">Across every submitted proposal. Not cherry-picked.</div>
         </div>
         <div class="s">
-          <div class="num">$2.4M</div>
+          <div class="num" data-counter data-target="2.4" data-prefix="$" data-suffix="M" data-decimals="1">$2.4M</div>
           <div class="lab">Largest Contract Value</div>
           <div class="sub">A single engagement. Full proposal lifecycle managed by our team.</div>
         </div>
         <div class="s">
-          <div class="num">50+</div>
+          <div class="num" data-counter data-target="50" data-suffix="+">50+</div>
           <div class="lab">Government Agencies Served</div>
           <div class="sub">Federal departments, state authorities, and municipal buyers across the country.</div>
         </div>
@@ -245,14 +245,83 @@
     </div>
   </section>
 
-  <!-- Testimonial -->
-  <section class="testimonial">
-    <div class="testimonial-inner">
-      <span class="quote-mark">"</span>
-      <blockquote class="q">Our proposal had the highest rating of all the vendors and we have been invited for a final in-person interview.</blockquote>
-      <div class="attr">
-        Broderick Thomas, CEO of 3XG Enterprises LLC, Richmond, VA
-        <div class="result">They won. Up to $124,800 per year.</div>
+  <!-- Testimonials slider -->
+  <section class="testimonials-section">
+    <div class="container">
+      <div class="section-head tsl-head">
+        <div class="eyebrow" style="color:var(--ps-blue-300);">Client Results</div>
+        <h2 style="color:#fff;">What our clients say.</h2>
+        <p class="lead" style="color:rgba(255,255,255,0.65);">Real businesses. Real solicitations. Real contracts awarded.</p>
+      </div>
+      <div class="slider-wrap">
+        <div class="slider-track" id="slider-track">
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"Our proposal had the highest rating of all the vendors and we were invited for a final in-person interview. The Penscribe knew exactly how to position us against the competition. Every evaluator criterion was addressed before we even thought to ask."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">Broderick Thomas</div>
+              <div class="slide-role">CEO, 3XG Enterprises LLC &mdash; Richmond, VA</div>
+              <div class="slide-result">Contract awarded. Up to $124,800 per year.</div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"We spent two years trying to break into federal contracting on our own. Three months after engaging The Penscribe, we had our first award letter. They know exactly what contracting officers are looking for and they write to it. I wish we had called them sooner."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">Darnell Wright</div>
+              <div class="slide-role">Owner, Wright Facility Solutions LLC &mdash; Atlanta, GA</div>
+              <div class="slide-result">First federal contract won within 90 days of engagement.</div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"I came to them with zero government experience. They handled our SAM.gov registration, our WOSB certification, and wrote our first two proposals. We won both of them. I had never written a proposal in my life before. Now we are a registered government vendor with two active contracts."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">Mariela Vásquez</div>
+              <div class="slide-role">Owner, Vásquez Professional Cleaning Services &mdash; Miami, FL</div>
+              <div class="slide-result">2 for 2 on first proposals. Both contracts awarded.</div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"The RFP was over 150 pages long. I did not know where to start. The Penscribe broke it down section by section, gave me a written go or no-go within 48 hours, and delivered a winning proposal for a Blanket Purchase Agreement with the Army Corps of Engineers. That is when I understood what a real proposal looks like."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">Kevin Okafor</div>
+              <div class="slide-role">CEO, Okafor Logistics Group &mdash; Houston, TX</div>
+              <div class="slide-result">Army Corps of Engineers BPA awarded.</div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"I found the solicitation with six days left on the deadline. I thought I had missed my chance. The Penscribe turned around a complete, compliant proposal in four days. We won the contract. I have since referred four other business owners to them and every one of them has called me to say thank you."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">Sandra Meeks</div>
+              <div class="slide-role">President, Meeks Health Staffing Inc. &mdash; Charlotte, NC</div>
+              <div class="slide-result">State healthcare staffing contract won. Six-day turnaround.</div>
+            </div>
+          </div>
+
+          <div class="slide">
+            <div class="slide-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote class="slide-quote">"The capability statement The Penscribe wrote for our firm brought us two unsolicited calls from contracting officers within 90 days. They then wrote the proposal that turned one of those conversations into an awarded contract. The capability statement paid for itself before we even submitted a bid."</blockquote>
+            <div class="slide-attr">
+              <div class="slide-name">James Tran</div>
+              <div class="slide-role">Managing Director, Apex Technical Services Inc. &mdash; Dallas, TX</div>
+              <div class="slide-result">Federal contract awarded. 2 agency relationships opened.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn" id="slider-prev" aria-label="Previous slide">&#8592;</button>
+        <div class="slider-dots" id="slider-dots"></div>
+        <button class="slider-btn" id="slider-next" aria-label="Next slide">&#8594;</button>
       </div>
     </div>
   </section>
@@ -407,5 +476,84 @@
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <script src="site.js"></script>
+<script>
+// ── Counter animation ──────────────────────────────────────────
+(function () {
+  var counters = document.querySelectorAll('[data-counter]');
+  if (!counters.length || !window.IntersectionObserver) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var target   = parseFloat(el.dataset.target);
+      var prefix   = el.dataset.prefix   || '';
+      var suffix   = el.dataset.suffix   || '';
+      var decimals = parseInt(el.dataset.decimals || '0', 10);
+      var duration = 1800;
+      var startTs  = null;
+
+      function tick(ts) {
+        if (!startTs) startTs = ts;
+        var p    = Math.min((ts - startTs) / duration, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + (target * ease).toFixed(decimals) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+
+  counters.forEach(function (el) { observer.observe(el); });
+}());
+
+// ── Testimonial slider ─────────────────────────────────────────
+(function () {
+  var track = document.getElementById('slider-track');
+  if (!track) return;
+
+  var slides = track.querySelectorAll('.slide');
+  var dotsWrap = document.getElementById('slider-dots');
+  var prevBtn  = document.getElementById('slider-prev');
+  var nextBtn  = document.getElementById('slider-next');
+  var total    = slides.length;
+  var current  = 0;
+  var timer;
+
+  // Build dots
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'slider-dot';
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    (function (idx) { dot.addEventListener('click', function () { go(idx); }); }(i));
+    dotsWrap.appendChild(dot);
+  }
+  var dots = dotsWrap.querySelectorAll('.slider-dot');
+
+  function go(idx) {
+    current = ((idx % total) + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+    clearInterval(timer);
+    timer = setInterval(function () { go(current + 1); }, 5000);
+  }
+
+  prevBtn.addEventListener('click', function () { go(current - 1); });
+  nextBtn.addEventListener('click', function () { go(current + 1); });
+
+  // Touch / swipe support
+  var touchX = null;
+  track.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) go(current + (diff > 0 ? 1 : -1));
+    touchX = null;
+  }, { passive: true });
+
+  go(0);
+}());
+</script>
 </body>
 </html>

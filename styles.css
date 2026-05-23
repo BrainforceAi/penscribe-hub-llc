@@ -340,6 +340,30 @@ img { max-width: 100%; display: block; }
 .prose-section h2 { font-family: var(--font-serif); font-weight: 600; font-size: 36px; line-height: 1.15; letter-spacing: -0.01em; color: var(--fg-1); margin-bottom: 24px; text-wrap: balance; }
 .prose-section p { font-family: var(--font-serif); font-size: 19px; line-height: 1.6; color: var(--fg-2); margin-bottom: 16px; text-wrap: pretty; }
 
+/* ===== Testimonials slider ===== */
+.testimonials-section { background: var(--ps-blue-900); padding: 96px 0; }
+.tsl-head { margin-bottom: 48px; }
+.tsl-head h2 { color: #fff; }
+
+.slider-wrap { overflow: hidden; border-radius: 12px; }
+.slider-track { display: flex; transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
+
+.slide { flex: 0 0 100%; width: 100%; padding: 52px 60px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; box-sizing: border-box; }
+.slide-stars { color: #FFB800; font-size: 22px; letter-spacing: 3px; margin-bottom: 28px; }
+.slide-quote { font-family: var(--font-serif); font-size: 21px; font-style: italic; line-height: 1.6; color: rgba(255,255,255,0.9); margin-bottom: 36px; }
+.slide-attr { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 24px; }
+.slide-name { font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: #fff; }
+.slide-role { font-family: var(--font-sans); font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 3px; }
+.slide-result { font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ps-blue-300); margin-top: 10px; }
+
+.slider-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; }
+.slider-btn { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 150ms, transform 80ms; flex-shrink: 0; }
+.slider-btn:hover { background: rgba(255,255,255,0.2); }
+.slider-btn:active { transform: scale(0.93); }
+.slider-dots { display: flex; align-items: center; gap: 8px; }
+.slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); border: none; cursor: pointer; padding: 0; transition: background 200ms, transform 200ms, width 200ms; }
+.slider-dot.active { background: #fff; width: 24px; border-radius: 4px; }
+
 /* ===== Risk reversal bar ===== */
 .risk-bar { background: var(--ps-tint); border-top: 1px solid var(--border-1); border-bottom: 1px solid var(--border-1); padding: 32px 0; }
 .risk-bar-inner { display: flex; gap: 40px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
@@ -456,6 +480,12 @@ img { max-width: 100%; display: block; }
   /* Detail layout */
   .detail-layout { grid-template-columns: 1fr; gap: 32px; }
   .detail-sidebar { position: static; }
+
+  /* Testimonials slider */
+  .testimonials-section { padding: 56px 0; }
+  .slide { padding: 36px 28px; }
+  .slide-quote { font-size: 17px; }
+  .slider-btn { width: 36px; height: 36px; font-size: 15px; }
 
   /* Contact */
   .contact-grid { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; }
