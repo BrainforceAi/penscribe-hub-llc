@@ -1,0 +1,8 @@
+name = "penscribe-hub-llc"
+compatibility_date = "2026-05-25"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "."
+html_handling = "none"
+not_found_handling = "none"
