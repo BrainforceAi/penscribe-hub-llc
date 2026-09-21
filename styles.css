@@ -177,15 +177,28 @@ body{background:#FAFAF7;color:#0B0E1A}.muted,.lead,.prose p,.prose li,.detail-pr
 @media(max-width:900px){body:not(.template-home).menu-open .site-nav{height:100dvh;padding:18px 0;background:#FAFAF7!important;backdrop-filter:none!important;overflow:hidden}body:not(.template-home).menu-open .nav-wrap{height:100%;align-items:flex-start}body:not(.template-home).menu-open .brand,body:not(.template-home).menu-open .menu-toggle{position:relative;z-index:3}body:not(.template-home).menu-open .nav-links.open{position:absolute;z-index:2;inset:72px 0 0;min-height:calc(100dvh - 72px);padding:38px 28px 80px;background:#FAFAF7;overflow-y:auto}}
 
 @media(max-width:700px){
- .koach-home .reference-hero{height:920px;min-height:920px;overflow:hidden}
- .koach-home .hero-first{top:108px;left:10px;font-size:26.4vw}
- .koach-home .hero-script{top:218px;left:16px;font-size:30px}
- .koach-home .hero-year{top:112px;right:14px;font-size:23px}
- .koach-home .hero-last{top:335px;right:8px;font-size:13.6vw}
- .koach-home .hero-cutout{left:50%;bottom:82px;width:112vw;height:64%;transform:translateX(-50%)!important;transition:none;animation:none!important;filter:none!important;image-rendering:auto;backface-visibility:hidden}
+ .template-home .site-nav{padding:16px 0;background:#FAFAF7}
+ .template-home .site-nav .container{padding:0 18px}
+ .template-home .brand{gap:9px;font-size:14px}
+ .template-home .brand img{width:36px;height:36px}
+ .template-home .brand span{display:block}
+ .template-home .brand span small{font-size:6.5px;letter-spacing:.17em}
+ .template-home .menu-toggle{padding:14px 22px}
+ .koach-home .reference-hero{height:880px;min-height:880px;overflow:hidden;padding:0}
+ .koach-home .hero-script{top:42px;left:20px;font-size:29px;translate:none!important}
+ .koach-home .hero-year{top:49px;right:20px;font-size:23px;translate:none!important}
+ .koach-home .hero-first,.koach-home .hero-last{top:105px;font-size:12.2vw;line-height:.88;translate:none!important;transform:none!important}
+ .koach-home .hero-first{left:18px}
+ .koach-home .hero-last{left:31vw;right:auto;text-align:left}
+ .koach-home .hero-cutout{left:50%;bottom:-1px;width:112vw;height:77%;object-position:center bottom;transform:translateX(-50%)!important;translate:none!important;transition:none;animation:none!important;filter:none!important;image-rendering:auto;backface-visibility:hidden}
  .hero-motion-mark{display:none}
- .koach-home .hero-trust{left:14px;bottom:18px;font-size:14px}
- .koach-home .hero-intro{right:14px;bottom:17px;width:45vw;padding:7px;background:rgba(250,250,247,.88);font-size:10.5px}
+ .koach-home .hero-trust{display:none}
+ .koach-home .hero-intro{left:20px;right:auto;bottom:32px;width:calc(100% - 40px);padding:0;background:none;text-align:left;translate:none!important}
+ .koach-home .hero-intro p{max-width:92%;margin:0;font-size:0;line-height:1.6}
+ .koach-home .hero-intro p:before{content:"Government contracting strategy for capable U.S. small businesses.";display:inline;padding:3px 6px;background:#0B0E1A;color:#FAFAF7;font-size:clamp(15px,4.2vw,19px);line-height:1.6;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+ .koach-home .hero-intro .reference-cta{display:flex;width:max-content;margin-top:16px;padding:10px 13px;font-size:20px}
+ .brand-tail{min-height:390px;padding-left:20px;padding-right:20px}
+ .brand-tail-word{width:100%;margin-top:48px;font-size:19vw;line-height:.88;letter-spacing:-.105em;text-align:center}
  .program-stack{gap:18px;perspective:none}
  .process-program,.process-program.active{position:relative;top:auto;min-height:0;margin:0;padding:0 20px;border-radius:16px;opacity:1;transform:none;box-shadow:none}
  .process-program header{min-height:92px}
