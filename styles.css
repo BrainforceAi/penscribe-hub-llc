@@ -90,7 +90,7 @@ body{background:#FAFAF7;color:#0B0E1A}.muted,.lead,.prose p,.prose li,.detail-pr
 .koach-home{background:#FAFAF7;color:#0B0E1A;cursor:none}
 .koach-home a,.koach-home button{cursor:none}
 .koach-home .reference-hero{height:100svh;min-height:760px;background:#FAFAF7;isolation:isolate}
-.koach-home .hero-name{z-index:1;pointer-events:none}
+.koach-home .hero-name{z-index:auto;pointer-events:none}
 .koach-home .hero-first{top:11.5vh;left:3vw;font-size:clamp(118px,15vw,204px)}
 .koach-home .hero-last{top:42vh;left:auto;right:3vw;z-index:4;display:block;width:auto;font-size:clamp(92px,11.2vw,152px);line-height:.8;text-align:right}
 .koach-home .hero-cutout{z-index:3;left:42%;bottom:-2%;width:min(56vw,760px);height:86%;object-fit:contain;object-position:center bottom;transform:translateX(-50%);filter:none}
