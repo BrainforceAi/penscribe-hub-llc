@@ -86,7 +86,7 @@ function AboutPage() {
       <section className="cta-band">
         <div className="container">
           <h2>Ready to see what a winning proposal looks like for your business?</h2>
-          <p className="lead">The first consultation is free. Send us a note about your business and the solicitation you are considering. Our team responds within one business day.</p>
+          <p className="lead">The first consultation is free. Send us a note about your business and the solicitation you are considering. Our team responds within one hour.</p>
           <div className="row">
             <button className="btn btn-primary" onClick={() => openBooking()}>Book a consultation <span>→</span></button>
             <a className="btn btn-secondary" href="#/contracts">See contracts we have won</a>

@@ -93,7 +93,7 @@ function ServiceDetailPage({ slug }) {
           )}
 
           <h2 style={{fontFamily:'var(--font-serif)',fontWeight:600,fontSize:28,marginTop:40,marginBottom:16}}>How to start</h2>
-          <p>Send me a short note describing your business and your situation. I will respond within one business day with exactly which certifications you qualify for and what the application process looks like. The first consultation is free.</p>
+          <p>Send me a short note describing your business and your situation. I will respond within one hour with exactly which certifications you qualify for and what the application process looks like. The first consultation is free.</p>
           <div style={{marginTop: 32, display: 'flex', gap: 14, flexWrap: 'wrap'}}>
             <button className="btn btn-primary" onClick={() => openBooking(s.name)}>Request {s.name.toLowerCase()} <span>→</span></button>
             <a className="btn btn-secondary" href="#/contact">Use the contact form</a>

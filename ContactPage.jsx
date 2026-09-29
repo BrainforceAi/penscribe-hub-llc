@@ -28,7 +28,7 @@ function ContactPage() {
         <div className="container">
           <div className="eyebrow">Contact</div>
           <h1>Tell us about your <em>opportunity.</em></h1>
-          <p className="lead">The first review is free. Our team responds within one business day. If the contract is not winnable, we will tell you that in writing before you spend a dollar on proposal development.</p>
+          <p className="lead">The first review is free. Our team responds within one hour. If the contract is not winnable, we will tell you that in writing before you spend a dollar on proposal development.</p>
         </div>
       </section>
 
@@ -120,7 +120,7 @@ function ContactPage() {
 
               <div className="response-promise">
                 <div className="lbl">Response Promise</div>
-                <p>Our team replies to every legitimate inquiry within one business day. If your solicitation deadline is within 5 business days, mark your email <strong>URGENT</strong> in the subject line and we will prioritize it.</p>
+                <p>Our team replies to every legitimate inquiry within one hour. If your solicitation deadline is within 5 business days, mark your email <strong>URGENT</strong> in the subject line and we will prioritize it.</p>
               </div>
 
               <div style={{marginTop: 28, padding: '20px 24px', background: 'var(--ps-tint)', borderRadius: 8, border: '1px solid var(--border-1)'}}>
