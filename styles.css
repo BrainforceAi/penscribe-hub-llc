@@ -520,3 +520,5 @@ html[data-theme=dark] .brand-tail-aka{color:rgba(242,242,236,.68)}html[data-them
 .review-card article{justify-content:space-between}
 .review-meta{margin-top:auto}
 @media(max-width:700px){.review-card article{padding:22px 20px 18px}.review-quote{font-size:15.5px;max-height:9.6em}}
+.review-dots{flex-wrap:wrap;row-gap:8px}
+@media(max-width:700px){.review-dots{gap:5px;flex-wrap:nowrap}.review-dots button{width:12px}}
