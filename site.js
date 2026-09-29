@@ -29,11 +29,13 @@ function init(){
  if(rvSlider){const track=rvSlider.querySelector('.review-track'),cards=[...track.children],dotsBox=rvSlider.querySelector('.review-dots'),toggle=rvSlider.querySelector('.review-toggle'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,interval=6500;
   let index=0,timer=0,paused=reduce,userPaused=reduce,hover=false;rvSlider.style.setProperty('--rv-interval',interval+'ms');
   const dots=cards.map((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-label','Show review '+(i+1));b.onclick=()=>{go(i);restart()};dotsBox.appendChild(b);return b});
+  const anyOpen=()=>cards.some(c=>c.classList.contains('is-open'));
+  const setupMore=()=>cards.forEach(c=>{const q=c.querySelector('.review-quote');let btn=c.querySelector('.review-more');if(!c.classList.contains('is-open')){q.classList.toggle('is-clamped',q.scrollHeight>q.clientHeight+4)}const needs=q.classList.contains('is-clamped')||c.classList.contains('is-open');if(needs&&!btn){btn=document.createElement('button');btn.type='button';btn.className='review-more';btn.setAttribute('aria-expanded','false');btn.textContent='Read more';btn.onclick=()=>{const open=c.classList.toggle('is-open');btn.setAttribute('aria-expanded',open);btn.textContent=open?'Show less':'Read more';q.classList.toggle('is-clamped',false);if(open){clearTimeout(timer);rvSlider.classList.remove('is-playing')}else{setTimeout(()=>{q.classList.toggle('is-clamped',q.scrollHeight>q.clientHeight+4);restart()},480)}};q.after(btn)}else if(!needs&&btn){btn.remove()}});
   const perView=()=>innerWidth>1000?2:1;
   const pos=i=>Math.max(0,cards[i].offsetLeft-parseFloat(getComputedStyle(track).paddingLeft));
   const mark=()=>{const left=track.scrollLeft;let best=0,d=1e9;cards.forEach((c,i)=>{const x=Math.abs(pos(i)-left);if(x<d){d=x;best=i}});index=best;const n=perView();cards.forEach((c,i)=>{c.classList.toggle('is-active',i>=index&&i<index+n)});dots.forEach((b,i)=>b.setAttribute('aria-selected',i===index))};
   const go=i=>{index=(i+cards.length)%cards.length;track.scrollTo({left:pos(index),behavior:reduce?'auto':'smooth'})};
-  const tick=()=>{clearTimeout(timer);if(paused||hover||document.hidden)return;rvSlider.classList.add('is-playing');timer=setTimeout(()=>{const maxLeft=track.scrollWidth-track.clientWidth;go(track.scrollLeft>=maxLeft-4?0:index+1);tick()},interval)};
+  const tick=()=>{clearTimeout(timer);if(paused||hover||document.hidden||anyOpen())return;rvSlider.classList.add('is-playing');timer=setTimeout(()=>{const maxLeft=track.scrollWidth-track.clientWidth;go(track.scrollLeft>=maxLeft-4?0:index+1);tick()},interval)};
   const restart=()=>{rvSlider.classList.remove('is-playing');clearTimeout(timer);void rvSlider.offsetWidth;tick()};
   rvSlider.querySelector('.review-prev').onclick=()=>{go(index-1);restart()};rvSlider.querySelector('.review-next').onclick=()=>{go(index+1);restart()};
   const setPaused=p=>{userPaused=p;paused=p;toggle.setAttribute('aria-pressed',p);toggle.setAttribute('aria-label',p?'Resume automatic scrolling':'Pause automatic scrolling');toggle.firstElementChild.textContent=p?'▶':'❚❚';rvSlider.classList.remove('is-playing');clearTimeout(timer);if(!p)tick()};
@@ -42,9 +44,9 @@ function init(){
   rvSlider.addEventListener('focusin',()=>{hover=true;clearTimeout(timer)});rvSlider.addEventListener('focusout',()=>{hover=false;tick()});
   rvSlider.addEventListener('touchstart',()=>{hover=true;clearTimeout(timer)},{passive:true});rvSlider.addEventListener('touchend',()=>{hover=false;setTimeout(tick,4000)},{passive:true});
   rvSlider.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){go(index+1);restart()}if(e.key==='ArrowLeft'){go(index-1);restart()}});
-  let raf=0;track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(mark)},{passive:true});addEventListener('resize',mark);document.addEventListener('visibilitychange',()=>document.hidden?clearTimeout(timer):tick());
+  let raf=0;track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(mark)},{passive:true});addEventListener('resize',()=>{mark();setupMore()});document.addEventListener('visibilitychange',()=>document.hidden?clearTimeout(timer):tick());
   if(reduce)toggle.hidden=true;
-  const rvIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){paused=userPaused;mark();tick()}else{paused=true;clearTimeout(timer);rvSlider.classList.remove('is-playing')}}),{threshold:.35});rvIO.observe(rvSlider);mark();
+  const rvIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){paused=userPaused;mark();tick()}else{paused=true;clearTimeout(timer);rvSlider.classList.remove('is-playing')}}),{threshold:.35});rvIO.observe(rvSlider);mark();setupMore();(document.fonts&&document.fonts.ready||Promise.resolve()).then(setupMore);
  }
  const animated=document.querySelectorAll('.reveal,.reveal-card,.split-reveal');
  if(animated.length){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');observer.unobserve(entry.target)}}),{threshold:.16,rootMargin:'0px 0px -8%'});animated.forEach((el,i)=>{if(el.closest('.reference-hero'))setTimeout(()=>el.classList.add('in-view'),160+i*100);else observer.observe(el)})}
