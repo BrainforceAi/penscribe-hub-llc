@@ -51,7 +51,7 @@ function BookingModal() {
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="eyebrow">Start the conversation</div>
         <h3 style={{marginTop: 8}}>Tell us about your opportunity.</h3>
-        <p>Send us a short note about your business, the solicitation (if you have one), and your timeline. Our team will reply within one business day. There is no charge for the first review.</p>
+        <p>Send us a short note about your business, the solicitation (if you have one), and your timeline. Our team will reply within one hour. There is no charge for the first review.</p>
         <div style={{marginTop: 24, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap'}}>
           <a className="btn btn-primary" href={mailto}>Open email <span>→</span></a>
           <a className="btn btn-secondary" href="#/contact" onClick={() => setOpen(false)}>Use the contact form</a>

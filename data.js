@@ -1,4 +1,4 @@
-// data.js — shared content for the PenScribe Hub website.
+// data.js — shared content for the Penscribe Hub website.
 
 window.PS_SERVICES = [
   {

@@ -63,7 +63,7 @@ function HomePage() {
             </div>
             <div className="risk-item">
               <div className="rk">Response Time</div>
-              <div className="rv">Within one business day</div>
+              <div className="rv">Within one hour</div>
             </div>
             <div className="risk-item">
               <div className="rk">No-bid recommendation</div>
@@ -205,7 +205,7 @@ function HomePage() {
         <div className="container">
           <div className="eyebrow">Ready to Win?</div>
           <h2>If there is a solicitation on the table and you are ready to compete, this is where it starts.</h2>
-          <p className="lead">The first review is free. Our team responds within one business day. If the contract is not winnable, we will tell you that too. You only pay when we move forward together.</p>
+          <p className="lead">The first review is free. Our team responds within one hour. If the contract is not winnable, we will tell you that too. You only pay when we move forward together.</p>
           <div className="row">
             <button className="btn btn-primary" style={{fontSize: 16, padding: '16px 28px'}} onClick={() => openBooking()}>
               Book a consultation <span>→</span>
