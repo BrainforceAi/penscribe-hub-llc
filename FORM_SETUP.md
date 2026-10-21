@@ -1,6 +1,8 @@
 # Contact form and scheduling setup
 
-The `/api/contact` endpoint is implemented by `worker.js`. It validates required fields, uses a honeypot, supports optional Cloudflare KV rate limiting, sends notification email through Resend, and posts the same lead to a Google Apps Script webhook for Google Sheets.
+The `/api/contact` endpoint is implemented by `worker.js`. It accepts the service-page inquiry forms (multipart, with up to 3 attachments totalling 10 MB: PDF, Word, Excel, CSV, text, or images) as well as the older JSON forms. It validates required fields, uses a honeypot, supports optional Cloudflare KV rate limiting, sends notification email through Resend (attachments included, subject prefixed `URGENT:` when the deadline box is ticked), and posts the same lead to a Google Apps Script webhook for Google Sheets. When Resend is configured, the email decides whether the visitor sees success; if neither Resend nor the Sheets webhook is configured the form returns an error and shows the direct email link.
+
+**Nothing is delivered until `RESEND_API_KEY` (or `GOOGLE_SHEETS_WEBHOOK`) is set as a secret on the Worker.** After setting it, submit a test inquiry from a service page and confirm it arrives at isaac@thepenscribe.com.
 
 ## Cloudflare secrets
 

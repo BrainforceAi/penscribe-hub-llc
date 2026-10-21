@@ -14,7 +14,8 @@ Isaac Adetoyese (Isaac Penscribe) is a government contracting strategist and pro
 - Response time: within one hour
 
 ## Services
-- [Opportunity research and bid qualification](https://thepenscribe.com/services/rfp-analysis.html): RFP and solicitation analysis with go/no-go guidance
+- [RFP and solicitation analysis](https://thepenscribe.com/services/rfp-analysis.html): written go/no-go recommendation after a full solicitation review
+- [Opportunity research and capture support](https://thepenscribe.com/services/opportunity-research.html): federal, state, and local opportunities screened for fit
 - [Proposal strategy and writing](https://thepenscribe.com/services/proposal-preparation.html): compliant, evaluator-focused proposals
 - [SAM.gov registration](https://thepenscribe.com/services/sam-gov-registration.html): entity registration, renewal, UEI and CAGE
 - [Capability statements](https://thepenscribe.com/services/capability-statement.html): buyer-focused one-page capability statements
