@@ -637,3 +637,17 @@ html[data-theme=dark] .toast{background:#F2F2EC;color:#0A0D18}html[data-theme=da
 .svc-quotes .svc-quote:last-child:nth-child(odd){grid-column:1/-1}
 .svc-checks+.svc-note,.svc-list+.svc-note{margin-top:16px!important}
 .svc-quote .svc-mini{display:inline-block;margin-top:4px}
+
+/* ===== New horizontal logo: sizing ===== */
+.brand img.brand-logo,.template-home .brand img.brand-logo{width:auto;height:40px;max-width:none}
+.site-footer .brand img.brand-logo{height:54px}
+.brand-tail-logo{height:78px;width:auto;margin:0 0 36px}
+.about-identity{aspect-ratio:auto;min-height:0;padding:36px 30px;background:#FAFAF7;color:#0B0E1A;border:1px solid rgba(11,14,26,.14);box-shadow:18px 18px 0 #0000FE;gap:6px}
+.about-identity img{width:min(340px,92%);height:auto}
+.about-identity p{margin:14px 0 0;color:rgba(11,14,26,.7)}
+.about-identity .logo-night{display:none}
+html[data-theme=dark] .about-identity{background:#111527;color:#F2F2EC;border-color:rgba(255,255,255,.16);box-shadow:18px 18px 0 #4A56FF}
+html[data-theme=dark] .about-identity p{color:rgba(242,242,236,.72)}
+html[data-theme=dark] .about-identity .logo-day{display:none}
+html[data-theme=dark] .about-identity .logo-night{display:block}
+@media(max-width:700px){.brand img.brand-logo,.template-home .brand img.brand-logo{height:34px}.site-footer .brand img.brand-logo{height:46px}.brand-tail-logo{height:60px}}
