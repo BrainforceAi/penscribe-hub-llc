@@ -5,10 +5,15 @@ const MAX_TOTAL_BYTES = 10 * 1024 * 1024;
 const MAX_MESSAGE_CHARS = 100000;
 const ALLOWED_EXT = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'rtf', 'png', 'jpg', 'jpeg', 'webp'];
 const EMAIL_RE = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]{2,}$/;
+// Where each kind of enquiry is delivered. Anything else goes to Isaac.
+const UK_TENDERS = 'UK tenders';
+const recipientFor = (enquiryType, env) => enquiryType === UK_TENDERS
+  ? (env.FORM_TO_EMAIL_UK || 'tender@thepenscribe.com')
+  : (env.FORM_TO_EMAIL || 'isaac@thepenscribe.com');
 const oneLine = (v, max = 200) => String(v ?? '').replace(/[\r\n\t]+/g, ' ').trim().slice(0, max);
 
 const LABELS = {
-  service: 'Service', company: 'Company', phone: 'Phone', deadline_approaching: 'Deadline approaching',
+  enquiry_type: 'Enquiry type', service: 'Service', company: 'Company', phone: 'Phone', deadline_approaching: 'Deadline approaching',
   deadline_date: 'Deadline date', deadline_time: 'Deadline time', deadline_timezone: 'Time zone',
   solicitation_link: 'Solicitation link or number', target_geography: 'Target geography',
   contract_interests: 'Contract interests', registration_type: 'Registration status',
@@ -102,9 +107,9 @@ export default {
         for (const file of files) attachments.push({ filename: oneLine(file.name, 120).replace(/[^\w.\- ()]/g, '_'), content: toBase64(await file.arrayBuffer()) });
         const payload = {
           from: env.FORM_FROM_EMAIL || 'Website <website@thepenscribe.com>',
-          to: [env.FORM_TO_EMAIL || 'isaac@thepenscribe.com'],
+          to: [recipientFor(extras.enquiry_type, env)],
           reply_to: email,
-          subject: oneLine(`${urgent ? 'URGENT: ' : ''}New inquiry: ${service} from ${name}`),
+          subject: oneLine(`${urgent ? 'URGENT: ' : ''}New ${extras.enquiry_type === UK_TENDERS ? 'UK tenders ' : ''}inquiry: ${service} from ${name}`),
           text: lines.join('\n'),
         };
         if (attachments.length) payload.attachments = attachments;

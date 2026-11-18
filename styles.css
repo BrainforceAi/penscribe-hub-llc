@@ -651,3 +651,28 @@ html[data-theme=dark] .about-identity p{color:rgba(242,242,236,.72)}
 html[data-theme=dark] .about-identity .logo-day{display:none}
 html[data-theme=dark] .about-identity .logo-night{display:block}
 @media(max-width:700px){.brand img.brand-logo,.template-home .brand img.brand-logo{height:34px}.site-footer .brand img.brand-logo{height:46px}.brand-tail-logo{height:60px}}
+
+/* ===== Team section (About page) and tenders call to action ===== */
+.team-section{background:#FAFAF7;color:#0B0E1A}
+.team-head{max-width:760px;margin-bottom:44px}
+.team-head h2{margin:14px 0 14px;font:600 clamp(36px,5vw,64px)/1 var(--display);letter-spacing:-.05em}
+.team-head p{margin:0;font-size:18px;line-height:1.65;color:rgba(11,14,26,.72)}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.team-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(11,14,26,.14);border-radius:var(--radius);background:#fff}
+.team-card img{width:100%;aspect-ratio:4/5;max-height:560px;object-fit:cover;object-position:center 12%;background:#0000FE}
+.team-body{display:flex;flex-direction:column;gap:10px;padding:28px}
+.team-body h3{margin:0;font:700 26px/1.15 var(--display);letter-spacing:-.03em}
+.team-role{margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0000FE}
+.team-body p{margin:0;font-size:16px;line-height:1.65;color:rgba(11,14,26,.72)}
+.team-body p.team-role{color:#0000FE}
+.team-link{margin-top:8px;font-weight:700;color:#0000FE}
+.team-link:hover{text-decoration:underline}
+html[data-theme=dark] .team-section{background:#0A0D18;color:#F2F2EC}
+html[data-theme=dark] .team-head p,html[data-theme=dark] .team-body p{color:rgba(242,242,236,.72)}
+html[data-theme=dark] .team-card{background:#111527;border-color:rgba(255,255,255,.16)}
+html[data-theme=dark] .team-role,html[data-theme=dark] .team-body p.team-role,html[data-theme=dark] .team-link{color:#8B96FF}
+@media(max-width:800px){.team-grid{grid-template-columns:1fr}.team-body{padding:22px}}
+.svc-cta .svc-wrap{text-align:left}
+.svc-cta .svc-hero-actions{margin-top:24px}
+.svc-cta .svc-direct{margin-top:18px!important}
+.svc-section a.svc-btn{color:var(--sv-accent-ink)}
