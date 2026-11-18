@@ -30,3 +30,7 @@ The public scheduling URL is configured as `https://calendly.com/brainforceai/30
 ## Preview deployment
 
 Run `npx wrangler versions upload`, review the generated preview URL, and only promote that version after approval.
+
+## Routing by enquiry type
+
+The contact form has an "enquiry type" dropdown. "UK tenders" enquiries are emailed to `FORM_TO_EMAIL_UK` (default `tender@thepenscribe.com`); everything else goes to `FORM_TO_EMAIL` (default `isaac@thepenscribe.com`). No new secret is required unless you want a different UK address. Make sure the UK mailbox exists, because Resend only delivers to it.
