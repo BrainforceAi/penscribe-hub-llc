@@ -51,7 +51,7 @@ const countries = REGIONS.flatMap(r => r.countries.map(c => ({ ...c, region: r.n
 const daysAgo = d => { const n = Math.round((new Date(today()) - new Date(d)) / 864e5); return n <= 0 ? "Today" : n === 1 ? "Yesterday" : n + " days ago"; };
 
 /* ---------- layout ---------- */
-const NAV = [["index.html", "Home"], ["jobs.html", "Jobs"], ["locations.html", "Locations"], ["partners.html", "Partners"], ["cv-services.html", "CV Services"], ["document-services.html", "Documents"], ["certification.html", "Certification"], ["documents.html", "Checklist"], ["resources.html", "Resources"], ["about.html", "About"], ["contact.html", "Contact"]];
+const NAV = [["index.html", "Home"], ["jobs.html", "Jobs"], ["locations.html", "Locations"], ["partners.html", "Partners"], ["cv-services.html", "CV Services"], ["document-services.html", "Documents"], ["certification.html", "Courses"], ["resources.html", "Resources"], ["about.html", "About"], ["contact.html", "Contact"]];
 const LOGO = `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#14b8a6"/><path d="M20 7v18M13 12h14M10 25l10-4 10 4M6 31c4-3 7 3 11 0s7 3 11 0 4-1 6 0" stroke="#0a1f33" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>`;
 
 function layout() {
@@ -62,7 +62,7 @@ function layout() {
   <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}<a href="checkout.html" class="cartlink ${page === "checkout.html" ? "active" : ""}" aria-label="Cart">🛒 <span id="cart-n">0</span></a></nav></div></header>`;
   const ftr = `<footer class="site"><div class="wrap"><div class="cols">
   <div><a class="brand" href="index.html" style="padding:0">${LOGO}<span>${BRAND.name}</span></a><p>${BRAND.tagline}. Recruiting offshore talent for oil, gas and marine operators across 6 regions.</p></div>
-  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Document services</a><a href="certification.html">Certification</a><a href="documents.html">Documents you need</a><a href="resources.html">Career guides</a></div>
+  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Documents &amp; services</a><a href="certification.html">Courses</a><a href="resources.html">Career guides</a></div>
   <div><h4>Company</h4><a href="about.html">About us</a><a href="partners.html">Our partners</a><a href="locations.html">Locations</a><a href="contact.html">Contact</a></div>
   <div><h4>Legal</h4><a href="scam-warning.html">Scam warning</a><a href="#" onclick="return false">Privacy policy</a><a href="#" onclick="return false">Terms of use</a><a href="#" onclick="return false">Refund policy</a></div></div>
   <div class="legal">© ${new Date().getFullYear()} ${BRAND.name}. Prototype: brand, logo and copy are placeholders. Jobs shown are sample data.</div></div></footer>
@@ -140,7 +140,7 @@ function initJob() {
       <label>Certificates held</label><select name="certs" multiple size="4">${CERTS.map(c => `<option>${c}</option>`).join("")}</select>
       <label>Upload CV (PDF/DOC) *</label><input type="file" name="cv" accept=".pdf,.doc,.docx" required><p class="hint">PDF or Word, up to ${SITE.maxFileMB} MB.</p>
       <label>Short note (optional)</label><textarea name="note"></textarea>
-      <p class="notice" style="margin-top:12px">Don't include bank details, card numbers or passwords. We never ask for them when you apply. <a href="documents.html">See the documents you need</a>.</p>
+      <p class="notice" style="margin-top:12px">Don't include bank details, card numbers or passwords. We never ask for them when you apply. <a href="document-services.html">See the documents you need</a>.</p>
       <label class="check"><input type="checkbox" required> I authorise ${BRAND.name} to submit my application and CV to the employer on my behalf and to store my data for this purpose.</label>
       <p style="margin:14px 0 0"><button class="btn" style="width:100%">Submit application</button></p></form></div></div>`;
   $("#save").onclick = () => { const s = store.get("saved", []); const i = s.indexOf(j.id); i < 0 ? s.push(j.id) : s.splice(i, 1); store.set("saved", s); $("#save").textContent = i < 0 ? "★ Saved" : "☆ Save job"; };
@@ -210,11 +210,33 @@ function currencyBar(el, onChange) {
   draw();
 }
 const cart = {
-  get: () => store.get("cart", []),
+  get() { return store.get("cart", []).map(i => i.t ? i : { t: "c", slug: i.slug, qty: i.qty }); },
   set(v) { store.set("cart", v); cartBadge(); },
-  add(slug, qty = 1) { const c = this.get(), i = c.find(x => x.slug === slug); i ? i.qty = Math.min(20, i.qty + qty) : c.push({ slug, qty }); this.set(c); },
-  count() { return this.get().reduce((a, x) => a + x.qty, 0); }
+  add(slug, qty = 1) { const c = this.get(), i = c.find(x => x.t === "c" && x.slug === slug); i ? i.qty = Math.min(20, i.qty + qty) : c.push({ t: "c", slug, qty }); this.set(c); },
+  addDocs(ids) { const c = this.get(); ids.forEach(id => { if (!c.some(x => x.t === "d" && x.id === id)) c.push({ t: "d", id }); }); this.set(c); },
+  removeDoc(id) { this.set(this.get().filter(x => !(x.t === "d" && x.id === id))); },
+  hasDoc(id) { return this.get().some(x => x.t === "d" && x.id === id); },
+  count() { return this.get().reduce((a, x) => a + (x.t === "d" ? 1 : x.qty), 0); }
 };
+/* documents are priced in USD and converted to the visitor's currency, like courses */
+function localFromUSD(usd) {
+  let cur = myCountry().cur, r = cur === "USD" ? 1 : RATES.rates[cur] / RATES.rates.USD;
+  if (!r || !isFinite(r)) { cur = "USD"; r = 1; }
+  const raw = usd * r; return { amt: raw >= 10 ? Math.round(raw) : Math.round(raw * 100) / 100, cur };
+}
+const docMoney = usd => { const p = localFromUSD(usd); return fmtMoney(p.amt, p.cur); };
+const usdFmt = usd => "$" + usd.toLocaleString("en-US");
+const docPriceHTML = usd => `<b>${usdFmt(usd)}</b>` + (localFromUSD(1).cur !== "USD" ? ` <span class="approx">≈ ${docMoney(usd)}</span>` : "");
+let _docIdx;
+const docItem = id => { if (!_docIdx) { _docIdx = {}; DOC_CATALOG.forEach(c => c.items.forEach(i => _docIdx[i.id] = { ...i, cat: c.name, kind: "item" })); DOC_PACKAGES.forEach(p => _docIdx[p.id] = { ...p, cat: "Documentation package", kind: "package" }); } return _docIdx[id]; };
+function cartLines() {
+  const cur = localFromUSD(1).cur, lines = [];
+  for (const i of cart.get()) {
+    if (i.t === "d") { const d = typeof DOC_CATALOG !== "undefined" && docItem(i.id); if (d) lines.push({ t: "d", id: i.id, name: d.name, cat: d.cat, qty: 1, unit: localFromUSD(d.usd).amt, usd: d.usd }); }
+    else { const c = typeof COURSES !== "undefined" && courseBySlug(i.slug); if (c) lines.push({ t: "c", slug: i.slug, name: c.name, sku: c.sku, qty: i.qty, unit: localPrice(c.priceTHB).amt, thb: c.priceTHB }); }
+  }
+  return { cur, lines, sum: lines.reduce((a, l) => a + l.unit * l.qty, 0) };
+}
 function cartBadge() { const n = $("#cart-n"); if (n) n.textContent = cart.count(); }
 const courseBySlug = slug => COURSES.find(c => c.slug === slug);
 const courseCard = c => `<a class="card link course" href="cert.html?slug=${esc(c.slug)}"><div><span class="tag">${esc(c.category)}</span>${c.approval ? `<span class="tag green">Approved by ${esc(c.approval)}</span>` : ""}</div>
@@ -270,50 +292,65 @@ function initCourse() {
 
 function initCheckout() {
   const root = $("#co-root");
-  const items = () => cart.get().map(i => ({ ...i, c: courseBySlug(i.slug) })).filter(i => i.c);
-  const totals = () => { const cur = localPrice(1).cur; let sum = 0; const rows = items().map(i => { const u = localPrice(i.c.priceTHB).amt; sum += u * i.qty; return { ...i, unit: u }; }); return { cur, rows, sum, thb: items().reduce((a, i) => a + i.c.priceTHB * i.qty, 0) }; };
-  const summary = () => {
-    const t = totals();
-    $("#co-summary").innerHTML = `<h3>Order summary</h3>${t.rows.map(r => `<div class="li"><div><b>${esc(r.c.name)}</b><div class="qty"><button type="button" data-d="-1" data-s="${esc(r.slug)}" aria-label="Fewer">−</button><span>${r.qty}</span><button type="button" data-d="1" data-s="${esc(r.slug)}" aria-label="More">+</button> <button type="button" class="rm" data-rm="${esc(r.slug)}">Remove</button></div></div><div class="amt">${fmtMoney(r.unit * r.qty, t.cur)}<br><small>${r.qty} × ${fmtMoney(r.unit, t.cur)}</small></div></div>`).join("")}
-      <div class="li total"><b>Total</b><div class="amt">${fmtMoney(t.sum, t.cur)}</div></div><div id="co-cur" style="margin-top:10px"></div>`;
-    currencyBar($("#co-cur"), summary);
-  };
-  const empty = () => { root.innerHTML = `<div class="card empty"><h2>Your cart is empty</h2><p>Choose a course to get started.</p><a class="btn" href="certification.html">Browse courses</a></div>`; };
-  if (!items().length) { empty(); return; }
+  const empty = () => { root.innerHTML = `<div class="card empty"><h2>Your cart is empty</h2><p>Choose a course or the documents you need.</p><a class="btn" href="certification.html">Browse courses</a> <a class="btn outline" href="document-services.html">Documents &amp; services</a></div>`; };
+  if (!cartLines().lines.length) { empty(); return; }
   root.innerHTML = `<div class="detail"><form class="card" id="co-form"><h2 style="margin-top:0">Your details</h2>
     <div class="row"><div><label for="k-name">Full name *</label><input id="k-name" name="Name" required></div><div><label for="k-email">Email *</label><input id="k-email" name="Email" type="email" required></div></div>
     <div class="row"><div><label for="k-phone">Phone / WhatsApp *</label><input id="k-phone" name="Phone" required></div><div><label for="k-nat">Nationality *</label><input id="k-nat" name="Nationality" required></div></div>
-    <label for="k-names">Delegate names *</label><textarea id="k-names" name="Delegate names" required placeholder="One name per line, exactly as on the passport (this is printed on the certificate)"></textarea>
-    <div class="row"><div><label for="k-month">Preferred training month</label><input id="k-month" name="Preferred month" type="month"></div><div><label for="k-pay">Preferred payment method</label><select id="k-pay" name="Preferred payment"><option>Card (payment link)</option><option>Bank transfer</option><option>Mobile money</option><option>Other (we will contact you)</option></select></div></div>
+    <div data-for="c"><label for="k-names">Delegate names (for courses) *</label><textarea id="k-names" name="Delegate names" placeholder="One name per line, exactly as on the passport (printed on the certificate)"></textarea>
+      <label for="k-month">Preferred training month</label><input id="k-month" name="Preferred month" type="month"></div>
+    <div data-for="d"><div class="row"><div><label for="k-role">Target job or role</label><input id="k-role" name="Target role" placeholder="e.g. Driller"></div><div><label for="k-dest">Destination country</label><input id="k-dest" name="Destination"></div></div>
+      <label for="k-by">Date you need your documents by</label><input id="k-by" name="Needed by" type="date"></div>
+    <label for="k-pay">Preferred payment method</label><select id="k-pay" name="Preferred payment"><option>Card (payment link)</option><option>Bank transfer</option><option>Mobile money</option><option>Other (we will contact you)</option></select>
     <label for="k-note">Notes for our team</label><textarea id="k-note" name="Notes"></textarea>
-    <label class="check"><input type="checkbox" required> I understand the training takes place in Thailand and that travel, visa and accommodation are my responsibility unless stated.</label>
-    <label class="check"><input type="checkbox" required> I am medically fit for the physical elements of the course and agree to the terms and refund policy.</label>
-    <div class="notice" style="margin-top:12px"><b>No payment is taken on this page.</b> We email your invoice and a secure payment link within one working day. Your place is confirmed once payment is received. Never pay anyone who contacts you from another address.</div>
+    <div data-for="c"><label class="check"><input type="checkbox"> I understand course training takes place in Thailand and that travel, visa and accommodation are my responsibility unless stated.</label>
+      <label class="check"><input type="checkbox"> I am medically fit for the physical elements of my course(s).</label></div>
+    <div data-for="d"><label class="check"><input type="checkbox"> I confirm that all qualifications, experience and information I provide are genuine and verifiable. I authorise ${BRAND.name} to contact third parties (employers, institutions, providers) on my behalf where a service needs it.</label>
+      <label class="check"><input type="checkbox"> I understand official government charges, medical costs, training tuition, exam and certification fees and other third-party expenses are <b>not included</b> and will be agreed before any work starts, and that no service guarantees employment, certification, medical clearance or immigration approval.</label></div>
+    <label class="check"><input type="checkbox" required> I agree to the terms and refund policy.</label>
+    <div class="notice" style="margin-top:12px"><b>No payment is taken on this page.</b> We email your invoice and a secure payment link within one working day. Do not send passports, medical or bank details by chat or email until we confirm a secure channel. Never pay anyone who contacts you from another address.</div>
     <p><button class="btn" style="width:100%">Place order request</button></p></form>
     <aside class="card buybox" id="co-summary"></aside></div>`;
+  const form = $("#co-form");
+  const applyMode = () => { const L = cartLines().lines, has = { c: L.some(l => l.t === "c"), d: L.some(l => l.t === "d") };
+    $$("[data-for]", form).forEach(el => { const on = has[el.dataset.for]; el.hidden = !on; $$("input,textarea,select", el).forEach(i => { i.disabled = !on; if (el.dataset.for === "c" && i.id === "k-names") i.required = on; if (i.type === "checkbox") i.required = on; }); }); };
+  const summary = () => {
+    const t = cartLines(), courses = t.lines.filter(l => l.t === "c"), docs = t.lines.filter(l => l.t === "d");
+    $("#co-summary").innerHTML = `<h3>Order summary</h3>
+      ${courses.length ? `<h4 class="grp">Courses</h4>` + courses.map(r => `<div class="li"><div><b>${esc(r.name)}</b><div class="qty"><button type="button" data-d="-1" data-s="${esc(r.slug)}" aria-label="Fewer">−</button><span>${r.qty}</span><button type="button" data-d="1" data-s="${esc(r.slug)}" aria-label="More">+</button> <button type="button" class="rm" data-rm="${esc(r.slug)}">Remove</button></div></div><div class="amt">${fmtMoney(r.unit * r.qty, t.cur)}<br><small>${r.qty} × ${fmtMoney(r.unit, t.cur)}</small></div></div>`).join("") : ""}
+      ${docs.length ? `<h4 class="grp">Documents &amp; services (${docs.length})</h4>` + docs.map(r => `<div class="li"><div><b>${esc(r.name)}</b><div class="hint" style="margin:2px 0">${esc(r.cat)} · ${usdFmt(r.usd)}</div><button type="button" class="rm-doc" data-rmd="${esc(r.id)}">Remove</button></div><div class="amt">${fmtMoney(r.unit, t.cur)}</div></div>`).join("") : ""}
+      <div class="li total"><b>Total</b><div class="amt">${fmtMoney(t.sum, t.cur)}</div></div>
+      ${docs.length ? `<p class="hint">Documents are priced in US dollars and shown converted. Official fees and third-party costs are extra and agreed first.</p>` : ""}<div id="co-cur" style="margin-top:10px"></div>`;
+    currencyBar($("#co-cur"), summary); applyMode();
+  };
   summary();
   $("#co-summary").onclick = e => {
     const d = e.target.dataset, c = cart.get();
-    if (d.rm) cart.set(c.filter(x => x.slug !== d.rm));
-    else if (d.s) { const i = c.find(x => x.slug === d.s); i.qty = Math.max(1, Math.min(20, i.qty + +d.d)); cart.set(c); }
+    if (d.rm) cart.set(c.filter(x => !(x.t === "c" && x.slug === d.rm)));
+    else if (d.rmd) cart.removeDoc(d.rmd);
+    else if (d.s) { const i = c.find(x => x.t === "c" && x.slug === d.s); i.qty = Math.max(1, Math.min(20, i.qty + +d.d)); cart.set(c); }
     else return;
-    items().length ? summary() : empty();
+    cartLines().lines.length ? summary() : empty();
   };
-  $("#co-form").onsubmit = async e => {
-    e.preventDefault(); const form = e.target, btn = $("button:not([type=button])", form), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending…";
-    const t = totals(), ref = "ORD-" + Math.random().toString(36).slice(2, 8).toUpperCase(), cn = myCountry();
-    const lines = t.rows.map(r => `${r.qty} × ${r.c.name} [${r.c.sku}] @ ${fmtMoney(r.unit, t.cur)} = ${fmtMoney(r.unit * r.qty, t.cur)} (base ${r.c.priceTHB * r.qty} THB)`).join("\n");
+  form.onsubmit = async e => {
+    e.preventDefault(); const btn = $("button:not([type=button])", form), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending…";
+    const t = cartLines(), ref = "ORD-" + Math.random().toString(36).slice(2, 8).toUpperCase(), cn = myCountry();
+    const cl = t.lines.filter(l => l.t === "c").map(r => `${r.qty} × ${r.name} [${r.sku}] @ ${fmtMoney(r.unit, t.cur)} = ${fmtMoney(r.unit * r.qty, t.cur)} (base ${r.thb * r.qty} THB)`).join("\n");
+    const dl = t.lines.filter(l => l.t === "d").map(r => `• ${r.name} (${r.cat}) $${r.usd} = ${fmtMoney(r.unit, t.cur)}`).join("\n");
+    const usdDocs = t.lines.filter(l => l.t === "d").reduce((a, l) => a + l.usd, 0);
+    const extra = { "Order reference": ref, "Total": fmtMoney(t.sum, t.cur) + " (" + t.cur + ")", "Residence country": cn.name, "Exchange rate date": RATES.asOf };
+    if (cl) { extra["Courses"] = cl; } if (dl) { extra["Documents and services"] = dl; extra["Documents total (USD)"] = "$" + usdDocs; }
     try {
-      const r = await sendForm(form, `Course order ${ref}`, { "Order reference": ref, "Courses": lines, "Total": fmtMoney(t.sum, t.cur) + " (" + t.cur + ")", "Base total (THB)": String(t.thb), "Residence country": cn.name, "Exchange rate date": RATES.asOf });
+      const r = await sendForm(form, `Order ${ref}`, extra);
       const orders = store.get("orders", []); orders.push({ ref, total: fmtMoney(t.sum, t.cur), at: new Date().toISOString() }); store.set("orders", orders); cart.set([]);
-      root.innerHTML = `<div class="success" style="max-width:640px;margin:0 auto"><h2>Order request received ✔</h2><p>Reference <b>${ref}</b><br>Total <b>${fmtMoney(t.sum, t.cur)}</b></p><p>We'll email your invoice and payment link within one working day. Your place is confirmed once payment is received.</p>${demoNote(r)}<a class="btn" href="certification.html">Browse more courses</a></div>`;
+      root.innerHTML = `<div class="success" style="max-width:640px;margin:0 auto"><h2>Order request received ✔</h2><p>Reference <b>${ref}</b><br>Total <b>${fmtMoney(t.sum, t.cur)}</b></p><p>We'll email your invoice and payment link within one working day. Any official or third-party fees will be quoted and agreed before work starts.</p>${demoNote(r)}<a class="btn" href="document-services.html">Back to documents</a></div>`;
     } catch (err) { btn.disabled = false; btn.textContent = label; errBox(form, err.message); }
   };
 }
 
 /* ---------- resources ---------- */
 function initResources() {
-  $("#res-grid").innerHTML = RESOURCES.map(r => `<a class="card link" href="resource.html?slug=${r.slug}"><div class="icon">${r.icon}</div><span class="tag">${esc(r.tag)}</span><h3>${esc(r.title)}</h3><p style="margin:.3em 0 10px;color:var(--muted)">${esc(r.summary)}</p><span class="meta" style="color:var(--muted);font-size:.88rem">${esc(r.read)} read</span> <span class="btn small outline" style="margin-left:8px">Read guide →</span></a>`).join("") + `<a class="card link" href="documents.html"><div class="icon">📋</div><span class="tag amber">Checklist</span><h3>Documents you need</h3><p style="margin:.3em 0 10px;color:var(--muted)">An interactive checklist of the documents, certificates and medicals employers ask for, by role.</p><span class="btn small outline">Open checklist →</span></a>`;
+  $("#res-grid").innerHTML = RESOURCES.map(r => `<a class="card link" href="resource.html?slug=${r.slug}"><div class="icon">${r.icon}</div><span class="tag">${esc(r.tag)}</span><h3>${esc(r.title)}</h3><p style="margin:.3em 0 10px;color:var(--muted)">${esc(r.summary)}</p><span class="meta" style="color:var(--muted);font-size:.88rem">${esc(r.read)} read</span> <span class="btn small outline" style="margin-left:8px">Read guide →</span></a>`).join("") + `<a class="card link" href="document-services.html"><div class="icon">📋</div><span class="tag amber">Checklist</span><h3>Documents you need</h3><p style="margin:.3em 0 10px;color:var(--muted)">Tick what you already have, then see what is missing and get it done.</p><span class="btn small outline">Open checklist →</span></a>`;
 }
 function initResource() {
   const r = RESOURCES.find(x => x.slug === new URLSearchParams(location.search).get("slug")), root = $("#res-root");
@@ -328,37 +365,97 @@ function initResource() {
     <h2 style="margin-top:28px">More guides</h2><div class="related">${more.map(x => `<a class="card link" href="resource.html?slug=${x.slug}"><span class="tag">${esc(x.tag)}</span><h3>${esc(x.title)}</h3><p style="margin:0;color:var(--muted);font-size:.92rem">${esc(x.summary)}</p></a>`).join("")}</div></div>`;
 }
 
-/* ---------- document services ---------- */
-function initDocs() {
-  $("#svc-grid").innerHTML = DOC_SERVICES.map(s => `<div class="card svc" id="${s.id}"><div class="icon">${s.icon}</div><h3>${s.name}</h3><p>${s.desc}</p><ul class="ticks">${s.includes.map(i => `<li>${i}</li>`).join("")}</ul><div class="meta2">⏱ ${s.time} · Quoted on request</div><a class="btn small outline" href="#apply" data-pick="${s.id}">Apply for this service</a></div>`).join("");
-  $("#svc-checks").innerHTML = DOC_SERVICES.map(s => `<label class="check"><input type="checkbox" name="Services" value="${s.name}" data-id="${s.id}"> ${s.name}</label>`).join("");
-  const pick = id => { const b = $(`#svc-checks [data-id="${id}"]`); if (b) b.checked = true; };
-  $$("[data-pick]").forEach(a => a.addEventListener("click", () => pick(a.dataset.pick)));
-  const pre = new URLSearchParams(location.search).get("svc"); if (pre) pick(pre);
-}
+/* ---------- documents: checklist -> gaps -> services ---------- */
+const COURSE_Q = { "BOSIET (or T-BOSIET)": "BOSIET", "FOET (when BOSIET renewal is due)": "FOET", "HUET (where required, or included in your BOSIET)": "HUET", "H2S awareness / H2S training": "H2S", "H2S awareness": "H2S", "First aid certification": "first aid", "Firefighting and fire prevention training": "fire", "Basic firefighting training": "fire", "Working at heights training": "height", "Confined space entry training": "confined", "Manual handling training": "manual", "STCW Basic Safety Training": "STCW", "Food hygiene certificate (catering roles)": "food" };
+function initDocPage() {
+  const roles = DOC_ROLES, q = new URLSearchParams(location.search);
+  let role = roles.find(r => r.id === q.get("role")) || roles[0];
+  const key = r => "checklist_" + r.id, done = () => new Set(store.get(key(role), []));
+  const byName = {}; DOC_CATALOG.forEach(c => c.items.forEach(i => byName[i.name] = docItem(i.id)));
+  const sel = new Set(), open = new Set(); let filter = "";
+  currencyBar($("#doc-cur"), () => { renderGap(); renderCatalog(); renderPkgs(); renderBar(); });
 
-/* ---------- document checklist ---------- */
-function initChecklist() {
-  const roles = DOC_ROLES, root = $("#cl-root"), pills = $("#cl-roles");
-  const want = new URLSearchParams(location.search).get("role");
-  let role = roles.find(r => r.id === want) || roles[0];
-  const key = r => "checklist_" + r.id;
+  /* cart bar */
+  const renderBar = () => {
+    const t = cartLines(), n = t.lines.length, bar = $("#cartbar");
+    document.body.classList.toggle("has-cartbar", n > 0); bar.hidden = n === 0;
+    bar.innerHTML = `<div class="wrap"><span>🛒 <b>${n}</b> item${n === 1 ? "" : "s"} in your cart · <b>${fmtMoney(t.sum, t.cur)}</b></span><a class="btn small" href="checkout.html">Checkout →</a></div>`;
+  };
+  const addIds = ids => { cart.addDocs(ids); renderGap(); refreshAll(); renderPkgs(); renderBar(); };
+
+  /* STEP 1: checklist */
+  const pills = $("#cl-roles"), root = $("#cl-root");
   pills.innerHTML = roles.map(r => `<button class="pill" data-r="${r.id}">${esc(r.name)}</button>`).join("");
-  const render = () => {
+  const renderChecklist = () => {
     $$(".pill", pills).forEach(b => b.classList.toggle("on", b.dataset.r === role.id));
-    const done = new Set(store.get(key(role), []));
-    const all = role.categories.flatMap(c => c.items.map(i => i[0])), total = all.length, have = all.filter(t => done.has(t)).length;
-    $("#cl-progress").innerHTML = `<div class="bar"><i style="width:${Math.round(have / total * 100)}%"></i></div><b>${have} of ${total}</b> documents ready` + (have === total ? " ✔ You're set" : "");
-    root.innerHTML = role.categories.map(c => `<div class="card cl-cat"><h3><span class="ic">${c.icon}</span> ${esc(c.name)}</h3>${c.note ? `<p class="hint" style="margin:0 0 6px">${esc(c.note)}</p>` : ""}<ul class="cl-list">${c.items.map(([t, p]) => `<li><label class="check"><input type="checkbox" data-t="${esc(t)}" ${done.has(t) ? "checked" : ""}> <span>${esc(t)}</span></label><span class="prio p-${p}">${DOC_PRIORITY[p]}</span></li>`).join("")}</ul></div>`).join("");
+    const d = done(), all = role.categories.flatMap(c => c.items.map(i => i[0])), have = all.filter(t => d.has(t)).length;
+    $("#cl-progress").innerHTML = `<div class="bar"><i style="width:${Math.round(have / all.length * 100)}%"></i></div><b>${have} of ${all.length}</b> documents you already have`;
+    root.innerHTML = role.categories.map(c => `<div class="card cl-cat"><h3><span class="ic">${c.icon}</span> ${esc(c.name)}</h3>${c.note ? `<p class="hint" style="margin:0 0 6px">${esc(c.note)}</p>` : ""}<ul class="cl-list">${c.items.map(([t, p]) => `<li><label class="check"><input type="checkbox" data-t="${esc(t)}" ${d.has(t) ? "checked" : ""}> <span>${esc(t)}</span></label><span class="prio p-${p}">${DOC_PRIORITY[p]}</span></li>`).join("")}</ul></div>`).join("");
     $("#cl-jobs").href = "jobs.html?cat=" + role.cat;
   };
-  pills.onclick = e => { const b = e.target.closest(".pill"); if (b) { role = roles.find(r => r.id === b.dataset.r); render(); } };
-  root.onchange = e => { const t = e.target.dataset.t; if (!t) return; const d = new Set(store.get(key(role), [])); e.target.checked ? d.add(t) : d.delete(t); store.set(key(role), [...d]); render(); };
-  $("#cl-reset").onclick = () => { store.set(key(role), []); render(); };
-  render();
+  pills.onclick = e => { const b = e.target.closest(".pill"); if (b) { role = roles.find(r => r.id === b.dataset.r); renderChecklist(); renderGap(); } };
+  root.onchange = e => { const t = e.target.dataset.t; if (!t) return; const d = done(); e.target.checked ? d.add(t) : d.delete(t); store.set(key(role), [...d]); renderChecklist(); renderGap(); };
+  $("#cl-reset").onclick = () => { store.set(key(role), []); renderChecklist(); renderGap(); };
+  $("#cl-all").onclick = () => { store.set(key(role), role.categories.flatMap(c => c.items.map(i => i[0]))); renderChecklist(); renderGap(); };
+
+  /* STEP 2: what you still need */
+  const chip = n => { const it = byName[n]; if (!it) return ""; const inCart = cart.hasDoc(it.id);
+    return `<div class="chip-svc"><span class="nm">${esc(n)}</span><span class="pr">${docPriceHTML(it.usd)}</span>${inCart ? `<button type="button" class="btn small outline" data-rm="${it.id}">✓ In cart · Remove</button>` : `<button type="button" class="btn small" data-add="${it.id}">Add to cart</button>`}</div>`; };
+  const renderGap = () => {
+    const d = done(), missing = role.categories.flatMap(c => c.items.filter(i => !d.has(i[0])).map(i => ({ cat: c.name, t: i[0], p: i[1] })));
+    const order = { E: 0, R: 1, N: 2, A: 3 }; missing.sort((a, b) => order[a.p] - order[b.p]);
+    const box = $("#gap-root");
+    if (!missing.length) { box.innerHTML = `<div class="success"><h3>You're document-ready ✔</h3><p>You have everything on the list for this role.</p><a class="btn" href="jobs.html?cat=${role.cat}">See jobs for this role</a></div>`; $("#gap-count").textContent = "0"; return; }
+    $("#gap-count").textContent = missing.length;
+    box.innerHTML = missing.map(m => { const svc = (DOC_MAP[m.t] || []).map(chip).join(""); const cq = COURSE_Q[m.t];
+      return `<div class="card gap"><div class="gap-h"><b>${esc(m.t)}</b><span class="prio p-${m.p}">${DOC_PRIORITY[m.p]}</span></div><div class="hint" style="margin:2px 0 8px">${esc(m.cat)}</div>
+        ${svc ? `<div class="chips">${svc}</div>` : `<p class="hint" style="margin:0">You provide this yourself. Not sure how? <a href="contact.html">Ask us</a>.</p>`}
+        ${cq ? `<p class="hint" style="margin:8px 0 0">Need the course itself? <a href="certification.html?q=${encodeURIComponent(cq)}">Browse courses →</a></p>` : ""}</div>`; }).join("");
+  };
+  $("#gap-root").onclick = e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.add) addIds([b.dataset.add]); else if (b.dataset.rm) { cart.removeDoc(b.dataset.rm); renderGap(); refreshAll(); renderBar(); } };
+
+  /* STEP 3: catalogue */
+  const itemRow = it => { const inCart = cart.hasDoc(it.id);
+    return `<li class="svc-row ${inCart ? "incart" : ""}">${inCart ? `<span class="in">✓</span><span class="nm">${esc(it.name)}</span>` : `<label class="check"><input type="checkbox" data-pick="${it.id}" ${sel.has(it.id) ? "checked" : ""}> <span class="nm">${esc(it.name)}</span></label>`}<span class="pr">${docPriceHTML(it.usd)}</span>${inCart ? `<button type="button" class="link-btn" data-rm="${it.id}">Remove</button>` : ""}</li>`; };
+  const secInner = c => {
+    const items = c.items.filter(i => !filter || i.name.toLowerCase().includes(filter)); if (!items.length) return null;
+    const picked = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)), inCart = c.items.filter(i => cart.hasDoc(i.id)).length;
+    const sub = picked.reduce((a, i) => a + i.usd, 0);
+    return `${c.note ? `<p class="notice" style="margin:0 0 8px">${esc(c.note)}</p>` : ""}${/Enrolment|Training|Certification/.test(c.name) ? `<p class="hint">Enrolment fees cover our help with booking and paperwork. Course tuition and exam fees are paid to the training provider. <a href="certification.html">Or buy the course from us</a>.</p>` : ""}
+      <ul class="svc-list">${items.map(itemRow).join("")}</ul>
+      <div class="sec-foot"><div class="cnt"><b>${picked.length}</b> of ${c.items.length} documents selected${sub ? ` · ${docPriceHTML(sub)}` : ""}${inCart ? ` · <span class="ok">${inCart} already in cart</span>` : ""}</div>
+      <button type="button" class="btn" data-addsel="${c.id}" ${picked.length ? "" : "disabled"}>${picked.length ? `Add ${picked.length} selected to cart` : "Select documents above"}</button></div>`;
+  };
+  const badge = c => { const n = c.items.filter(i => cart.hasDoc(i.id)).length; return n ? `<span class="tag green">${n} in cart</span>` : ""; };
+  const renderCatalog = () => {
+    const box = $("#cat-root"), html = DOC_CATALOG.map(c => { const inner = secInner(c); if (inner === null) return ""; const isOpen = open.has(c.id) || !!filter;
+      return `<details class="sec" id="${c.id}" ${isOpen ? "open" : ""}><summary><span class="ic">${c.icon}</span><span class="t">${c.n}. ${esc(c.name)}</span><span class="meta">${c.items.length} documents</span><span class="bd">${badge(c)}</span></summary><div class="sec-body">${inner}</div></details>`; }).join("");
+    box.innerHTML = html || `<div class="card empty">No documents match "${esc(filter)}".</div>`;
+  };
+  const refreshAll = () => { $$("details.sec").forEach(d => { const c = DOC_CATALOG.find(x => x.id === d.id); if (!c) return; const inner = secInner(c); if (inner !== null) { $(".sec-body", d).innerHTML = inner; $(".bd", d).innerHTML = badge(c); } }); };
+  $("#cat-root").addEventListener("toggle", e => { const d = e.target; if (d.tagName === "DETAILS" && !filter) d.open ? open.add(d.id) : open.delete(d.id); }, true);
+  $("#cat-root").onchange = e => { const id = e.target.dataset.pick; if (!id) return; e.target.checked ? sel.add(id) : sel.delete(id); const d = e.target.closest("details"); $(".sec-body", d).innerHTML = secInner(DOC_CATALOG.find(x => x.id === d.id)); };
+  $("#cat-root").onclick = e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.addsel) { const c = DOC_CATALOG.find(x => x.id === b.dataset.addsel), ids = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)).map(i => i.id); ids.forEach(i => sel.delete(i)); addIds(ids); }
+    else if (b.dataset.rm) { cart.removeDoc(b.dataset.rm); renderGap(); refreshAll(); renderBar(); }
+  };
+  $("#cat-q").oninput = e => { filter = e.target.value.trim().toLowerCase(); renderCatalog(); };
+  $("#cat-open").onclick = () => { DOC_CATALOG.forEach(c => open.add(c.id)); renderCatalog(); };
+  $("#cat-close").onclick = () => { open.clear(); $("#cat-q").value = ""; filter = ""; renderCatalog(); };
+
+  /* packages + terms */
+  const renderPkgs = () => { $("#pkg-root").innerHTML = DOC_PACKAGES.map((p, i) => { const inCart = cart.hasDoc(p.id);
+    return `<div class="card pkg ${i === 1 ? "featured" : ""}">${i === 1 ? '<span class="badge">MOST CHOSEN</span>' : ""}<h3>${esc(p.name)}</h3><div class="price">${usdFmt(p.usd)}</div>${localFromUSD(1).cur !== "USD" ? `<div class="approx">≈ ${docMoney(p.usd)}</div>` : ""}<h4>Includes</h4><ul class="ticks">${p.includes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      ${inCart ? `<button class="btn outline" data-prm="${p.id}">✓ In cart · Remove</button>` : `<button class="btn ${i === 1 ? "" : "dark"}" data-padd="${p.id}">Add package to cart</button>`}</div>`; }).join(""); };
+  $("#pkg-root").onclick = e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.padd) addIds([b.dataset.padd]); else if (b.dataset.prm) cart.removeDoc(b.dataset.prm); renderPkgs(); renderBar(); };
+  $("#terms-list").innerHTML = DOC_TERMS.map(t => `<li>${esc(t)}</li>`).join("");
+
+  renderChecklist(); renderGap(); renderCatalog(); renderPkgs(); renderBar();
+  const hash = location.hash.slice(1); if (hash && DOC_CATALOG.some(c => c.id === hash)) { open.add(hash); renderCatalog(); $("#" + hash).scrollIntoView(); }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   layout(); initForms();
-  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCourses, cert: initCourse, checkout: initCheckout, resources: initResources, resource: initResource, docs: initDocs, checklist: initChecklist }[document.body.dataset.page] || (() => { }))();
+  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCourses, cert: initCourse, checkout: initCheckout, resources: initResources, resource: initResource, docs: initDocPage }[document.body.dataset.page] || (() => { }))();
 });

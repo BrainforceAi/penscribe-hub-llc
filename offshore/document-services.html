@@ -1,26 +1,41 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Document Services | OffshoreLink</title><meta name="description" content="Cover letters, LinkedIn optimisation, certificate checks, translation, visa checklists, interview coaching and more.">
+<title>Documents &amp; Services | OffshoreLink</title><meta name="description" content="Check what documents you already have, see what you still need, and let us get it done at fixed prices.">
 <link rel="stylesheet" href="assets/styles.css"></head>
 <body data-page="docs">
-<div class="page-head"><div class="wrap"><h1>Document services</h1><p>Everything beyond the CV that gets you hired and mobilised: letters, checks, translations and more.</p></div></div>
-<section class="section"><div class="wrap">
-<div class="center"><span class="eyebrow">What we offer</span><h2>Ten ways we prepare your documents</h2><p class="lead">Choose one service or several. Each is quoted on request, and several are already included in our <a href="cv-services.html">CV packages</a>.</p></div>
-<div class="grid g3" id="svc-grid" style="margin-top:28px"></div></div></section>
+<div class="page-head"><div class="wrap"><h1>Documents you need to work offshore</h1><p>Tick what you already have, see exactly what is missing, then let us get it done at fixed prices.</p></div></div>
 
-<section class="section alt"><div class="wrap" style="max-width:780px"><div class="card"><h2 id="apply">Apply for document services</h2>
-<p class="hint" style="margin-bottom:6px">Tell us what you need. We'll email you a quote and next steps, usually within one working day. Nothing is charged on this page.</p>
-<form data-send="Document services application" data-thanks="We've received your application and will email you a quote and next steps within one working day.">
-<div class="row"><div><label for="d-name">Full name *</label><input id="d-name" name="Name" required></div><div><label for="d-email">Email *</label><input id="d-email" name="Email" type="email" required></div></div>
-<div class="row"><div><label for="d-phone">Phone / WhatsApp *</label><input id="d-phone" name="Phone" required></div><div><label for="d-country">Country of residence *</label><input id="d-country" name="Country" required></div></div>
-<label>Services you need * <span class="hint">(tick all that apply)</span></label><div class="checks" id="svc-checks"></div>
-<div class="row"><div><label for="d-role">Target job or role</label><input id="d-role" name="Target role" placeholder="e.g. Driller"></div><div><label for="d-dest">Destination country</label><input id="d-dest" name="Destination" placeholder="e.g. Saudi Arabia"></div></div>
-<div class="row"><div><label for="d-by">Date you need it by</label><input id="d-by" name="Needed by" type="date"></div><div><label for="d-contact">Preferred contact</label><select id="d-contact" name="Preferred contact"><option>Email</option><option>WhatsApp</option><option>Phone call</option></select></div></div>
-<label for="d-details">Details of your request *</label><textarea id="d-details" name="Details" required placeholder="Tell us about your situation and what you want help with."></textarea>
-<label for="d-files">Attach documents (optional)</label><input id="d-files" name="Documents" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"><p class="hint">Up to 5 MB in total: PDF, Word, JPG or PNG. Only attach passports or IDs if the service needs them.</p>
-<label class="check"><input type="checkbox" required> I agree to the processing of my personal data to deliver these services. I understand fees are quoted before any work begins.</label>
-<p><button class="btn">Submit application</button></p></form></div></div></section>
+<section class="section" style="padding-bottom:10px"><div class="wrap">
+<div class="stepper"><a href="#checklist"><span class="n">1</span><span><b>Check what you have</b><small>Pick your role and tick your documents</small></span></a>
+<a href="#gaps"><span class="n">2</span><span><b>See what you still need</b><small>Missing items, with the service to get each one</small></span></a>
+<a href="#catalog"><span class="n">3</span><span><b>Get it done</b><small>Pick only the documents you need</small></span></a></div>
+<div id="doc-cur" style="margin-top:16px"></div></div></section>
 
-<section class="section"><div class="wrap" style="max-width:780px"><div class="disclaimer"><b>Please note:</b> visa, legalisation and mobilisation services are guidance only. We are not a law firm or an immigration authority, and decisions are made by employers and governments. We never write false references or alter documents.</div></div></section>
-<script src="data/locations.js"></script><script src="data/jobs.js"></script><script src="data/resources.js"></script><script src="data/docservices.js"></script><script src="assets/app.js"></script>
+<section class="section" id="checklist" style="padding-bottom:20px"><div class="wrap">
+<div class="step-h"><span class="n">1</span><h2>What is your role? Tick what you already have</h2></div>
+<p class="lead" style="margin-bottom:12px">Your ticks are saved on this device only.</p>
+<div class="pill-row" id="cl-roles"></div>
+<div class="card" style="max-width:820px;margin:8px 0 18px"><div id="cl-progress"></div>
+<p class="hint">Labels show how employers usually treat each item: <span class="prio p-E">Essential</span> <span class="prio p-R">Required by employer</span> <span class="prio p-A">If required</span> <span class="prio p-N">Renew when due</span></p>
+<p style="margin:10px 0 0"><button type="button" class="btn small dark" id="cl-all">I have everything</button> <button type="button" class="btn small outline" id="cl-reset">Clear ticks</button> <a class="btn small outline" id="cl-jobs" href="jobs.html">See jobs for this role</a></p></div>
+<div class="grid g2" id="cl-root"></div></div></section>
+
+<section class="section alt" id="gaps"><div class="wrap">
+<div class="step-h"><span class="n">2</span><h2>What you still need (<span id="gap-count">0</span>)</h2></div>
+<p class="lead" style="margin-bottom:16px">Everything you did not tick, most important first. Add only the ones you want us to handle.</p>
+<div id="gap-root" style="max-width:900px"></div></div></section>
+
+<section class="section" id="catalog"><div class="wrap">
+<div class="step-h"><span class="n">3</span><h2>Get it done: all documents and services</h2></div>
+<p class="lead" style="margin-bottom:16px">Every price is fixed. Tick only the documents you want in each section and add just those to your cart. You are never buying a whole section.</p>
+<h3>Best-value packages</h3><p class="hint" style="margin-top:0">A package already includes the items listed in it, so there is no need to add those separately.</p>
+<div class="pkg-grid" id="pkg-root" style="margin:14px 0 30px"></div>
+<h3>All documents and services</h3>
+<div class="finder"><input id="cat-q" type="search" placeholder="Search all 349 documents, e.g. medical, BOSIET, visa" aria-label="Search documents"><button type="button" class="btn small outline" id="cat-open">Expand all</button><button type="button" class="btn small outline" id="cat-close">Collapse all</button></div>
+<div id="cat-root"></div>
+<details class="sec" style="margin-top:20px"><summary><span class="ic">📜</span><span class="t">Service terms and conditions</span></summary><div class="sec-body"><ul id="terms-list"></ul></div></details>
+<div class="notice" style="margin-top:16px"><b>Optional services, never a job fee.</b> These are paid preparation and administrative services. You never pay us to get a job. Do not send passports, medical records or bank details until we confirm a secure channel; bank details are only needed at employer onboarding after an offer. <a href="scam-warning.html">Read our scam warning</a>.</div>
+</div></section>
+<div class="cartbar" id="cartbar" hidden></div>
+<script src="data/locations.js"></script><script src="data/jobs.js"></script><script src="data/courses.js"></script><script src="data/docprices.js"></script><script src="data/checklists.js"></script><script src="data/docmap.js"></script><script src="data/rates.js"></script><script src="data/currencies.js"></script><script src="assets/app.js"></script>
 </body></html>

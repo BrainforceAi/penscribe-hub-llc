@@ -52,3 +52,9 @@ For production, move delivery to your own backend (for example the Worker + Rese
 - **Exchange rates:** `data/rates.js`, refreshed with `node offshore/ingest/update-rates.mjs` (run daily). If a currency is missing, prices fall back to US dollars.
 - **Cart and checkout:** `cert.html` (course page), `checkout.html` (cart, details, order). Orders are emailed to `SITE.notifyEmail` as an "order request" and you reply with an invoice. **No payment gateway is connected yet.** To take card payments, add Stripe, Paystack or Flutterwave and charge the amount computed in `initCheckout()` in the visitor's currency.
 - In Node on this sandbox, run the scripts with `NODE_USE_ENV_PROXY=1`.
+
+## Documents and services (merged checklist + price list)
+`document-services.html` is one flow: (1) pick a role and tick the documents you already have, (2) see what is missing, with the services that get each item (`data/docmap.js`), (3) browse the full price list and add only the documents wanted. Each category shows "N of M selected" and an "Add N selected to cart" button, so nobody thinks they are buying a whole section.
+- **Prices:** edit `data/price-list.md`, then run `node offshore/ingest/build-price-list.mjs` to regenerate `data/docprices.js` (18 categories, 349 services, 4 packages, terms). Prices are USD and shown converted to the visitor's currency.
+- `documents.html` redirects to the merged page so old links keep working.
+- Cart holds courses and documents together; checkout adapts its fields to what is in the cart.
