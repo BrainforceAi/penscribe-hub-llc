@@ -122,7 +122,7 @@ function docPrompt(j) {
   try {
     const rid = CAT_ROLE[j.category], role = rid && DOC_ROLES.find(r => r.id === rid); if (!role) return `<a class="btn small" href="document-services.html">Get your documents ready</a>`;
     const top = DOC_CORE[rid].slice(0, 4);
-    return `<div class="docprompt"><h4>Get ready for the offer</h4><p>Employers hiring ${esc(role.name.toLowerCase())} usually ask for about <b>${DOC_CORE[rid].length} documents</b>, such as ${top.map(t => esc(t.replace(/ \(.*\)$/, ""))).join(", ")}. Check which ones you still need. It takes about two minutes.</p><a class="btn" href="document-services.html?cat=${esc(j.category)}&from=application">Check my documents →</a></div>`;
+    return `<div class="docprompt"><h4>Get ready for the offer</h4><p>Employers hiring ${esc(role.name.toLowerCase())} usually ask for about <b>${DOC_CORE[rid].length} documents</b>, such as ${top.map(t => esc(t.replace(/ \(.*\)$/, ""))).join(", ")}. Check which ones you still need. It takes about two minutes.</p><a class="btn" href="document-services.html?job=${encodeURIComponent(j.title)}&cat=${esc(j.category)}&from=application">Check my documents →</a></div>`;
   } catch { return `<a class="btn small" href="document-services.html">Get your documents ready</a>`; }
 }
 
@@ -321,6 +321,7 @@ function initCheckout() {
     <p><button class="btn" style="width:100%">Place order request</button></p></form>
     <aside class="card buybox" id="co-summary"></aside></div>`;
   const form = $("#co-form");
+  { const dj = store.get("doc_job"); if (dj && dj.title && $("#k-role")) $("#k-role").value = dj.title; }
   const applyMode = () => { const L = cartLines().lines, has = { c: L.some(l => l.t === "c"), d: L.some(l => l.t === "d") };
     $$("[data-for]", form).forEach(el => { const on = has[el.dataset.for]; el.hidden = !on; $$("input,textarea,select", el).forEach(i => { i.disabled = !on; if (el.dataset.for === "c" && i.id === "k-names") i.required = on; if (i.type === "checkbox") i.required = on; }); }); };
   const summary = () => {
@@ -415,11 +416,29 @@ function cartBarHTML() { const t = cartLines(), n = t.lines.length; return n ? `
 function showBar(html) { const bar = $("#cartbar"); bar.innerHTML = html; bar.hidden = !html; document.body.classList.toggle("has-cartbar", !!html); }
 const packageByName = n => DOC_PACKAGES.find(p => p.name === n);
 
+/* ---------- job title -> document profile ---------- */
+function jobTitleIndex() {
+  const m = new Map(); JOB_TITLES.forEach(([t, r]) => m.set(t.toLowerCase(), { t, r }));
+  /* site jobs: keep the dictionary's answer if there is one, else trust the keyword rules, else the job's category */
+  (typeof JOBS !== "undefined" ? JOBS : []).forEach(j => { const k = j.title.toLowerCase(); if (m.has(k)) return; const rule = JOB_RULES.find(([re]) => re.test(k)), r = rule ? rule[1] : CAT_ROLE[j.category]; if (r) m.set(k, { t: j.title, r }); });
+  return [...m.values()];
+}
+function matchJob(text) {
+  const t = String(text || "").trim().toLowerCase().replace(/\s+/g, " "); if (t.length < 2) return null;
+  const hit = jobTitleIndex().find(x => x.t.toLowerCase() === t); if (hit) return { role: hit.r, how: "exact", title: hit.t };
+  for (const [re, r] of JOB_RULES) if (re.test(t)) return { role: r, how: "keyword", title: String(text).trim() };
+  return { role: "general", how: "none", title: String(text).trim() };
+}
+const ROLE_ORDER = ["driller", "marine", "subsea", "technician", "lifting", "hse", "engineer", "support", "general"];
+
 /* ---------- guided document flow ---------- */
 function initWizard() {
   const q = new URLSearchParams(location.search), roles = DOC_ROLES;
   const fromApp = q.get("from") === "application";
-  let role = roles.find(r => r.id === (q.get("role") || CAT_ROLE[q.get("cat")] || "")) || null;
+  let role = null, jobText = "", how = "group";
+  { const jq = q.get("job"), m = jq && matchJob(jq);
+    if (m && m.how !== "none") { role = roles.find(r => r.id === m.role); jobText = m.title; how = m.how; }
+    else { role = roles.find(r => r.id === (q.get("role") || CAT_ROLE[q.get("cat")] || "")) || null; if (m) { jobText = m.title; if (!role) { role = roles.find(r => r.id === "general"); how = "none"; } } } }
   let step = role ? 2 : 1, more = false, pkgOn = false, added = 0; let pick = {}, alt = {};
   const key = r => "checklist_" + r.id, have = () => new Set(store.get(key(role), []));
   const byName = {}; DOC_CATALOG.forEach(c => c.items.forEach(i => byName[i.name] = docItem(i.id)));
@@ -432,12 +451,37 @@ function initWizard() {
 
   const progress = () => { $("#wiz-progress").innerHTML = [1, 2, 3].map(i => `<div class="wp ${i === step ? "now" : ""} ${i < step ? "done" : ""}"><span>${i < step ? "✓" : i}</span>${tr(i)}</div>`).join(""); };
 
-  const view1 = () => `<h2>What is your job?</h2><p class="lead">Pick the closest match. This tells us which documents employers usually ask for.</p>
-    <div class="role-grid">${roles.map(r => `<button type="button" class="role-btn" data-act="role" data-r="${r.id}"><span class="ic">${ROLE_INFO[r.id].icon}</span><b>${esc(r.name)}</b><small>${esc(ROLE_INFO[r.id].eg)}</small></button>`).join("")}</div>`;
+  const groupBtns = (act, small) => ROLE_ORDER.map(id => roles.find(r => r.id === id)).filter(Boolean).map(r => `<button type="button" class="role-btn ${small ? "sm" : ""}" data-act="${act}" data-r="${r.id}"><span class="ic">${ROLE_INFO[r.id].icon}</span><b>${esc(r.id === "general" ? "Other / not sure" : r.name)}</b>${small ? "" : `<small>${esc(ROLE_INFO[r.id].eg)}</small>`}</button>`).join("");
+  const view1 = () => `<h2>What is your job?</h2><p class="lead">Type your job title. Any job works, even if it is not on our job list.</p>
+    <div class="jobbox"><input id="job-q" type="text" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="job-sug" aria-label="Your job title" placeholder="e.g. Process Engineer, ROV Pilot, Camp Boss" value="${esc(jobText)}"><ul id="job-sug" class="sug" role="listbox" hidden></ul></div>
+    <p class="hint" id="job-hint" style="min-height:1.4em"></p>
+    <p style="margin-top:6px"><button type="button" class="btn" data-act="typed">Continue →</button></p>
+    <div class="or"><span>or choose the closest group</span></div>
+    <div class="role-grid">${groupBtns("role", false)}</div>`;
+  const bindJobBox = () => {
+    const inp = $("#job-q"), ul = $("#job-sug"); if (!inp) return; let items = [], act = -1;
+    const roleName = id => (roles.find(r => r.id === id) || {}).name || "";
+    const close = () => { ul.hidden = true; inp.setAttribute("aria-expanded", "false"); act = -1; };
+    const draw = () => { const t = inp.value.trim().toLowerCase(); if (t.length < 2) return close();
+      const all = jobTitleIndex(); items = all.filter(x => x.t.toLowerCase().startsWith(t)).concat(all.filter(x => !x.t.toLowerCase().startsWith(t) && x.t.toLowerCase().includes(t))).slice(0, 8);
+      if (!items.length) return close();
+      ul.innerHTML = items.map((x, i) => `<li role="option" data-i="${i}" class="${i === act ? "on" : ""}"><span>${esc(x.t)}</span><small>${esc(roleName(x.r))}</small></li>`).join(""); ul.hidden = false; inp.setAttribute("aria-expanded", "true"); };
+    const choose = text => { const m = matchJob(text); if (!m) { $("#job-hint").textContent = "Please type at least two letters of your job title."; inp.focus(); return; } chooseTyped(m); };
+    inp.addEventListener("input", () => { act = -1; draw(); $("#job-hint").textContent = ""; });
+    inp.addEventListener("keydown", e => { if (e.key === "ArrowDown") { e.preventDefault(); act = Math.min(items.length - 1, act + 1); draw(); } else if (e.key === "ArrowUp") { e.preventDefault(); act = Math.max(-1, act - 1); draw(); } else if (e.key === "Escape") close(); else if (e.key === "Enter") { e.preventDefault(); choose(act >= 0 && items[act] ? items[act].t : inp.value); } });
+    ul.addEventListener("mousedown", e => { const li = e.target.closest("li"); if (li) { e.preventDefault(); choose(items[+li.dataset.i].t); } });
+    inp.addEventListener("blur", () => setTimeout(close, 120));
+    $('[data-act="typed"]').onclick = () => choose(inp.value);
+  };
+  const chooseTyped = m => { role = roles.find(r => r.id === m.role); jobText = m.title; how = m.how; pick = {}; alt = {}; more = false; pkgOn = false; store.set("doc_job", { title: jobText, role: role.id }); track("doc_role_selected", { role: role.id, via: "typed", match: m.how }); go(2); };
 
+  const jobHeader = () => {
+    const label = jobText ? `<b>${esc(jobText)}</b>${how === "group" ? "" : ` · ${esc(role.id === "general" ? "general offshore list" : "matched to " + role.name)}`}` : `<b>${esc(role.name)}</b>`;
+    const regroup = (how === "keyword" || how === "none") ? `<details class="alts" ${how === "none" ? "open" : ""} style="margin:6px 0 10px"><summary>${how === "none" ? "Pick the closest group for a more exact list" : "Not the right group?"}</summary><div class="chips-row">${ROLE_ORDER.filter(id => id !== "general").map(id => roles.find(r => r.id === id)).filter(Boolean).map(r => `<button type="button" class="pill ${r.id === role.id ? "on" : ""}" data-act="regroup" data-r="${r.id}">${ROLE_INFO[r.id].icon} ${esc(r.name)}</button>`).join("")}</div></details>` : "";
+    return `${how === "none" ? `<div class="notice" style="margin-bottom:10px">We don't have a specific list for “${esc(jobText)}” yet, so these are the documents almost every offshore job needs. Your plan will still work. Choose the closest group below for a more exact list.</div>` : ""}<div class="crumb">Showing documents for ${label} · <button type="button" class="link-btn2" data-act="change">Change</button></div>${regroup}`; };
   const view2 = () => { const d = have(), list = shown(), n = list.filter(i => d.has(i.t)).length, nExtra = extras().length;
     return `${fromApp ? `<div class="notice" style="margin-bottom:14px">✅ Your application is in. Most employers ask for these documents before making an offer. Check which ones you have.</div>` : ""}
-    <div class="crumb">Showing documents for <b>${esc(role.name)}</b> · <button type="button" class="link-btn2" data-act="change">Change</button></div>
+    ${jobHeader()}
     <h2>Which of these do you already have?</h2><p class="lead">Tap each one you have. Anything you don't tap, we'll help you get.</p>
     <div class="have-list">${list.map(i => `<button type="button" class="have-tile" data-act="have" data-t="${esc(i.t)}" aria-pressed="${d.has(i.t)}"><span class="tick">${d.has(i.t) ? "✓" : ""}</span><span class="tx">${esc(i.t)}</span><span class="pri ${MUST[i.p] ? "must" : ""}">${MUST[i.p] ? "Must have" : "Nice to have"}</span></button>`).join("")}</div>
     ${!more && nExtra ? `<p><button type="button" class="btn small outline" data-act="more">Show ${nExtra} more optional documents</button></p>` : ""}
@@ -463,7 +507,7 @@ function initWizard() {
         <div class="hint" style="margin:2px 0 0">${covered(r) ? "Included in the package you chose." : r.inCart ? "In your cart." : esc(describe(r.chosen.name))}</div>
         ${r.opts.length > 1 && !r.inCart && !covered(r) ? `<details class="alts"><summary>Other options (${r.opts.length - 1})</summary>${r.opts.map(o => `<label class="alt"><input type="radio" name="alt${r.idx}" data-alt="${esc(r.t)}" value="${esc(o.name)}" ${o.id === r.chosen.id ? "checked" : ""}> <span>${esc(plainName(o.name))}</span><span class="pr">${priceLine(o.usd)}</span></label>`).join("")}</details>` : ""}
       </div><div class="plan-price">${covered(r) ? "<small>included</small>" : priceLine(r.chosen.usd)}</div></div>`;
-    return `<div class="crumb"><button type="button" class="link-btn2" data-act="back">← Change my answers</button> · <b>${esc(role.name)}</b></div>
+    return `<div class="crumb"><button type="button" class="link-btn2" data-act="back">← Change my answers</button> · <b>${esc(jobText || role.name)}</b></div>
       <h2>Your document plan</h2><p class="lead">Based on your answers, here is what we recommend. We've ticked the must-haves. Untick anything you don't need.</p>
       <div id="doc-cur" style="margin:0 0 14px"></div>
       ${reco ? `<div class="card reco ${pkgOn ? "chosen" : ""}"><div><span class="tag amber">Better value</span><h3 style="margin:6px 0 4px">${esc(pk.name)}</h3><p class="hint" style="margin:0 0 6px">Includes your offshore CV and ${PKG_COVERS[pk.name].length - 1} more documents: ${esc(pk.includes.slice(0, 4).join(", "))} and more.</p>${reco.save > 0 ? `<p style="margin:0"><b>${usdFmt(pk.usd)}</b> instead of about ${usdFmt(reco.sep)} if bought separately. <span class="ok">You save about ${usdFmt(reco.save)}.</span></p>` : ""}</div>
@@ -481,6 +525,7 @@ function initWizard() {
     return cartBarHTML(); };
   const render = () => { progress();
     $("#wiz").innerHTML = step === 1 ? view1() : step === 2 ? view2() : view3();
+    if (step === 1) bindJobBox();
     if (step === 3) currencyBar($("#doc-cur"), render);
     showBar(bar()); };
   const rerenderKeepScroll = () => { const y = scrollY; render(); scrollTo(0, y); };
@@ -489,7 +534,9 @@ function initWizard() {
 
   $("#wiz").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b) return; const act = b.dataset.act;
-    if (act === "role") { role = roles.find(r => r.id === b.dataset.r); pick = {}; alt = {}; more = false; pkgOn = false; track("doc_role_selected", { role: role.id }); go(2); }
+    if (act === "role") { role = roles.find(r => r.id === b.dataset.r); jobText = ""; how = "group"; pick = {}; alt = {}; more = false; pkgOn = false; track("doc_role_selected", { role: role.id, via: "group" }); go(2); }
+    else if (act === "typed") { return; }
+    else if (act === "regroup") { role = roles.find(r => r.id === b.dataset.r); how = jobText ? "keyword" : "group"; pick = {}; alt = {}; more = false; pkgOn = false; if (jobText) store.set("doc_job", { title: jobText, role: role.id }); track("doc_role_selected", { role: role.id, via: "regroup" }); rerenderKeepScroll(); }
     else if (act === "change") { go(1); }
     else if (act === "have") { const d = have(), t = b.dataset.t; d.has(t) ? d.delete(t) : d.add(t); store.set(key(role), [...d]); const y = scrollY; render(); scrollTo(0, y); refocus(`.have-tile[data-t="${CSS.escape(t)}"]`); }
     else if (act === "more") { more = true; rerenderKeepScroll(); }

@@ -21,11 +21,12 @@ const COUNTRIES = sandbox.window.REGIONS.flatMap(r => r.countries.map(c => ({ ..
 const byName = n => COUNTRIES.find(c => n && (n.toLowerCase().includes(c.name.toLowerCase().split(":")[0].trim()) || c.slug === n.toLowerCase()));
 
 const RULES = [
-  ["subsea", /rov|diver|subsea|saturation/i], ["drilling", /driller|derrick|roughneck|mud|drilling|toolpusher|wellsite/i],
-  ["marine", /master|mate\b|deck|dp operator|vessel|marine|bosun|ab seaman|ship/i], ["hse", /hse|safety|medic|nurse|environment/i],
-  ["engineering", /engineer|designer|inspector/i], ["operations", /operator|production|ccr|oim|offshore installation manager|supervisor/i],
-  ["maintenance", /mechanic|electrician|rigger|welder|fitter|technician|instrument/i], ["logistics", /crane|storekeeper|helideck|logistic|warehouse|banksman/i],
-  ["catering", /cook|chef|steward|camp boss|catering|baker/i], ["entry", /roustabout|trainee|entry|apprentice|graduate|deck hand/i]
+  ["subsea", /\brov\b|diver|subsea|saturation/i], ["drilling", /driller|derrick|roughneck|mud |drilling|toolpusher|wellsite/i],
+  ["logistics", /crane|rigger|banksman|slinger|storekeeper|helideck|logistic|warehouse|forklift|scaffold/i],
+  ["marine", /\bmaster\b|\bmate\b|\bdeck\b|dp operator|vessel|marine|bosun|seaman|\bship/i], ["hse", /hse|safety|medic|nurse|environment/i],
+  ["entry", /roustabout|trainee|entry|apprentice|graduate|deck hand/i], ["catering", /cook|chef|steward|camp boss|catering|baker/i],
+  ["engineering", /engineer|designer|inspector/i], ["maintenance", /mechanic|electrician|welder|fitter|technician|instrument/i],
+  ["operations", /operator|production|ccr|oim|offshore installation manager|supervisor/i]
 ];
 const categorise = t => (RULES.find(([, re]) => re.test(t)) || ["operations"])[0];
 

@@ -298,3 +298,19 @@ body.has-cartbar{padding-bottom:64px}body.has-cartbar .wa{bottom:78px}
 .svc-row .pr small,.pr small{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
 .docprompt{background:#eef6fa;border:1px solid #cfe3ee;border-radius:12px;padding:14px;margin-top:14px;text-align:left}
 .docprompt h4{margin:0 0 4px;color:var(--navy)}.docprompt p{margin:0 0 10px;font-size:.93rem}
+
+/* job title box */
+.jobbox{position:relative;max-width:640px}
+.jobbox input{width:100%;padding:16px 18px;font:inherit;font-size:1.1rem;border:2px solid var(--line);border-radius:14px;background:#fff}
+.jobbox input:focus{outline:0;border-color:var(--ocean);box-shadow:0 0 0 4px rgba(14,124,155,.15)}
+.sug{list-style:none;margin:6px 0 0;padding:6px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:300px;overflow:auto}
+.sug[hidden]{display:none}
+.sug li{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer}
+.sug li:hover,.sug li.on{background:#e6f4f8}.sug small{color:var(--muted);text-align:right}
+.or{display:flex;align-items:center;gap:12px;margin:22px 0 14px;color:var(--muted);font-size:.9rem}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.role-grid{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.role-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.role-grid{grid-template-columns:1fr}}
+.role-btn{padding:14px}.role-btn .ic{font-size:1.5rem}.role-btn b{font-size:1rem}.role-btn small{font-size:.8rem}
+.chips-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}

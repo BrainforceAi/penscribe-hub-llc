@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T11:11:54.508Z",
+  "generatedAt": "2026-11-25T14:01:03.254Z",
   "count": 31,
   "jobs": [
     {
@@ -187,7 +187,7 @@
     {
       "id": "3d09f7e013cf",
       "title": "Production Technician",
-      "category": "operations",
+      "category": "maintenance",
       "country": "Azerbaijan",
       "countrySlug": "azerbaijan",
       "region": "Caspian & Eurasia",
@@ -271,7 +271,7 @@
     {
       "id": "c049f15e1c61",
       "title": "Rigger",
-      "category": "maintenance",
+      "category": "logistics",
       "country": "Denmark",
       "countrySlug": "denmark",
       "region": "Europe",
@@ -327,7 +327,7 @@
     {
       "id": "625b285df0a9",
       "title": "Crane Operator",
-      "category": "operations",
+      "category": "logistics",
       "country": "Mexico",
       "countrySlug": "mexico",
       "region": "Americas",
@@ -341,7 +341,7 @@
     {
       "id": "93d623c7bdf6",
       "title": "Able Seaman",
-      "category": "operations",
+      "category": "marine",
       "country": "South Africa",
       "countrySlug": "south-africa",
       "region": "Africa",
@@ -397,7 +397,7 @@
     {
       "id": "2df6b5ec3c2e",
       "title": "Helideck Assistant",
-      "category": "marine",
+      "category": "logistics",
       "country": "Ireland",
       "countrySlug": "ireland",
       "region": "Europe",
