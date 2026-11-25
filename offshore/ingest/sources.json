@@ -1,0 +1,21 @@
+{
+  "_note": "Only add sources you are licensed or permitted to use: official APIs, partner XML/JSON feeds, or RSS. Do not scrape sites whose terms forbid it. Each source needs written permission to republish its descriptions.",
+  "sources": [
+    {
+      "id": "sample",
+      "type": "json",
+      "file": "ingest/samples/sample-feed.json",
+      "enabled": true,
+      "map": { "id": "id", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "postedAt", "expiresAt": "expiresAt" }
+    },
+    {
+      "id": "partner-feed-example",
+      "type": "json",
+      "url": "https://example.com/partner/jobs.json",
+      "headers": { "Authorization": "Bearer ${PARTNER_FEED_TOKEN}" },
+      "enabled": false,
+      "map": { "id": "jobId", "title": "jobTitle", "company": "employer", "location": "country", "description": "body", "postedAt": "datePosted", "expiresAt": "validThrough" }
+    }
+  ],
+  "defaultExpiryDays": 30
+}

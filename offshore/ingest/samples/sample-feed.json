@@ -1,0 +1,328 @@
+{
+  "jobs": [
+    {
+      "id": "ext-1000",
+      "title": "Driller",
+      "company": "Aurora Offshore",
+      "location": "UAE",
+      "postedAt": "2026-11-25",
+      "expiresAt": "2026-12-05",
+      "description": "<p>We are seeking an experienced Driller for a long-term offshore assignment in UAE.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1000 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1001",
+      "title": "Derrickman",
+      "company": "Northwind Energy",
+      "location": "Saudi Arabia",
+      "postedAt": "2026-11-24",
+      "expiresAt": "2026-12-08",
+      "description": "<p>We are seeking an experienced Derrickman for a long-term offshore assignment in Saudi Arabia.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1001 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1002",
+      "title": "Roughneck",
+      "company": "Meridian Drilling",
+      "location": "Qatar",
+      "postedAt": "2026-11-23",
+      "expiresAt": "2026-12-11",
+      "description": "<p>We are seeking an experienced Roughneck for a long-term offshore assignment in Qatar.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1002 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1003",
+      "title": "Mud Engineer",
+      "company": "BlueCurrent Marine",
+      "location": "Brazil",
+      "postedAt": "2026-11-22",
+      "expiresAt": "2026-12-14",
+      "description": "<p>We are seeking an experienced Mud Engineer for a long-term offshore assignment in Brazil.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1003 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1004",
+      "title": "ROV Pilot Technician",
+      "company": "Atlas Subsea",
+      "location": "Norway",
+      "postedAt": "2026-11-21",
+      "expiresAt": "2026-12-17",
+      "description": "<p>We are seeking an experienced ROV Pilot Technician for a long-term offshore assignment in Norway.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1004 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1005",
+      "title": "Subsea Engineer",
+      "company": "Helix Production",
+      "location": "United Kingdom",
+      "postedAt": "2026-11-20",
+      "expiresAt": "2026-12-20",
+      "description": "<p>We are seeking an experienced Subsea Engineer for a long-term offshore assignment in United Kingdom.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1005 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1006",
+      "title": "Saturation Diver",
+      "company": "Stratos Energy",
+      "location": "Australia",
+      "postedAt": "2026-11-19",
+      "expiresAt": "2026-12-23",
+      "description": "<p>We are seeking an experienced Saturation Diver for a long-term offshore assignment in Australia.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1006 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1007",
+      "title": "DP Operator",
+      "company": "Pelican Marine",
+      "location": "Guyana",
+      "postedAt": "2026-11-18",
+      "expiresAt": "2026-12-26",
+      "description": "<p>We are seeking an experienced DP Operator for a long-term offshore assignment in Guyana.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1007 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1008",
+      "title": "Offshore Master",
+      "company": "Aurora Offshore",
+      "location": "Netherlands",
+      "postedAt": "2026-11-17",
+      "expiresAt": "2026-12-29",
+      "description": "<p>We are seeking an experienced Offshore Master for a long-term offshore assignment in Netherlands.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1008 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1009",
+      "title": "Able Seaman",
+      "company": "Northwind Energy",
+      "location": "South Africa",
+      "postedAt": "2026-11-16",
+      "expiresAt": "2027-01-01",
+      "description": "<p>We are seeking an experienced Able Seaman for a long-term offshore assignment in South Africa.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1009 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1010",
+      "title": "Process Engineer",
+      "company": "Meridian Drilling",
+      "location": "Kuwait",
+      "postedAt": "2026-11-15",
+      "expiresAt": "2027-01-04",
+      "description": "<p>We are seeking an experienced Process Engineer for a long-term offshore assignment in Kuwait.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1010 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1011",
+      "title": "Instrument Technician",
+      "company": "BlueCurrent Marine",
+      "location": "Oman",
+      "postedAt": "2026-11-14",
+      "expiresAt": "2027-01-07",
+      "description": "<p>We are seeking an experienced Instrument Technician for a long-term offshore assignment in Oman.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1011 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1012",
+      "title": "HSE Advisor",
+      "company": "Atlas Subsea",
+      "location": "USA Gulf of Mexico",
+      "postedAt": "2026-11-25",
+      "expiresAt": "2027-01-10",
+      "description": "<p>We are seeking an experienced HSE Advisor for a long-term offshore assignment in USA Gulf of Mexico.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1012 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1013",
+      "title": "Offshore Medic",
+      "company": "Helix Production",
+      "location": "Canada",
+      "postedAt": "2026-11-24",
+      "expiresAt": "2027-01-13",
+      "description": "<p>We are seeking an experienced Offshore Medic for a long-term offshore assignment in Canada.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1013 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1014",
+      "title": "CCR Operator",
+      "company": "Stratos Energy",
+      "location": "Brazil",
+      "postedAt": "2026-11-23",
+      "expiresAt": "2027-01-16",
+      "description": "<p>We are seeking an experienced CCR Operator for a long-term offshore assignment in Brazil.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1014 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1015",
+      "title": "Offshore Installation Manager",
+      "company": "Pelican Marine",
+      "location": "United Kingdom",
+      "postedAt": "2026-11-22",
+      "expiresAt": "2026-12-05",
+      "description": "<p>We are seeking an experienced Offshore Installation Manager for a long-term offshore assignment in United Kingdom.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1015 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1016",
+      "title": "Production Technician",
+      "company": "Aurora Offshore",
+      "location": "Azerbaijan",
+      "postedAt": "2026-11-21",
+      "expiresAt": "2026-12-08",
+      "description": "<p>We are seeking an experienced Production Technician for a long-term offshore assignment in Azerbaijan.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1016 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1017",
+      "title": "Offshore Electrician",
+      "company": "Northwind Energy",
+      "location": "Bahrain",
+      "postedAt": "2026-11-20",
+      "expiresAt": "2026-12-11",
+      "description": "<p>We are seeking an experienced Offshore Electrician for a long-term offshore assignment in Bahrain.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1017 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1018",
+      "title": "Rigger",
+      "company": "Meridian Drilling",
+      "location": "Denmark",
+      "postedAt": "2026-11-19",
+      "expiresAt": "2026-12-14",
+      "description": "<p>We are seeking an experienced Rigger for a long-term offshore assignment in Denmark.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1018 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1019",
+      "title": "Welder (6G)",
+      "company": "BlueCurrent Marine",
+      "location": "Trinidad & Tobago",
+      "postedAt": "2026-11-18",
+      "expiresAt": "2026-12-17",
+      "description": "<p>We are seeking an experienced Welder (6G) for a long-term offshore assignment in Trinidad & Tobago.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1019 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1020",
+      "title": "Crane Operator",
+      "company": "Atlas Subsea",
+      "location": "Mexico",
+      "postedAt": "2026-11-17",
+      "expiresAt": "2026-12-20",
+      "description": "<p>We are seeking an experienced Crane Operator for a long-term offshore assignment in Mexico.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1020 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1021",
+      "title": "Storekeeper",
+      "company": "Helix Production",
+      "location": "Iraq",
+      "postedAt": "2026-11-16",
+      "expiresAt": "2026-12-23",
+      "description": "<p>We are seeking an experienced Storekeeper for a long-term offshore assignment in Iraq.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1021 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1022",
+      "title": "Helideck Assistant",
+      "company": "Stratos Energy",
+      "location": "Ireland",
+      "postedAt": "2026-11-15",
+      "expiresAt": "2026-12-26",
+      "description": "<p>We are seeking an experienced Helideck Assistant for a long-term offshore assignment in Ireland.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1022 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1023",
+      "title": "Offshore Cook",
+      "company": "Pelican Marine",
+      "location": "Saudi Arabia",
+      "postedAt": "2026-11-14",
+      "expiresAt": "2026-12-29",
+      "description": "<p>We are seeking an experienced Offshore Cook for a long-term offshore assignment in Saudi Arabia.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1023 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1024",
+      "title": "Camp Steward",
+      "company": "Aurora Offshore",
+      "location": "Qatar",
+      "postedAt": "2026-11-25",
+      "expiresAt": "2027-01-01",
+      "description": "<p>We are seeking an experienced Camp Steward for a long-term offshore assignment in Qatar.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1024 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1025",
+      "title": "Roustabout",
+      "company": "Northwind Energy",
+      "location": "Guyana",
+      "postedAt": "2026-11-24",
+      "expiresAt": "2027-01-04",
+      "description": "<p>We are seeking an experienced Roustabout for a long-term offshore assignment in Guyana.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1025 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1026",
+      "title": "Deck Hand Trainee",
+      "company": "Meridian Drilling",
+      "location": "South Africa",
+      "postedAt": "2026-11-23",
+      "expiresAt": "2027-01-07",
+      "description": "<p>We are seeking an experienced Deck Hand Trainee for a long-term offshore assignment in South Africa.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1026 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1027",
+      "title": "Toolpusher",
+      "company": "BlueCurrent Marine",
+      "location": "Kazakhstan",
+      "postedAt": "2026-11-22",
+      "expiresAt": "2027-01-10",
+      "description": "<p>We are seeking an experienced Toolpusher for a long-term offshore assignment in Kazakhstan.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1027 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1028",
+      "title": "Mechanical Fitter",
+      "company": "Atlas Subsea",
+      "location": "Argentina",
+      "postedAt": "2026-11-21",
+      "expiresAt": "2027-01-13",
+      "description": "<p>We are seeking an experienced Mechanical Fitter for a long-term offshore assignment in Argentina.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1028 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1029",
+      "title": "Lead Subsea Inspector",
+      "company": "Helix Production",
+      "location": "Suriname",
+      "postedAt": "2026-11-20",
+      "expiresAt": "2027-01-16",
+      "description": "<p>We are seeking an experienced Lead Subsea Inspector for a long-term offshore assignment in Suriname.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1029 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1030",
+      "title": "Senior Drilling Engineer",
+      "company": "Stratos Energy",
+      "location": "Nigeria",
+      "postedAt": "2026-11-19",
+      "expiresAt": "2026-12-05",
+      "description": "<p>We are seeking an experienced Senior Drilling Engineer for a long-term offshore assignment in Nigeria.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1030 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1031",
+      "title": "Rig Welder",
+      "company": "Pelican Marine",
+      "location": "Malaysia",
+      "postedAt": "2026-11-18",
+      "expiresAt": "2026-12-08",
+      "description": "<p>We are seeking an experienced Rig Welder for a long-term offshore assignment in Malaysia.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1031 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1032",
+      "title": "Roustabout",
+      "company": "Aurora Offshore",
+      "location": "India",
+      "postedAt": "2026-11-17",
+      "expiresAt": "2026-12-11",
+      "description": "<p>We are seeking an experienced Roustabout for a long-term offshore assignment in India.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1032 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1033",
+      "title": "Driller",
+      "company": "Northwind Energy",
+      "location": "UAE",
+      "postedAt": "2026-11-16",
+      "expiresAt": "2026-12-14",
+      "description": "<p>We are seeking an experienced Driller for a long-term offshore assignment in UAE.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1033 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1034",
+      "title": "Expired Role: Barge Master",
+      "company": "Meridian Drilling",
+      "location": "Colombia",
+      "postedAt": "2026-11-15",
+      "expiresAt": "2026-11-22",
+      "description": "<p>We are seeking an experienced Expired Role: Barge Master for a long-term offshore assignment in Colombia.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1034 or email hr@example.com or call +971 4 123 4567.</p>"
+    },
+    {
+      "id": "ext-1000",
+      "title": "Driller",
+      "company": "Aurora Offshore",
+      "location": "UAE",
+      "postedAt": "2026-11-25",
+      "expiresAt": "2026-12-05",
+      "description": "<p>We are seeking an experienced Driller for a long-term offshore assignment in UAE.</p>\n<p>Responsibilities: perform duties safely in line with company HSE standards; support daily operations and handovers; maintain accurate logs; participate in drills and toolbox talks.</p>\n<p>Requirements: minimum 3 years' relevant offshore experience; valid BOSIET/FOET and HUET; current offshore medical; good English; right to work or willingness to be mobilised.</p>\n<p>Benefits: competitive tax-free package, flights and accommodation, rotation per location, medical cover. Apply at https://careers.example.com/job/1000 or email hr@example.com or call +971 4 123 4567.</p>"
+    }
+  ]
+}

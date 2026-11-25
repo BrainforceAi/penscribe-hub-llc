@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offshore Jobs & Vacancies | OffshoreLink</title><meta name="description" content="Search live offshore job vacancies by category and location.">
+<link rel="stylesheet" href="assets/styles.css"></head>
+<body data-page="jobs">
+<div class="page-head"><div class="wrap"><h1>Offshore jobs &amp; vacancies</h1><p>New vacancies are added automatically and expired ones are removed. <span class="live" style="color:#5eead4"><i></i>Live feed</span></p></div></div>
+<section class="section" style="padding-top:28px"><div class="wrap">
+<div class="pill-row" id="cat-pills"></div>
+<div class="jobs-layout">
+<aside class="card filters"><form id="filters"><h3>Filter jobs</h3>
+<label for="f-q">Keyword</label><input id="f-q" type="search" placeholder="e.g. ROV, Driller">
+<label for="f-cat">Category</label><select id="f-cat"></select>
+<label for="f-loc">Location</label><select id="f-loc"></select>
+<label for="f-days">Posted</label><select id="f-days"><option value="">Any time</option><option value="1">Last 24 hours</option><option value="3">Last 3 days</option><option value="7">Last 7 days</option></select>
+<label for="f-sort">Sort by</label><select id="f-sort"><option value="new">Newest first</option><option value="close">Closing soon</option><option value="az">Title A–Z</option></select>
+<p><button type="button" class="btn small dark" id="reset">Reset</button></p></form>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><form id="alert-form"><h3 id="alert">Job alerts</h3><p class="meta" style="color:var(--muted);font-size:.9rem">Get new matching jobs by email.</p><input id="al-email" type="email" required placeholder="Your email" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:9px"><p><button class="btn small" style="width:100%">Create alert</button></p></form></aside>
+<div><p id="count" style="font-weight:700;margin-top:0"></p><div class="joblist" id="joblist"></div></div></div></div></section>
+<script src="data/locations.js"></script><script src="data/jobs.js"></script><script src="assets/app.js"></script>
+</body></html>
