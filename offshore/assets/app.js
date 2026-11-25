@@ -1,7 +1,6 @@
 /* Shared layout + page logic for the prototype. Brand is a placeholder (decided later). */
 const BRAND = { name: "OffshoreLink", tagline: "Offshore careers, delivered", email: "info@your-domain.com", whatsapp: "https://wa.me/0000000000" };
-/* Certification partner link: change here only */
-const CERT_PARTNER = { url: "https://vhca.vercel.app/" };
+
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -60,7 +59,7 @@ function layout() {
   const hdr = `<div class="alert-strip">We never charge applicants a fee for a job. <a href="scam-warning.html">Read our scam warning</a></div>
   <header class="site"><div class="wrap"><a class="brand" href="index.html">${LOGO}<span>${BRAND.name}</span></a>
   <button class="menu-btn" aria-label="Menu" onclick="$('nav.main').classList.toggle('open')">Menu</button>
-  <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}</nav></div></header>`;
+  <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}<a href="checkout.html" class="cartlink ${page === "checkout.html" ? "active" : ""}" aria-label="Cart">🛒 <span id="cart-n">0</span></a></nav></div></header>`;
   const ftr = `<footer class="site"><div class="wrap"><div class="cols">
   <div><a class="brand" href="index.html" style="padding:0">${LOGO}<span>${BRAND.name}</span></a><p>${BRAND.tagline}. Recruiting offshore talent for oil, gas and marine operators across 6 regions.</p></div>
   <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Document services</a><a href="certification.html">Certification</a><a href="documents.html">Documents you need</a><a href="resources.html">Career guides</a></div>
@@ -71,6 +70,7 @@ function layout() {
   <div class="cookie" id="cookie">We use cookies to improve your experience. <button class="btn small dark" id="ck">Accept</button></div>`;
   document.body.insertAdjacentHTML("afterbegin", hdr);
   document.body.insertAdjacentHTML("beforeend", ftr);
+  cartBadge();
   if (!store.get("cookie_ok")) { $("#cookie").style.display = "block"; $("#ck").onclick = () => { store.set("cookie_ok", 1); $("#cookie").style.display = "none"; }; }
 }
 
@@ -177,26 +177,138 @@ function initForms() {
   $$("[data-q]").forEach(el => { const v = q.get(el.dataset.q); if (v && [...el.options].some(o => o.value === v)) el.value = v; });
 }
 
-/* ---------- certification pages ---------- */
-const certCard = c => `<a class="card link" href="cert.html?slug=${c.slug}"><span class="tag">${esc(c.category)}</span><h3>${esc(c.name)}</h3><p style="margin:.3em 0 10px;color:var(--muted)">${esc(c.summary)}</p><div class="meta" style="color:var(--muted);font-size:.9rem">⏱ ${esc(c.duration)} · ${esc(c.level)}</div><span class="btn small outline" style="margin-top:10px">Course details →</span></a>`;
-function initCerts() { $("#cert-grid").innerHTML = CERT_COURSES.map(certCard).join(""); }
-function initCert() {
-  const c = CERT_COURSES.find(x => x.slug === new URLSearchParams(location.search).get("slug")), root = $("#cert-root");
-  if (!c) { root.innerHTML = `<div class="card empty"><h2>Course not found</h2><a class="btn" href="certification.html">All certifications</a></div>`; return; }
+/* ---------- currency, cart, courses ---------- */
+const PRICING = { markupPercent: 0 }; /* your margin on top of the partner price, e.g. 15 for +15% */
+const TZ_COUNTRY = { "Africa/Lagos": "NG", "Africa/Accra": "GH", "Africa/Nairobi": "KE", "Africa/Johannesburg": "ZA", "Africa/Cairo": "EG", "Africa/Luanda": "AO", "Africa/Maputo": "MZ", "Africa/Windhoek": "NA", "Africa/Dar_es_Salaam": "TZ", "Africa/Kampala": "UG", "Africa/Lusaka": "ZM", "Africa/Douala": "CM", "Africa/Libreville": "GA", "Africa/Abidjan": "CI", "Africa/Dakar": "SN", "Africa/Casablanca": "MA", "Africa/Algiers": "DZ", "Africa/Tripoli": "LY",
+  "Asia/Kolkata": "IN", "Asia/Calcutta": "IN", "Asia/Karachi": "PK", "Asia/Dhaka": "BD", "Asia/Colombo": "LK", "Asia/Manila": "PH", "Asia/Jakarta": "ID", "Asia/Kuala_Lumpur": "MY", "Asia/Bangkok": "TH", "Asia/Ho_Chi_Minh": "VN", "Asia/Singapore": "SG", "Asia/Shanghai": "CN", "Asia/Hong_Kong": "HK", "Asia/Tokyo": "JP", "Asia/Seoul": "KR", "Asia/Dubai": "AE", "Asia/Riyadh": "SA", "Asia/Qatar": "QA", "Asia/Kuwait": "KW", "Asia/Muscat": "OM", "Asia/Bahrain": "BH", "Asia/Baghdad": "IQ", "Asia/Amman": "JO", "Asia/Baku": "AZ", "Asia/Almaty": "KZ", "Asia/Yangon": "MM", "Asia/Brunei": "BN",
+  "Europe/London": "GB", "Europe/Dublin": "IE", "Europe/Amsterdam": "NL", "Europe/Paris": "FR", "Europe/Berlin": "DE", "Europe/Madrid": "ES", "Europe/Rome": "IT", "Europe/Lisbon": "PT", "Europe/Brussels": "BE", "Europe/Athens": "GR", "Europe/Oslo": "NO", "Europe/Copenhagen": "DK", "Europe/Stockholm": "SE", "Europe/Zurich": "CH", "Europe/Warsaw": "PL", "Europe/Bucharest": "RO", "Europe/Istanbul": "TR", "Europe/Moscow": "RU", "Europe/Kiev": "UA", "Europe/Kyiv": "UA",
+  "America/New_York": "US", "America/Chicago": "US", "America/Denver": "US", "America/Los_Angeles": "US", "America/Houston": "US", "America/Toronto": "CA", "America/Vancouver": "CA", "America/Edmonton": "CA", "America/Halifax": "CA", "America/St_Johns": "CA", "America/Sao_Paulo": "BR", "America/Mexico_City": "MX", "America/Argentina/Buenos_Aires": "AR", "America/Bogota": "CO", "America/Santiago": "CL", "America/Lima": "PE", "America/Guyana": "GY", "America/Paramaribo": "SR", "America/Port_of_Spain": "TT", "America/Jamaica": "JM",
+  "Australia/Perth": "AU", "Australia/Sydney": "AU", "Australia/Melbourne": "AU", "Australia/Brisbane": "AU", "Australia/Darwin": "AU", "Pacific/Auckland": "NZ" };
+const countryByCode = c => COUNTRIES.find(x => x.code === c);
+function detectCountry() {
+  const saved = store.get("country"); if (saved && countryByCode(saved)) return saved;
+  for (const l of (navigator.languages || [navigator.language || ""])) { const m = /-([A-Za-z]{2})$/.exec(l); if (m && countryByCode(m[1].toUpperCase())) return m[1].toUpperCase(); }
+  try { const z = TZ_COUNTRY[Intl.DateTimeFormat().resolvedOptions().timeZone]; if (z) return z; } catch { }
+  return "ZZ";
+}
+const myCountry = () => countryByCode(detectCountry()) || countryByCode("ZZ");
+function localPrice(thb) {
+  let cur = myCountry().cur, r = cur === RATES.base ? 1 : RATES.rates[cur];
+  if (!r) { cur = "USD"; r = RATES.rates.USD; }
+  const raw = thb * r * (1 + PRICING.markupPercent / 100);
+  return { amt: raw >= 10 ? Math.round(raw) : Math.round(raw * 100) / 100, cur };
+}
+const fmtMoney = (amt, cur) => { const d = amt < 10 && amt % 1 ? 2 : 0; try { return new Intl.NumberFormat("en", { style: "currency", currency: cur, minimumFractionDigits: d, maximumFractionDigits: d }).format(amt); } catch { return cur + " " + amt; } };
+const priceOf = thb => { const p = localPrice(thb); return fmtMoney(p.amt, p.cur); };
+function currencyBar(el, onChange) {
+  const draw = () => {
+    const c = myCountry(), cur = localPrice(1).cur;
+    el.innerHTML = `<div class="curbar"><span>💱 Prices shown in <b>${cur}</b>. Your country:</span> <select id="cb-country" aria-label="Your country of residence">${COUNTRIES.map(x => `<option value="${x.code}" ${x.code === c.code ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select>
+      <span class="hint">Converted from Thai baht (the training provider's price) at the rate of ${esc(RATES.asOf)}. The final amount is confirmed on your invoice.</span></div>`;
+    $("#cb-country", el).onchange = e => { store.set("country", e.target.value); draw(); onChange(); };
+  };
+  draw();
+}
+const cart = {
+  get: () => store.get("cart", []),
+  set(v) { store.set("cart", v); cartBadge(); },
+  add(slug, qty = 1) { const c = this.get(), i = c.find(x => x.slug === slug); i ? i.qty = Math.min(20, i.qty + qty) : c.push({ slug, qty }); this.set(c); },
+  count() { return this.get().reduce((a, x) => a + x.qty, 0); }
+};
+function cartBadge() { const n = $("#cart-n"); if (n) n.textContent = cart.count(); }
+const courseBySlug = slug => COURSES.find(c => c.slug === slug);
+const courseCard = c => `<a class="card link course" href="cert.html?slug=${esc(c.slug)}"><div><span class="tag">${esc(c.category)}</span>${c.approval ? `<span class="tag green">Approved by ${esc(c.approval)}</span>` : ""}</div>
+  <h3>${esc(c.name)}</h3><p class="summary">${esc(c.summary)}</p><div class="foot"><div><small>Price</small><br><b class="amt">${priceOf(c.priceTHB)}</b></div><span class="btn small outline">Learn more →</span></div></a>`;
+
+function initCourses() {
+  const q = new URLSearchParams(location.search), PAGE = 24; let shown = PAGE;
+  const cats = [...new Set(COURSES.map(c => c.category))];
+  $("#f-cat").innerHTML = `<option value="">All categories (${COURSES.length})</option>` + cats.map(c => `<option value="${esc(c)}">${esc(c)} (${COURSES.filter(x => x.category === c).length})</option>`).join("");
+  $("#f-q").value = q.get("q") || ""; if (q.get("cat") && cats.some(c => c.toLowerCase() === q.get("cat").toLowerCase())) $("#f-cat").value = cats.find(c => c.toLowerCase() === q.get("cat").toLowerCase());
+  const render = () => {
+    const term = $("#f-q").value.trim().toLowerCase(), cat = $("#f-cat").value, sort = $("#f-sort").value;
+    let list = COURSES.filter(c => (!cat || c.category === cat) && (!term || (c.name + " " + c.sku + " " + c.aka + " " + c.summary).toLowerCase().includes(term)));
+    list.sort((a, b) => sort === "lo" ? a.priceTHB - b.priceTHB : sort === "hi" ? b.priceTHB - a.priceTHB : a.name.localeCompare(b.name));
+    $("#count").textContent = `${list.length} course${list.length === 1 ? "" : "s"}`;
+    $("#cert-grid").innerHTML = list.slice(0, shown).map(courseCard).join("") || `<div class="card empty" style="grid-column:1/-1">No courses match your search.</div>`;
+    $("#more").style.display = list.length > shown ? "" : "none";
+  };
+  ["input", "change"].forEach(ev => $$("#filters input,#filters select").forEach(el => el.addEventListener(ev, () => { shown = PAGE; render(); })));
+  $("#more").onclick = () => { shown += PAGE; render(); };
+  currencyBar($("#curbar"), render); render();
+}
+
+function initCourse() {
+  const c = courseBySlug(new URLSearchParams(location.search).get("slug")), root = $("#cert-root");
+  if (!c) { root.innerHTML = `<div class="card empty"><h2>Course not found</h2><a class="btn" href="certification.html">Browse all courses</a></div>`; return; }
   document.title = `${c.name} | ${BRAND.name}`;
-  const rel = CERT_COURSES.filter(x => x.slug !== c.slug && (x.category === c.category || x.sector === c.sector)).slice(0, 3);
-  root.innerHTML = `<div class="article"><div class="crumbs"><a href="certification.html">← All certifications</a></div><div class="card">
-    <span class="tag">${esc(c.category)}</span><h1 style="font-size:1.9rem">${esc(c.name)}</h1>
-    <div class="cert-meta"><span class="tag green">⏱ ${esc(c.duration)}</span><span class="tag amber">${esc(c.level)}</span><span class="tag">${esc(c.sector)}</span></div>
-    <p>${esc(c.overview)}</p>
-    <h2>Who it is for</h2><p>${esc(c.whoFor)}</p>
-    <h2>What is covered</h2><ul>${c.covered.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-    <h2>Format</h2><p>${esc(c.format)}</p>
-    <h2>Validity and renewal</h2><p>${esc(c.validity)}</p>
-    <h2>Requirements</h2><p>${esc(c.prereq)}</p>
-    <div class="disclaimer">Course dates, centres and prices are set by our certification partner. Before you pay anyone, confirm the training centre is approved by the awarding body for this course, and check the exact certificate your employer asks for.</div>
-    <p style="margin-top:18px"><a class="btn" href="${CERT_PARTNER.url}" target="_blank" rel="noopener sponsored">Book with our partner ↗</a> <a class="btn outline" href="resource.html?slug=start-an-offshore-career">Read: starting an offshore career</a></p></div>
-    ${rel.length ? `<h2 style="margin-top:28px">Related certifications</h2><div class="related">${rel.map(certCard).join("")}</div>` : ""}</div>`;
+  const block = (h, html) => html ? `<h2>${h}</h2><div class="rich">${html}</div>` : "";
+  const sched = [["When", c.when], ["Class size (min/max)", c.classSize], ["Location", c.locations]].filter(x => x[1]);
+  const rel = COURSES.filter(x => x.slug !== c.slug && x.category === c.category).sort((a, b) => Math.abs(a.priceTHB - c.priceTHB) - Math.abs(b.priceTHB - c.priceTHB)).slice(0, 3);
+  const draw = () => {
+    root.innerHTML = `<div class="detail"><div><div class="crumbs"><a href="certification.html">← All courses</a></div><div class="card article-body">
+      <div><span class="tag">${esc(c.category)}</span>${c.approval ? `<span class="tag green">Approved by ${esc(c.approval)}</span>` : ""}${c.sku ? `<span class="tag amber">Course code ${esc(c.sku)}</span>` : ""}</div>
+      <h1 style="font-size:1.8rem;margin-top:10px">${esc(c.name)}</h1>${c.note ? `<p class="notice">${esc(c.note)}</p>` : ""}
+      ${block("Course overview", c.overview)}${block("Who should attend", c.who)}${block("Aims and objectives", c.aims)}${block("Physical and stressful demands", c.demands)}${block("Prerequisites", c.prereq)}${block("Course outline", c.outline)}${block("Certification", c.certification)}${block("Assessment", c.competency)}${block("What is included", c.included)}
+      ${sched.length ? `<h2>Schedule, class size and location</h2><div class="facts">${sched.map(([k, v]) => `<div><b>${k}</b>${esc(v)}</div>`).join("")}</div>` : ""}
+      ${c.aka ? `<p class="hint">Also searched as: ${esc(c.aka)}</p>` : ""}</div></div>
+    <aside class="card buybox"><small>Price per delegate</small><div class="price" id="bb-price">${priceOf(c.priceTHB)}</div>
+      <p class="hint" style="margin:0 0 8px">Shown in your currency (${localPrice(1).cur}). Taxes, if any, are added on your invoice.</p>
+      <label for="bb-qty">Delegates</label><select id="bb-qty">${Array.from({ length: 10 }, (_, i) => `<option>${i + 1}</option>`).join("")}</select>
+      <p style="margin:14px 0 8px"><button class="btn" style="width:100%" id="bb-buy">Buy now</button></p><p style="margin:0"><button class="btn outline" style="width:100%" id="bb-add">Add to cart</button></p>
+      <div id="bb-msg" class="hint" role="status"></div>
+      <ul class="ticks" style="margin-top:14px"><li>Book and pay directly with us</li><li>Certificate issued on successful completion</li><li>Invoice and payment link within one working day</li></ul>
+      <div class="disclaimer">📍 <b>Training takes place in Thailand</b> (${esc(c.locations || "see schedule")}). Travel, visa and accommodation are arranged by you unless stated. Check your employer accepts this certificate before you book.</div>
+      <div id="bb-cur" style="margin-top:12px"></div></aside></div>
+    ${rel.length ? `<h2 style="margin:28px 0 12px">Related courses</h2><div class="grid g3">${rel.map(courseCard).join("")}</div>` : ""}`;
+    $("#bb-add").onclick = () => { cart.add(c.slug, +$("#bb-qty").value); $("#bb-msg").innerHTML = `Added ✔ <a href="checkout.html">View cart and checkout</a>`; };
+    $("#bb-buy").onclick = () => { cart.add(c.slug, +$("#bb-qty").value); location.href = "checkout.html"; };
+    currencyBar($("#bb-cur"), draw);
+  };
+  draw();
+}
+
+function initCheckout() {
+  const root = $("#co-root");
+  const items = () => cart.get().map(i => ({ ...i, c: courseBySlug(i.slug) })).filter(i => i.c);
+  const totals = () => { const cur = localPrice(1).cur; let sum = 0; const rows = items().map(i => { const u = localPrice(i.c.priceTHB).amt; sum += u * i.qty; return { ...i, unit: u }; }); return { cur, rows, sum, thb: items().reduce((a, i) => a + i.c.priceTHB * i.qty, 0) }; };
+  const summary = () => {
+    const t = totals();
+    $("#co-summary").innerHTML = `<h3>Order summary</h3>${t.rows.map(r => `<div class="li"><div><b>${esc(r.c.name)}</b><div class="qty"><button type="button" data-d="-1" data-s="${esc(r.slug)}" aria-label="Fewer">−</button><span>${r.qty}</span><button type="button" data-d="1" data-s="${esc(r.slug)}" aria-label="More">+</button> <button type="button" class="rm" data-rm="${esc(r.slug)}">Remove</button></div></div><div class="amt">${fmtMoney(r.unit * r.qty, t.cur)}<br><small>${r.qty} × ${fmtMoney(r.unit, t.cur)}</small></div></div>`).join("")}
+      <div class="li total"><b>Total</b><div class="amt">${fmtMoney(t.sum, t.cur)}</div></div><div id="co-cur" style="margin-top:10px"></div>`;
+    currencyBar($("#co-cur"), summary);
+  };
+  const empty = () => { root.innerHTML = `<div class="card empty"><h2>Your cart is empty</h2><p>Choose a course to get started.</p><a class="btn" href="certification.html">Browse courses</a></div>`; };
+  if (!items().length) { empty(); return; }
+  root.innerHTML = `<div class="detail"><form class="card" id="co-form"><h2 style="margin-top:0">Your details</h2>
+    <div class="row"><div><label for="k-name">Full name *</label><input id="k-name" name="Name" required></div><div><label for="k-email">Email *</label><input id="k-email" name="Email" type="email" required></div></div>
+    <div class="row"><div><label for="k-phone">Phone / WhatsApp *</label><input id="k-phone" name="Phone" required></div><div><label for="k-nat">Nationality *</label><input id="k-nat" name="Nationality" required></div></div>
+    <label for="k-names">Delegate names *</label><textarea id="k-names" name="Delegate names" required placeholder="One name per line, exactly as on the passport (this is printed on the certificate)"></textarea>
+    <div class="row"><div><label for="k-month">Preferred training month</label><input id="k-month" name="Preferred month" type="month"></div><div><label for="k-pay">Preferred payment method</label><select id="k-pay" name="Preferred payment"><option>Card (payment link)</option><option>Bank transfer</option><option>Mobile money</option><option>Other (we will contact you)</option></select></div></div>
+    <label for="k-note">Notes for our team</label><textarea id="k-note" name="Notes"></textarea>
+    <label class="check"><input type="checkbox" required> I understand the training takes place in Thailand and that travel, visa and accommodation are my responsibility unless stated.</label>
+    <label class="check"><input type="checkbox" required> I am medically fit for the physical elements of the course and agree to the terms and refund policy.</label>
+    <div class="notice" style="margin-top:12px"><b>No payment is taken on this page.</b> We email your invoice and a secure payment link within one working day. Your place is confirmed once payment is received. Never pay anyone who contacts you from another address.</div>
+    <p><button class="btn" style="width:100%">Place order request</button></p></form>
+    <aside class="card buybox" id="co-summary"></aside></div>`;
+  summary();
+  $("#co-summary").onclick = e => {
+    const d = e.target.dataset, c = cart.get();
+    if (d.rm) cart.set(c.filter(x => x.slug !== d.rm));
+    else if (d.s) { const i = c.find(x => x.slug === d.s); i.qty = Math.max(1, Math.min(20, i.qty + +d.d)); cart.set(c); }
+    else return;
+    items().length ? summary() : empty();
+  };
+  $("#co-form").onsubmit = async e => {
+    e.preventDefault(); const form = e.target, btn = $("button:not([type=button])", form), label = btn.textContent; btn.disabled = true; btn.textContent = "Sending…";
+    const t = totals(), ref = "ORD-" + Math.random().toString(36).slice(2, 8).toUpperCase(), cn = myCountry();
+    const lines = t.rows.map(r => `${r.qty} × ${r.c.name} [${r.c.sku}] @ ${fmtMoney(r.unit, t.cur)} = ${fmtMoney(r.unit * r.qty, t.cur)} (base ${r.c.priceTHB * r.qty} THB)`).join("\n");
+    try {
+      const r = await sendForm(form, `Course order ${ref}`, { "Order reference": ref, "Courses": lines, "Total": fmtMoney(t.sum, t.cur) + " (" + t.cur + ")", "Base total (THB)": String(t.thb), "Residence country": cn.name, "Exchange rate date": RATES.asOf });
+      const orders = store.get("orders", []); orders.push({ ref, total: fmtMoney(t.sum, t.cur), at: new Date().toISOString() }); store.set("orders", orders); cart.set([]);
+      root.innerHTML = `<div class="success" style="max-width:640px;margin:0 auto"><h2>Order request received ✔</h2><p>Reference <b>${ref}</b><br>Total <b>${fmtMoney(t.sum, t.cur)}</b></p><p>We'll email your invoice and payment link within one working day. Your place is confirmed once payment is received.</p>${demoNote(r)}<a class="btn" href="certification.html">Browse more courses</a></div>`;
+    } catch (err) { btn.disabled = false; btn.textContent = label; errBox(form, err.message); }
+  };
 }
 
 /* ---------- resources ---------- */
@@ -248,5 +360,5 @@ function initChecklist() {
 
 document.addEventListener("DOMContentLoaded", () => {
   layout(); initForms();
-  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCerts, cert: initCert, resources: initResources, resource: initResource, docs: initDocs, checklist: initChecklist }[document.body.dataset.page] || (() => { }))();
+  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCourses, cert: initCourse, checkout: initCheckout, resources: initResources, resource: initResource, docs: initDocs, checklist: initChecklist }[document.body.dataset.page] || (() => { }))();
 });

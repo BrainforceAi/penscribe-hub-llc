@@ -27,7 +27,7 @@ nav.main{display:flex;gap:4px;align-items:center}
 nav.main a{color:#cfe0ee;text-decoration:none;padding:8px 11px;border-radius:8px;font-size:.95rem}
 nav.main a:hover,nav.main a.active{background:rgba(255,255,255,.1);color:#fff}
 .menu-btn{display:none;background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:6px 12px;font-size:1rem}
-@media(max-width:1180px){
+@media(max-width:1300px){
   .menu-btn{display:block}
   nav.main{display:none;position:absolute;top:66px;left:0;right:0;background:var(--navy);flex-direction:column;align-items:stretch;padding:10px 16px 16px}
   nav.main.open{display:flex}
@@ -193,3 +193,26 @@ footer.site .legal{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;pa
 .bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ocean),var(--teal));transition:width .3s}
 .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}@media(max-width:800px){.stages{grid-template-columns:1fr 1fr}}@media(max-width:520px){.stages{grid-template-columns:1fr}}
 nav.main a{white-space:nowrap}
+
+/* ---- courses, buy box, checkout ---- */
+nav.main a.cartlink{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.curbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.92rem}
+.curbar select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;max-width:100%}
+.curbar .hint{flex-basis:100%;margin:0}
+.course{display:flex;flex-direction:column;gap:8px}
+.course h3{margin:6px 0 0;font-size:1.02rem}
+.course .summary{color:var(--muted);font-size:.9rem;margin:0;flex:1}
+.course .foot{display:flex;justify-content:space-between;align-items:end;gap:8px;margin-top:6px}
+.course small,.buybox small{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.amt{font-weight:800;color:var(--navy)}
+.article-body h2{margin-top:1.4em;font-size:1.25rem}
+.article-body .rich p{margin:.5em 0}.article-body .rich ul,.article-body .rich ol{padding-left:22px}
+.buybox{position:sticky;top:84px}
+.buybox .price{font-size:2rem;font-weight:800;color:var(--navy);margin:0 0 4px}
+.buybox select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;font:inherit}
+.buybox label{display:block;font-weight:600;font-size:.9rem;margin:10px 0 4px}
+.li{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:.92rem}
+.li .amt{text-align:right;white-space:nowrap}.li.total{font-size:1.1rem}
+.qty{display:flex;align-items:center;gap:8px;margin-top:6px}
+.qty button{border:1px solid var(--line);background:#fff;border-radius:7px;width:28px;height:28px;cursor:pointer;font:inherit}
+.qty button.rm{width:auto;padding:0 8px;color:#9b1c1c;border:0;background:none;text-decoration:underline}
