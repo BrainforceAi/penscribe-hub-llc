@@ -37,3 +37,14 @@ Open `offshore/index.html` in a browser, or run `npx serve offshore`.
 3. Build the Next.js app + database; move the application form to a real backend with CV upload.
 4. Admin dashboard: review applications, mark "submitted to employer", send status emails.
 5. Payments for CV services; certification partner URL; legal pages; analytics; multi-language.
+
+## Form delivery (applications, CV orders, document services, contact)
+Every form is sent by `sendForm()` in `assets/app.js` to one email address. Set it once:
+```js
+const SITE = { notifyEmail: "applications@your-domain.com", ... }
+```
+Transport is FormSubmit (formsubmit.co): no server, supports attachments (limit set to 5 MB in `SITE.maxFileMB`). The first submission triggers a one-time activation email to that address. Until `notifyEmail` is set the forms run in prototype mode and send nothing.
+For production, move delivery to your own backend (for example the Worker + Resend pattern in the repo root's `worker.js`) so CVs and passport scans do not pass through a third party, and to allow larger files.
+
+## Certification catalogue
+`data/certs.js` holds 9 courses (BOSIET, FOET, HUET, E-BOSIET, CA-EBS, T-HUET, Banksman & Slinger, GWO Basic Safety, STCW). Prices, locations and booking stay with the partner. The partner URL is `CERT_PARTNER` in `assets/app.js`.

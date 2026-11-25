@@ -5,10 +5,10 @@
 <body data-page="contact">
 <div class="page-head"><div class="wrap"><h1>Contact us</h1><p>Candidates, partners and media: we'd love to hear from you.</p></div></div>
 <section class="section"><div class="wrap grid g2"><div class="card"><h2>Send a message</h2>
-<form data-demo="Your message has been received. We'll reply within one working day.">
-<label>Name</label><input required><label>Email</label><input type="email" required>
-<label>I am a</label><select><option>Job seeker</option><option>Partner company</option><option>Other</option></select>
-<label>Message</label><textarea required></textarea><p><button class="btn">Send</button></p></form></div>
+<form data-send="Website contact message" data-thanks="Your message has been received. We'll reply within one working day.">
+<label for="c-n">Name</label><input id="c-n" name="Name" required><label for="c-e">Email</label><input id="c-e" name="Email" type="email" required>
+<label for="c-t">I am a</label><select id="c-t" name="I am a"><option>Job seeker</option><option>Partner company</option><option>Other</option></select>
+<label for="c-m">Message</label><textarea id="c-m" name="Message" required></textarea><p><button class="btn">Send</button></p></form></div>
 <div class="card"><h2>Get in touch</h2><p>📧 info@your-domain.com<br>💬 WhatsApp (button bottom right)<br>📍 [Office address]<br>🕘 Mon–Fri, 9:00–17:00</p>
 <div class="notice">Beware of fraud: we never ask applicants for payment for a job.</div></div></div></section>
 <script src="data/locations.js"></script><script src="data/jobs.js"></script><script src="assets/app.js"></script>
