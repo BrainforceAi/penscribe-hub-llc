@@ -41,7 +41,12 @@ Careerjet answered the first live test with `Unauthorized access from IP ...`: t
    ```
 3. Add the secret `CAREERJET_API_KEY` (Settings → Secrets and variables → Actions) and the variable `CAREERJET_USER_IP` (that machine's IP). The key is never stored in the repository.
 4. **Confirm Careerjet's terms in writing.** Their API is designed for live searches by your visitors (the `user_ip` field is "the user whose action triggered the call"). Storing their results in a daily file is a different use, and I could not find a public terms page to check. Ask Careerjet that daily storage and display is allowed, and that your plan to show jobs without their branding is not (the tracking link and attribution are kept by default).
-5. Because the key was pasted into a chat, **regenerate it** in your publisher account once everything works.
+5. **How many jobs will Careerjet give you?** Find out with real data before relying on it. From the registered machine run:
+   ```bash
+   CAREERJET_API_KEY=... CAREERJET_USER_IP=<this machine's IP> node offshore/ingest/careerjet-survey.mjs
+   ```
+   It prints Careerjet's own totals, the number of usable offshore jobs after filtering (against the 1,000 target), a count per country, and writes the full list to `offshore/ingest/state/careerjet-survey.csv`. It changes nothing on the site.
+6. Because the key was pasted into a chat, **regenerate it** in your publisher account once everything works.
 
 ## Applying for someone
 Applications arrive by email with the job's ID and title. To find the original advert (kept private, never shown to the public):

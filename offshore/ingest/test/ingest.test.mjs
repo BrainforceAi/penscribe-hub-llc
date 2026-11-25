@@ -159,3 +159,11 @@ test("Careerjet: stops paging at the last page", async () => {
   const calls = [], multi = async url => { calls.push(url); return { ok: true, status: 200, json: async () => ({ type: "JOBS", pages: 2, jobs: JSON.parse(await fx("careerjet.json")).jobs }) }; };
   await run({ sources: [{ ...cjSrc, locales: [{ code: "en_GB", country: "gb" }], maxPages: 10 }] }, { jobs: {} }, multi, CJ_ENV); assert.equal(calls.length, 2);
 });
+
+test("Careerjet survey reports usable counts by country and Careerjet's own totals", async () => {
+  const { survey } = await import("../careerjet-survey.mjs");
+  const cfg = { sources: [{ ...cjSrc, locales: [{ code: "en_GB", country: "gb" }] }] }, calls = [];
+  const r = await survey({ config: cfg, fetchFn: cjResponder(calls), env: CJ_ENV, today: TODAY });
+  assert.equal(r.publicJobs.length, 2); assert.deepEqual(r.byCountry, { "United Kingdom": 1, Norway: 1 }); assert.equal(Object.values(r.reported)[0], 3, "uses Careerjet's reported hits");
+  await assert.rejects(() => survey({ config: cfg, fetchFn: cjResponder([], { forbid: true }), env: CJ_ENV, today: TODAY }), /403 Unauthorized access from IP/);
+});
