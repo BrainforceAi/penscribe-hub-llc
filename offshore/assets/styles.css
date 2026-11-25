@@ -314,3 +314,5 @@ body.has-cartbar{padding-bottom:64px}body.has-cartbar .wa{bottom:78px}
 @media(max-width:560px){.role-grid{grid-template-columns:1fr}}
 .role-btn{padding:14px}.role-btn .ic{font-size:1.5rem}.role-btn b{font-size:1rem}.role-btn small{font-size:.8rem}
 .chips-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+.demo-banner{background:#b42318;color:#fff;text-align:center;padding:9px 16px;font-size:.92rem;position:sticky;top:0;z-index:80}

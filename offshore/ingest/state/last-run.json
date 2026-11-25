@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-25",
+  "sources": {},
+  "rejected": {},
+  "added": 0,
+  "refreshed": 0,
+  "removed": {
+    "missing": 0,
+    "expired": 0,
+    "tooOld": 0,
+    "overCap": 0
+  },
+  "active": 0,
+  "target": 1000,
+  "shortfall": 1000
+}

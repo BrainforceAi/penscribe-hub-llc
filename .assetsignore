@@ -1,0 +1,4 @@
+# Not published by Cloudflare. Keeps the job importer's private memory (original advert links), its code, tests and docs off the public site.
+offshore/ingest/
+offshore/docs/
+.github/

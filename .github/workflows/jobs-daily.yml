@@ -1,0 +1,38 @@
+name: Daily job feed
+
+on:
+  schedule:
+    - cron: "17 5 * * *"   # every day at 05:17 UTC
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jobs-feed
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check the importer's safety rules still pass
+        run: node --test offshore/ingest/test/ingest.test.mjs
+      - name: Refresh vacancies (add new, remove inactive)
+        env:
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          PARTNER_FEED_TOKEN: ${{ secrets.PARTNER_FEED_TOKEN }}
+        run: node offshore/ingest/ingest.mjs
+      - name: Publish the updated feed
+        run: |
+          git config user.name "jobs-feed[bot]"
+          git config user.email "jobs-feed@users.noreply.github.com"
+          git add offshore/data/jobs.js offshore/data/jobs.json offshore/ingest/state
+          if git diff --cached --quiet; then echo "No changes today"; else git commit -m "Daily job feed update $(date -u +%F)"; git push; fi

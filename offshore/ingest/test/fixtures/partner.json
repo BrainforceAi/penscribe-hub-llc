@@ -1,0 +1,10 @@
+{"jobs":[
+ {"id":"P-1","title":"Test Driller","company":"Fixture Drilling Co","location":"Aberdeen, Scotland","description":"Offshore drilling role on a North Sea rig. 14/14 rotation. Apply at https://example.com/apply/1 or email hr@example.com or call +44 1224 123 456. Valid BOSIET required.","postedAt":"2026-11-20","expiresAt":"2026-12-31","applyUrl":"https://example.com/apply/1"},
+ {"id":"P-2","title":"Test Offshore Cook","company":"Fixture Catering","location":"Stavanger","description":"Galley cook for an offshore platform in the Norwegian North Sea. Experience in offshore catering preferred.","postedAt":"2026-11-22"},
+ {"id":"P-3","title":"Barista","company":"Fixture Coffee","location":"London","description":"Make coffee in our shop near the offshore wind HQ. Retail experience helpful for this role in our cafe.","postedAt":"2026-11-22"},
+ {"id":"P-4","title":"Test ROV Pilot","company":"Fixture Subsea","location":"Lagos, Nigeria","description":"Subsea ROV pilot technician for offshore field work. Strong ROV experience needed for this assignment.","postedAt":"2026-11-22"},
+ {"id":"P-5","title":"Test Welder","company":"Fixture Fab","location":"Houston, Texas","description":"Offshore platform welding fabrication for a Gulf of Mexico project. Coded welder, offshore experience, 6G qualification.","postedAt":"2026-11-21","expiresAt":"2026-11-01"},
+ {"id":"P-6","title":"Test Crane Operator","company":"Fixture Lifting","location":"Perth, Western Australia","description":"Offshore crane operator for an FPSO offshore facility. Valid crane ticket and offshore experience required.","postedAt":"2026-08-01"},
+ {"id":"P-7","title":"Test Offshore Medic","company":"Fixture Medical","location":"Doha, Qatar","description":"Offshore medic for an oil and gas facility in the Arabian Gulf. Offshore medical experience required.","postedAt":"2026-11-23"},
+ {"id":"P-8","title":"Short","company":"X","location":"Aberdeen","description":"offshore","postedAt":"2026-11-23"}
+]}

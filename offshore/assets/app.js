@@ -43,8 +43,17 @@ function errBox(form, msg) { let e = $(".err", form); if (!e) { e = document.cre
 
 /* ---------- data ---------- */
 const today = () => new Date().toISOString().slice(0, 10);
-// Expired jobs are removed client-side as a safety net, even before the next ingestion run.
-const JOBS = ((window.JOBS_DATA && window.JOBS_DATA.jobs) || []).filter(j => j.expiresAt >= today());
+/* The feed is written by ingest/ingest.mjs every day. Here we only apply two safety nets between runs:
+   adverts past their stated closing date, and adverts older than the feed's maximum age, are hidden. */
+const FEED = window.JOBS_DATA || { jobs: [] };
+const jobAge = j => Math.round((new Date(today()) - new Date(j.listedAt || j.postedAt || today())) / 864e5);
+const JOBS = (FEED.jobs || []).filter(j => (!j.expiresAt || j.expiresAt >= today()) && jobAge(j) <= (FEED.maxAgeDays || 45));
+const feedDate = () => FEED.generatedAt ? new Date(FEED.generatedAt).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "";
+function feedBanner() {
+  if (FEED.demo) return `<div class="demo-banner" role="alert"><b>DEMO DATA.</b> The jobs shown are fictional and for design preview only. They are not real vacancies.</div>`;
+  const hrs = FEED.generatedAt ? Math.floor((Date.now() - Date.parse(FEED.generatedAt)) / 36e5) : 0;
+  return hrs > 72 ? `<div class="alert-strip">Vacancies were last refreshed ${Math.round(hrs / 24)} days ago, so some may have closed.</div>` : "";
+}
 const plural = n => `${n} open job${n === 1 ? "" : "s"}`;
 const catName = id => (CATEGORIES.find(c => c.id === id) || {}).name || id;
 const countries = REGIONS.flatMap(r => r.countries.map(c => ({ ...c, region: r.name })));
@@ -56,7 +65,7 @@ const LOGO = `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" heigh
 
 function layout() {
   const page = location.pathname.split("/").pop() || "index.html";
-  const hdr = `<div class="alert-strip">We never charge applicants a fee for a job. <a href="scam-warning.html">Read our scam warning</a></div>
+  const hdr = `${feedBanner()}<div class="alert-strip">We never charge applicants a fee for a job. <a href="scam-warning.html">Read our scam warning</a></div>
   <header class="site"><div class="wrap"><a class="brand" href="index.html">${LOGO}<span>${BRAND.name}</span></a>
   <button class="menu-btn" aria-label="Menu" onclick="$('nav.main').classList.toggle('open')">Menu</button>
   <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}<a href="checkout.html" class="cartlink ${page === "checkout.html" ? "active" : ""}" aria-label="Cart">🛒 <span id="cart-n">0</span></a></nav></div></header>`;
@@ -76,16 +85,17 @@ function layout() {
 
 /* ---------- job rendering ---------- */
 const jobCard = j => `<a class="card link job" href="job.html?id=${encodeURIComponent(j.id)}">
-  <div><h3>${esc(j.title)}</h3><div class="meta">${esc(j.company)} · 📍 ${esc(j.country)} · ${esc(j.rotation)}</div>
-  <div style="margin-top:8px"><span class="tag">${esc(catName(j.category))}</span><span class="tag amber">Closes ${esc(j.expiresAt)}</span></div></div>
-  <div class="meta" style="text-align:right;white-space:nowrap">${daysAgo(j.postedAt)}<br><span class="btn small outline" style="margin-top:8px">View &amp; apply</span></div></a>`;
+  <div><h3>${esc(j.title)}</h3><div class="meta">${[j.company ? esc(j.company) : "Employer not named", "📍 " + esc(j.country), j.rotation ? esc(j.rotation) + " rotation" : ""].filter(Boolean).join(" · ")}</div>
+  <div style="margin-top:8px"><span class="tag">${esc(catName(j.category))}</span>${j.expiresAt ? `<span class="tag amber">Closes ${esc(j.expiresAt)}</span>` : ""}</div></div>
+  <div class="meta" style="text-align:right;white-space:nowrap">${daysAgo(j.listedAt || j.postedAt)}<br><span class="btn small outline" style="margin-top:8px">View &amp; apply</span></div></a>`;
+const emptyFeed = `<div class="card empty"><b>We're refreshing our vacancy feed.</b><br>New offshore jobs are added every day. <a href="job-alerts.html#alert">Create a job alert</a> and we'll email you when roles are listed.</div>`;
 
 function initHome() {
-  $("#stat-jobs").textContent = JOBS.length;
+  $("#stat-jobs").textContent = JOBS.length ? JOBS.length.toLocaleString("en-US") : "Daily";
   $("#stat-countries").textContent = countries.length;
   $("#stat-cats").textContent = CATEGORIES.length;
   $("#cat-grid").innerHTML = CATEGORIES.map(c => `<a class="card link cat-card" href="jobs.html?cat=${c.id}"><div class="icon">${c.icon}</div><h3>${c.name}</h3><p class="meta" style="margin:0">${c.blurb}</p><div class="count">${plural(JOBS.filter(j => j.category === c.id).length)}</div></a>`).join("");
-  $("#latest").innerHTML = JOBS.slice(0, 6).map(jobCard).join("");
+  $("#latest").innerHTML = JOBS.length ? JOBS.slice(0, 6).map(jobCard).join("") : emptyFeed.replace("job-alerts.html#alert", "jobs.html#alert");
   $("#loc-grid").innerHTML = ["united-kingdom", "norway", "uae", "saudi-arabia", "brazil", "usa-gulf-of-mexico", "australia", "south-africa"].map(s => countries.find(c => c.slug === s)).map(c => `<a class="card link" href="locations.html#${c.slug}"><div style="font-size:2rem">${c.flag}</div><h3>${c.name}</h3><div class="meta">${plural(JOBS.filter(j => j.countrySlug === c.slug).length)}</div></a>`).join("");
   $("#hs-cat").innerHTML = `<option value="">All categories</option>` + CATEGORIES.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
   $("#hs-loc").innerHTML = `<option value="">All locations</option>` + countries.map(c => `<option value="${c.slug}">${c.name}</option>`).join("");
@@ -100,16 +110,19 @@ function initJobs() {
   $("#f-cat").innerHTML = `<option value="">All categories</option>` + CATEGORIES.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
   $("#f-loc").innerHTML = `<option value="">All locations</option>` + REGIONS.map(r => `<optgroup label="${r.name}">${r.countries.map(c => `<option value="${c.slug}">${c.name}</option>`).join("")}</optgroup>`).join("");
   $("#f-cat").value = st.cat; $("#f-loc").value = st.loc;
+  const PAGE = 25; let shown = PAGE, current = [];
   const pills = $("#cat-pills");
   pills.innerHTML = `<button class="pill" data-c="">All</button>` + CATEGORIES.map(c => `<button class="pill" data-c="${c.id}">${c.icon} ${c.name}</button>`).join("");
   const render = () => {
     st.q = $("#f-q").value.trim().toLowerCase(); st.cat = $("#f-cat").value; st.loc = $("#f-loc").value; st.sort = $("#f-sort").value; st.days = $("#f-days").value;
     $$(".pill", pills).forEach(p => p.classList.toggle("on", p.dataset.c === st.cat));
-    let list = JOBS.filter(j => (!st.q || (j.title + " " + j.company + " " + j.description + " " + j.country).toLowerCase().includes(st.q)) && (!st.cat || j.category === st.cat) && (!st.loc || j.countrySlug === st.loc) && (!st.days || (new Date(today()) - new Date(j.postedAt)) / 864e5 <= +st.days));
-    list.sort((a, b) => st.sort === "new" ? b.postedAt.localeCompare(a.postedAt) : st.sort === "close" ? a.expiresAt.localeCompare(b.expiresAt) : a.title.localeCompare(b.title));
-    $("#count").textContent = `${list.length} job${list.length === 1 ? "" : "s"} found`;
-    $("#joblist").innerHTML = list.length ? list.map(jobCard).join("") : `<div class="card empty">No jobs match your filters. <br><a href="#alert">Create a job alert</a> and we'll email you when one appears.</div>`;
+    let list = JOBS.filter(j => (!st.q || (j.title + " " + j.company + " " + j.description + " " + j.country).toLowerCase().includes(st.q)) && (!st.cat || j.category === st.cat) && (!st.loc || j.countrySlug === st.loc) && (!st.days || jobAge(j) <= +st.days));
+    list.sort((a, b) => st.sort === "new" ? String(b.listedAt || "").localeCompare(String(a.listedAt || "")) : st.sort === "close" ? (a.expiresAt || "9999").localeCompare(b.expiresAt || "9999") : a.title.localeCompare(b.title));
+    current = list; shown = PAGE; $("#count").textContent = `${list.length.toLocaleString("en-US")} job${list.length === 1 ? "" : "s"} found`; draw();
   };
+  const draw = () => { $("#joblist").innerHTML = current.length ? current.slice(0, shown).map(jobCard).join("") : (JOBS.length ? `<div class="card empty">No jobs match your filters. <br><a href="#alert">Create a job alert</a> and we'll email you when one appears.</div>` : emptyFeed.replace("job-alerts.html#alert", "#alert")); $("#more-jobs").hidden = current.length <= shown; };
+  $("#more-jobs").onclick = () => { shown += PAGE; draw(); };
+  const note = $("#feed-note"); if (note) note.textContent = JOBS.length ? `Updated ${feedDate()} · ${JOBS.length.toLocaleString("en-US")} live jobs. Closed jobs are removed automatically.` : "";
   $$("#filters input,#filters select").forEach(el => el.addEventListener("input", render));
   pills.onclick = e => { const b = e.target.closest(".pill"); if (b) { $("#f-cat").value = b.dataset.c; render(); } };
   $("#reset").onclick = () => { $("#filters").reset(); render(); };
@@ -136,9 +149,10 @@ function initJob() {
   const paras = j.description.split(/\n+/).filter(Boolean).map(p => `<p>${esc(p)}</p>`).join("");
   box.innerHTML = `<div class="detail"><div class="card"><a href="jobs.html">← All jobs</a>
     <h1 style="font-size:2rem;margin-top:10px">${esc(j.title)}</h1>
-    <div><span class="tag">${esc(catName(j.category))}</span><span class="tag green">${esc(j.country)}</span><span class="tag amber">Closes ${esc(j.expiresAt)}</span></div>
-    <div class="facts"><div><b>Operator</b>${esc(j.company)}</div><div><b>Location</b>${esc(j.country)}</div><div><b>Rotation</b>${esc(j.rotation)}</div><div><b>Posted</b>${daysAgo(j.postedAt)}</div></div>
+    <div><span class="tag">${esc(catName(j.category))}</span><span class="tag green">${esc(j.country)}</span>${j.expiresAt ? `<span class="tag amber">Closes ${esc(j.expiresAt)}</span>` : ""}</div>
+    <div class="facts">${j.company ? `<div><b>Employer</b>${esc(j.company)}</div>` : ""}<div><b>Location</b>${esc(j.country)}</div>${j.rotation ? `<div><b>Rotation (as advertised)</b>${esc(j.rotation)}</div>` : ""}<div><b>Listed</b>${daysAgo(j.listedAt || j.postedAt)}</div></div>
     <h3>Job description</h3>${paras}
+    ${j.attribution ? `<p class="hint">Source: ${esc(j.attribution)}${/^https?:\/\//.test(j.url || "") ? ` · <a href="${esc(j.url)}" target="_blank" rel="noopener nofollow">View original advert ↗</a>` : ""}</p>` : ""}
     <button class="btn outline small" id="save">${saved.includes(j.id) ? "★ Saved" : "☆ Save job"}</button></div>
   <div class="card" style="position:sticky;top:84px"><h3>Apply for this job</h3>
     <p class="meta" style="color:var(--muted);margin-top:0">Fill in the form once. Our team reviews your details and submits your application to the employer for you.</p>

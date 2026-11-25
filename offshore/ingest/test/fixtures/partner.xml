@@ -1,0 +1,4 @@
+<?xml version="1.0"?><jobs>
+<job><reference>X-1</reference><title><![CDATA[Test Roustabout]]></title><company>Fixture Offshore Ltd</company><location>Esbjerg, Denmark</location><description><![CDATA[<p>Offshore roustabout for platform maintenance in the Danish North Sea. 2/2 rotation. Entry level considered.</p>]]></description><date>2026-11-23</date><url>https://example.com/x1</url></job>
+<job><reference>X-2</reference><title>Test Storekeeper</title><company>Fixture Supply</company><location>Cape Town, South Africa</location><description>Storekeeper at an offshore supply base serving oil and gas vessels. Stores experience needed.</description><date>2026-11-23</date></job>
+</jobs>

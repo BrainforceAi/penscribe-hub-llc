@@ -1,7 +1,11 @@
-# Ingestion
-```
-node offshore/ingest/ingest.mjs
-```
-Reads enabled sources in `sources.json`, writes `data/jobs.json` and `data/jobs.js`.
-Sample data lives in `samples/sample-feed.json` (includes a duplicate, an expired job and non-approved countries to prove the filters).
-Schedule it with cron or CI. See `../docs/ARCHITECTURE.md` for the legal notes on sources.
+# Importers
+
+| Script | Purpose |
+|---|---|
+| `ingest.mjs` | **Daily job feed** (see `../docs/JOBS-FEED.md`) |
+| `lookup.mjs` | Staff: find a job's original advert |
+| `demo/build-demo.mjs` | Fictional preview data (flagged DEMO), never into `data/` |
+| `sync-courses.mjs` | Course catalogue from the training partner |
+| `update-rates.mjs` | Daily exchange rates |
+| `build-price-list.mjs` | Price list from `data/price-list.md` |
+| `test/ingest.test.mjs` | Safety rules for the job feed |

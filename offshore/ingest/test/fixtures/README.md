@@ -1,0 +1,1 @@
+These files imitate the SHAPE of source responses so the importer can be tested. Every company, title and location in them is fictional and they are used only by `test/ingest.test.mjs`, which writes to a temporary folder. They are never published.

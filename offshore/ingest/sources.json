@@ -1,21 +1,44 @@
 {
-  "_note": "Only add sources you are licensed or permitted to use: official APIs, partner XML/JSON feeds, or RSS. Do not scrape sites whose terms forbid it. Each source needs written permission to republish its descriptions.",
+  "_note": "Only enable sources you are allowed to use. Aggregator APIs (Adzuna, Reed) require attribution and a link back, so their adverts keep both. 'No link' listings need a direct agreement with the employer or job board. Nothing is ever generated: every job shown comes from one of these sources.",
+  "targetActive": 1000,
+  "maxAgeDays": 45,
+  "removeAfterMissedRuns": 2,
+  "excludeCountrySlugs": ["russia"],
   "sources": [
     {
-      "id": "sample",
+      "id": "partner-json-1",
       "type": "json",
-      "file": "ingest/samples/sample-feed.json",
-      "enabled": true,
-      "map": { "id": "id", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "postedAt", "expiresAt": "expiresAt" }
+      "url": "https://PARTNER-FEED-URL/jobs.json",
+      "headers": { "Authorization": "Bearer ${PARTNER_FEED_TOKEN}" },
+      "itemsPath": "jobs",
+      "pagination": { "param": "page", "start": 1, "maxPages": 50 },
+      "map": { "id": "id", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "postedAt", "expiresAt": "expiresAt", "applyUrl": "applyUrl" },
+      "enabled": false,
+      "requiresEnv": ["PARTNER_FEED_TOKEN"]
     },
     {
-      "id": "partner-feed-example",
-      "type": "json",
-      "url": "https://example.com/partner/jobs.json",
-      "headers": { "Authorization": "Bearer ${PARTNER_FEED_TOKEN}" },
-      "enabled": false,
-      "map": { "id": "jobId", "title": "jobTitle", "company": "employer", "location": "country", "description": "body", "postedAt": "datePosted", "expiresAt": "validThrough" }
+      "id": "partner-xml-1",
+      "type": "xml",
+      "url": "https://PARTNER-FEED-URL/jobs.xml",
+      "itemTag": "job",
+      "map": { "id": "reference", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "date", "expiresAt": "expires", "applyUrl": "url" },
+      "enabled": false
+    },
+    {
+      "id": "adzuna",
+      "type": "adzuna",
+      "countries": ["gb", "us", "au", "ca", "nl", "za", "br", "mx"],
+      "queries": ["offshore", "oil and gas rig", "drilling", "subsea ROV", "FPSO", "marine vessel crew", "offshore wind"],
+      "maxPages": 5,
+      "maxDaysOld": 30,
+      "enabled": false
+    },
+    {
+      "id": "reed",
+      "type": "reed",
+      "queries": ["offshore", "oil and gas", "drilling", "subsea", "FPSO", "marine vessel"],
+      "maxPages": 5,
+      "enabled": false
     }
-  ],
-  "defaultExpiryDays": 30
+  ]
 }

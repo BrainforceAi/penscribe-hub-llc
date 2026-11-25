@@ -17,26 +17,8 @@ Open `offshore/index.html` in a browser, or run `npx serve offshore`.
 | Payments | Stripe + Paystack/Flutterwave | CV packages |
 | Hosting | Vercel + CDN | |
 
-## Automated job feed (how it works)
-1. `ingest/sources.json` lists feeds (JSON/RSS/XML API). Run `node offshore/ingest/ingest.mjs` every 15–30 minutes.
-2. Each job is normalised, **links, emails and phone numbers are stripped** from the description, and it is auto-categorised.
-3. Jobs outside the approved countries are rejected; duplicates are merged by hash (title + company + country).
-4. Jobs past their closing date are not written, and a job that disappears from its source feed is removed on the next run. The front end also hides expired jobs.
-5. In production, write to the database instead of `data/jobs.json`, and email alerts to matching subscribers.
-
-### Legal and compliance points to settle before launch
-- **Permission to republish.** Copying descriptions from another company's website without its consent or a licence can breach its terms and copyright. Prefer official APIs, partner feeds or written agreements. Credit-free republishing is safest with your own partners' feeds.
-- **Applying on behalf of candidates.** Keep the explicit consent checkbox, record when consent was given, and only submit to the employer the application the candidate chose.
-- **Data protection (GDPR/NDPR/POPIA).** Encrypt CVs and IDs, set retention periods, and publish a privacy policy.
-- **Sanctions screening** for Russia (and similar), and any country that is subject to restrictions.
-- **No candidate fees.** Keep the scam warning and fair-recruitment policy.
-
-## Next steps
-1. Choose brand name, logo, palette; swap placeholders.
-2. Get at least one real, permitted job feed and map it in `sources.json`.
-3. Build the Next.js app + database; move the application form to a real backend with CV upload.
-4. Admin dashboard: review applications, mark "submitted to employer", send status emails.
-5. Payments for CV services; certification partner URL; legal pages; analytics; multi-language.
+## Automated job feed
+See `docs/JOBS-FEED.md`. Daily GitHub Action, real sources only, adds new and removes inactive adverts, target about 1,000, never fabricates.
 
 ## Form delivery (applications, CV orders, document services, contact)
 Every form is sent by `sendForm()` in `assets/app.js` to one email address. Set it once:
