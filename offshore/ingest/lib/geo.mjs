@@ -22,7 +22,7 @@ const ALIASES = {
   australia: ["Western Australia", "Perth, WA", "Perth WA", "Karratha", "Darwin", "Northern Territory", "Melbourne", "Queensland", "Victoria, Australia"],
   "south-africa": ["Cape Town", "Saldanha", "Richards Bay", "Durban", "Port Elizabeth", "Gqeberha"], azerbaijan: ["Baku"], kazakhstan: ["Atyrau", "Aktau", "Astana"], russia: ["Moscow", "Sakhalin"]
 };
-const HINT = { gb: "united-kingdom", uk: "united-kingdom", us: "usa-gulf-of-mexico", au: "australia", ca: "canada", nl: "netherlands", za: "south-africa", br: "brazil", mx: "mexico", no: "norway", dk: "denmark", ie: "ireland", ae: "uae", sa: "saudi-arabia", qa: "qatar", kw: "kuwait", om: "oman", bh: "bahrain" };
+const HINT = { gb: "united-kingdom", uk: "united-kingdom", us: "usa-gulf-of-mexico", au: "australia", ca: "canada", nl: "netherlands", za: "south-africa", br: "brazil", mx: "mexico", no: "norway", dk: "denmark", ie: "ireland", ae: "uae", sa: "saudi-arabia", qa: "qatar", kw: "kuwait", om: "oman", bh: "bahrain", iq: "iraq", ar: "argentina", co: "colombia", tt: "trinidad-tobago", az: "azerbaijan", kz: "kazakhstan", gy: "guyana", sr: "suriname" };
 const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 /** Returns the approved country for a free-text location, or null. A source's country code is only a fallback. */
 export function makeResolver(countries, excludeSlugs = []) {

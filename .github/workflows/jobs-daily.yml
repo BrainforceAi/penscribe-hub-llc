@@ -14,7 +14,9 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    # Careerjet only accepts calls from IP addresses you register. GitHub's hosted runners change IP every run,
+    # so set the repository variable JOBS_RUNNER to "self-hosted" once you have a runner on a fixed-IP server.
+    runs-on: ${{ vars.JOBS_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -25,6 +27,8 @@ jobs:
         run: node --test offshore/ingest/test/ingest.test.mjs
       - name: Refresh vacancies (add new, remove inactive)
         env:
+          CAREERJET_API_KEY: ${{ secrets.CAREERJET_API_KEY }}
+          CAREERJET_USER_IP: ${{ vars.CAREERJET_USER_IP }}
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
           REED_API_KEY: ${{ secrets.REED_API_KEY }}

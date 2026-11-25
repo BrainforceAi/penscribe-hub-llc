@@ -115,3 +115,47 @@ test("Russia is excluded by default; unmatched or ambiguous places are rejected"
   assert.equal(resolve("Aberdeen").slug, "united-kingdom"); assert.equal(resolve("Dubai, UAE").slug, "uae"); assert.equal(resolve("Remote", "gb").slug, "united-kingdom");
   assert.equal(isRelevant("Cashier", "Offshore petrol station"), false);
 });
+
+/* ---------------- Careerjet ---------------- */
+const cjSrc = { id: "careerjet", type: "careerjet", queries: ["offshore"], maxPages: 3, pageSize: 100, delayMs: 0, enabled: true, locales: [{ code: "en_GB", country: "gb" }, { code: "xx_XX", country: "us" }] };
+const CJ_ENV = { CAREERJET_API_KEY: "test-key-123", CAREERJET_USER_IP: "198.51.100.7" };
+const cjResponder = (calls, { forbid = false } = {}) => async (url, init) => {
+  calls.push({ url, init }); const u = new URL(url);
+  if (forbid) return { ok: false, status: 403, json: async () => ({ error: "Unauthorized access from IP 192.0.2.1", type: "ERROR" }) };
+  if (u.searchParams.get("locale_code") === "xx_XX") return { ok: false, status: 400, json: async () => ({ error: "Unsupported locale code" }) };
+  return { ok: true, status: 200, json: async () => JSON.parse(await fx("careerjet.json")) };
+};
+
+test("Careerjet: sends documented request (Basic auth, user_ip, user_agent) and keeps attribution + tracking link", async () => {
+  const calls = [], r = await run({ sources: [cjSrc] }, { jobs: {} }, cjResponder(calls), CJ_ENV);
+  const first = calls[0], u = new URL(first.url);
+  assert.equal(u.origin + u.pathname, "https://search.api.careerjet.net/v4/query");
+  assert.equal(first.init.headers.Authorization, "Basic " + Buffer.from("test-key-123:").toString("base64"), "key is the Basic-auth user name, empty password");
+  assert.equal(u.searchParams.get("user_ip"), "198.51.100.7"); assert.match(u.searchParams.get("user_agent"), /Importer/);
+  assert.equal(u.searchParams.get("sort"), "date"); assert.equal(u.searchParams.get("page_size"), "100"); assert.equal(u.searchParams.get("locale_code"), "en_GB");
+  assert.deepEqual(r.publicJobs.map(j => j.title).sort(), ["Test Offshore Rigger", "Test Subsea Technician"], "unrelated office job rejected");
+  const rig = r.publicJobs.find(j => j.title === "Test Offshore Rigger");
+  assert.equal(rig.attribution, "Careerjet"); assert.match(rig.url, /^https:\/\/jobviewtrack\.com\//); assert.equal(rig.country, "United Kingdom"); assert.equal(rig.category, "logistics");
+  assert.equal(rig.listedAt, "2026-11-24", "date from Careerjet's header-style format"); assert.equal(rig.rotation, undefined);
+  assert.equal(r.publicJobs.find(j => j.title === "Test Subsea Technician").country, "Norway");
+});
+
+test("Careerjet: an unsupported locale is skipped with a warning, the rest still import", async () => {
+  const r = await run({ sources: [cjSrc] }, { jobs: {} }, cjResponder([]), CJ_ENV);
+  assert.ok(r.report.sources.careerjet.warnings.some(w => /xx_XX/.test(w))); assert.equal(r.publicJobs.length, 2);
+});
+
+test("Careerjet: key or IP not authorised fails the source with Careerjet's message and removes nothing", async () => {
+  const state = { jobs: {} }; await run({ sources: [cjSrc] }, state, cjResponder([]), CJ_ENV, new Date("2026-11-25T06:00:00Z"));
+  const before = Object.keys(state.jobs).length; assert.equal(before, 2);
+  for (const d of ["2026-11-26", "2026-11-27", "2026-11-28"]) { const r = await run({ sources: [cjSrc] }, state, cjResponder([], { forbid: true }), CJ_ENV, new Date(d + "T06:00:00Z")); assert.match(r.report.sources.careerjet.error, /403 Unauthorized access from IP/); assert.equal(r.publicJobs.length, before); }
+});
+
+test("Careerjet: missing key is reported clearly", async () => {
+  const r = await run({ sources: [cjSrc] }, { jobs: {} }, cjResponder([]), {}); assert.match(r.report.sources.careerjet.error, /missing CAREERJET_API_KEY/);
+});
+
+test("Careerjet: stops paging at the last page", async () => {
+  const calls = [], multi = async url => { calls.push(url); return { ok: true, status: 200, json: async () => ({ type: "JOBS", pages: 2, jobs: JSON.parse(await fx("careerjet.json")).jobs }) }; };
+  await run({ sources: [{ ...cjSrc, locales: [{ code: "en_GB", country: "gb" }], maxPages: 10 }] }, { jobs: {} }, multi, CJ_ENV); assert.equal(calls.length, 2);
+});

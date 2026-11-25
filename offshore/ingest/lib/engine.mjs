@@ -39,7 +39,7 @@ export async function runIngest({ config, state, resolve, fetchFn, env, today = 
   config = { ...DEFAULTS, ...config }; const date = day(today), report = { date, sources: {}, rejected: {}, added: 0, refreshed: 0, removed: { missing: 0, expired: 0, tooOld: 0, overCap: 0 } };
   const ctx = { resolve, config, today }, seen = new Set(), okSources = new Set(), prevActive = Object.keys(state.jobs).length, bySrc = Object.fromEntries((config.sources || []).map(s => [s.id, s]));
   for (const src of (config.sources || []).filter(s => s.enabled)) {
-    let raws; try { raws = await fetchFromSource(src, { env, fetchFn }); okSources.add(src.id); report.sources[src.id] = { fetched: raws.length }; }
+    const warnings = []; let raws; try { raws = await fetchFromSource(src, { env, fetchFn, warn: m => warnings.push(m) }); okSources.add(src.id); report.sources[src.id] = { fetched: raws.length }; if (warnings.length) report.sources[src.id].warnings = warnings; }
     catch (e) { report.sources[src.id] = { error: e.message }; log("SOURCE FAILED: " + e.message); continue; }
     let kept = 0;
     for (const raw of raws) {

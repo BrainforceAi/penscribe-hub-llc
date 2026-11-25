@@ -58,7 +58,33 @@ async function reed(src, ctx) {
   return out;
 }
 
-export const ADAPTERS = { json: feedAdapter, xml: feedAdapter, rss: feedAdapter, adzuna, reed };
+
+/* ---- Careerjet v4: official API (Basic auth, key as user name). Careerjet requires attribution and its tracking link,
+   so adverts keep both. The key only works from IP addresses registered in your Careerjet publisher account. ---- */
+async function careerjet(src, ctx) {
+  const { env, fetchFn, warn = () => { } } = ctx; need(env, ["CAREERJET_API_KEY"], src.id);
+  const auth = "Basic " + Buffer.from(env.CAREERJET_API_KEY + ":").toString("base64");
+  const ip = encodeURIComponent(env.CAREERJET_USER_IP || "127.0.0.1"), ua = encodeURIComponent(src.userAgent || "OffshoreLinkJobImporter/1.0"), size = Math.min(100, src.pageSize || 100), out = [];
+  for (const loc of src.locales || []) for (const q of src.queries || ["offshore"]) {
+    const maxPages = Math.min(10, src.maxPages || 5); let skipLocale = false;
+    for (let page = 1; page <= maxPages && !skipLocale; page++) {
+      const url = `https://search.api.careerjet.net/v4/query?locale_code=${loc.code}&keywords=${encodeURIComponent(q)}${loc.location ? "&location=" + encodeURIComponent(loc.location) : ""}&sort=date&page=${page}&page_size=${size}&fragment_size=${src.fragmentSize || 500}&user_ip=${ip}&user_agent=${ua}`;
+      const res = await fetchFn(url, { headers: { Authorization: auth } });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({})), msg = body.error || body.message || "";
+        if (res.status === 400) { warn(`${src.id}: locale ${loc.code} skipped (${msg || "unsupported"})`); skipLocale = true; continue; }
+        throw new Error(`${src.id}: HTTP ${res.status} ${msg}`.trim());   // 401/403 = key or IP not authorised: fail the whole source, never delete anything
+      }
+      const j = await res.json();
+      if (j.type !== "JOBS") { if (j.type === "LOCATIONS") warn(`${src.id}: ${loc.code} location "${loc.location}" not found`); break; }
+      for (const r of j.jobs || []) out.push({ sourceId: r.url, title: r.title, company: r.company, location: r.locations, countryHint: loc.country, description: r.description, postedAt: r.date, applyUrl: r.url, attribution: "Careerjet" });
+      if (page >= (j.pages || 1) || !(j.jobs || []).length) break; await polite(src);
+    }
+  }
+  return out;
+}
+
+export const ADAPTERS = { json: feedAdapter, xml: feedAdapter, rss: feedAdapter, adzuna, reed, careerjet };
 export async function fetchFromSource(src, ctx) {
   const a = ADAPTERS[src.type]; if (!a) throw new Error(`${src.id}: unknown source type "${src.type}"`); return a(src, ctx);
 }

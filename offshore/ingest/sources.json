@@ -3,32 +3,196 @@
   "targetActive": 1000,
   "maxAgeDays": 45,
   "removeAfterMissedRuns": 2,
-  "excludeCountrySlugs": ["russia"],
+  "excludeCountrySlugs": [
+    "russia"
+  ],
   "sources": [
+    {
+      "id": "careerjet",
+      "type": "careerjet",
+      "_note": "Key comes from the CAREERJET_API_KEY secret. It only works from IP addresses registered in your Careerjet publisher account (see docs/JOBS-FEED.md). Unsupported locales are skipped automatically.",
+      "queries": [
+        "offshore",
+        "oil and gas",
+        "drilling rig",
+        "subsea",
+        "FPSO",
+        "marine vessel crew",
+        "offshore wind",
+        "roustabout",
+        "ROV",
+        "dynamic positioning"
+      ],
+      "locales": [
+        {
+          "code": "en_GB",
+          "country": "gb"
+        },
+        {
+          "code": "en_US",
+          "country": "us"
+        },
+        {
+          "code": "en_AU",
+          "country": "au"
+        },
+        {
+          "code": "en_CA",
+          "country": "ca"
+        },
+        {
+          "code": "en_IE",
+          "country": "ie"
+        },
+        {
+          "code": "nl_NL",
+          "country": "nl"
+        },
+        {
+          "code": "no_NO",
+          "country": "no"
+        },
+        {
+          "code": "da_DK",
+          "country": "dk"
+        },
+        {
+          "code": "en_ZA",
+          "country": "za"
+        },
+        {
+          "code": "pt_BR",
+          "country": "br"
+        },
+        {
+          "code": "es_MX",
+          "country": "mx"
+        },
+        {
+          "code": "es_AR",
+          "country": "ar"
+        },
+        {
+          "code": "es_CO",
+          "country": "co"
+        },
+        {
+          "code": "en_AE",
+          "country": "ae"
+        },
+        {
+          "code": "en_SA",
+          "country": "sa"
+        },
+        {
+          "code": "en_QA",
+          "country": "qa"
+        },
+        {
+          "code": "en_KW",
+          "country": "kw"
+        },
+        {
+          "code": "en_OM",
+          "country": "om"
+        },
+        {
+          "code": "en_BH",
+          "country": "bh"
+        },
+        {
+          "code": "en_IQ",
+          "country": "iq"
+        },
+        {
+          "code": "en_TT",
+          "country": "tt"
+        },
+        {
+          "code": "en_AZ",
+          "country": "az"
+        },
+        {
+          "code": "en_KZ",
+          "country": "kz"
+        },
+        {
+          "code": "en_GY",
+          "country": "gy"
+        }
+      ],
+      "maxPages": 5,
+      "pageSize": 100,
+      "fragmentSize": 500,
+      "enabled": true
+    },
     {
       "id": "partner-json-1",
       "type": "json",
       "url": "https://PARTNER-FEED-URL/jobs.json",
-      "headers": { "Authorization": "Bearer ${PARTNER_FEED_TOKEN}" },
+      "headers": {
+        "Authorization": "Bearer ${PARTNER_FEED_TOKEN}"
+      },
       "itemsPath": "jobs",
-      "pagination": { "param": "page", "start": 1, "maxPages": 50 },
-      "map": { "id": "id", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "postedAt", "expiresAt": "expiresAt", "applyUrl": "applyUrl" },
+      "pagination": {
+        "param": "page",
+        "start": 1,
+        "maxPages": 50
+      },
+      "map": {
+        "id": "id",
+        "title": "title",
+        "company": "company",
+        "location": "location",
+        "description": "description",
+        "postedAt": "postedAt",
+        "expiresAt": "expiresAt",
+        "applyUrl": "applyUrl"
+      },
       "enabled": false,
-      "requiresEnv": ["PARTNER_FEED_TOKEN"]
+      "requiresEnv": [
+        "PARTNER_FEED_TOKEN"
+      ]
     },
     {
       "id": "partner-xml-1",
       "type": "xml",
       "url": "https://PARTNER-FEED-URL/jobs.xml",
       "itemTag": "job",
-      "map": { "id": "reference", "title": "title", "company": "company", "location": "location", "description": "description", "postedAt": "date", "expiresAt": "expires", "applyUrl": "url" },
+      "map": {
+        "id": "reference",
+        "title": "title",
+        "company": "company",
+        "location": "location",
+        "description": "description",
+        "postedAt": "date",
+        "expiresAt": "expires",
+        "applyUrl": "url"
+      },
       "enabled": false
     },
     {
       "id": "adzuna",
       "type": "adzuna",
-      "countries": ["gb", "us", "au", "ca", "nl", "za", "br", "mx"],
-      "queries": ["offshore", "oil and gas rig", "drilling", "subsea ROV", "FPSO", "marine vessel crew", "offshore wind"],
+      "countries": [
+        "gb",
+        "us",
+        "au",
+        "ca",
+        "nl",
+        "za",
+        "br",
+        "mx"
+      ],
+      "queries": [
+        "offshore",
+        "oil and gas rig",
+        "drilling",
+        "subsea ROV",
+        "FPSO",
+        "marine vessel crew",
+        "offshore wind"
+      ],
       "maxPages": 5,
       "maxDaysOld": 30,
       "enabled": false
@@ -36,7 +200,14 @@
     {
       "id": "reed",
       "type": "reed",
-      "queries": ["offshore", "oil and gas", "drilling", "subsea", "FPSO", "marine vessel"],
+      "queries": [
+        "offshore",
+        "oil and gas",
+        "drilling",
+        "subsea",
+        "FPSO",
+        "marine vessel"
+      ],
       "maxPages": 5,
       "enabled": false
     }
