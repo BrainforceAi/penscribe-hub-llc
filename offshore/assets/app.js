@@ -62,7 +62,7 @@ function layout() {
   <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}<a href="checkout.html" class="cartlink ${page === "checkout.html" ? "active" : ""}" aria-label="Cart">🛒 <span id="cart-n">0</span></a></nav></div></header>`;
   const ftr = `<footer class="site"><div class="wrap"><div class="cols">
   <div><a class="brand" href="index.html" style="padding:0">${LOGO}<span>${BRAND.name}</span></a><p>${BRAND.tagline}. Recruiting offshore talent for oil, gas and marine operators across 6 regions.</p></div>
-  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Documents &amp; services</a><a href="certification.html">Courses</a><a href="resources.html">Career guides</a></div>
+  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Get your documents ready</a><a href="all-services.html">All document services</a><a href="certification.html">Courses</a><a href="resources.html">Career guides</a></div>
   <div><h4>Company</h4><a href="about.html">About us</a><a href="partners.html">Our partners</a><a href="locations.html">Locations</a><a href="contact.html">Contact</a></div>
   <div><h4>Legal</h4><a href="scam-warning.html">Scam warning</a><a href="#" onclick="return false">Privacy policy</a><a href="#" onclick="return false">Terms of use</a><a href="#" onclick="return false">Refund policy</a></div></div>
   <div class="legal">© ${new Date().getFullYear()} ${BRAND.name}. Prototype: brand, logo and copy are placeholders. Jobs shown are sample data.</div></div></footer>
@@ -117,6 +117,15 @@ function initJobs() {
   render();
 }
 
+/* after an application: nudge towards the documents that employers for this role usually ask for */
+function docPrompt(j) {
+  try {
+    const rid = CAT_ROLE[j.category], role = rid && DOC_ROLES.find(r => r.id === rid); if (!role) return `<a class="btn small" href="document-services.html">Get your documents ready</a>`;
+    const top = DOC_CORE[rid].slice(0, 4);
+    return `<div class="docprompt"><h4>Get ready for the offer</h4><p>Employers hiring ${esc(role.name.toLowerCase())} usually ask for about <b>${DOC_CORE[rid].length} documents</b>, such as ${top.map(t => esc(t.replace(/ \(.*\)$/, ""))).join(", ")}. Check which ones you still need. It takes about two minutes.</p><a class="btn" href="document-services.html?cat=${esc(j.category)}&from=application">Check my documents →</a></div>`;
+  } catch { return `<a class="btn small" href="document-services.html">Get your documents ready</a>`; }
+}
+
 function initJob() {
   const id = new URLSearchParams(location.search).get("id");
   const j = JOBS.find(x => x.id === id);
@@ -151,7 +160,7 @@ function initJob() {
     try {
       const r = await sendForm(form, `Job application ${ref}: ${j.title} (${j.country})`, { "Reference": ref, "Job": `${j.title} | ${j.company} | ${j.country}`, "Job link": location.href });
       const apps = store.get("applications", []); apps.push({ ref, jobId: j.id, title: j.title, status: "Received", at: new Date().toISOString() }); store.set("applications", apps);
-      form.parentElement.innerHTML = `<div class="success"><h3>Application received ✔</h3><p>Reference <b>${ref}</b>.<br>We'll review your details and submit them to the employer. You'll get status updates by email (Received → Shortlisted → Interview → Placed).</p>${demoNote(r)}<a class="btn small" href="cv-services.html">Improve your CV</a></div>`;
+      form.parentElement.innerHTML = `<div class="success"><h3>Application received ✔</h3><p>Reference <b>${ref}</b>.<br>We'll review your details and submit them to the employer. You'll get status updates by email (Received → Shortlisted → Interview → Placed).</p>${demoNote(r)}${docPrompt(j)}</div>`;
     } catch (err) { btn.disabled = false; btn.textContent = label; errBox(form, err.message); }
   };
 }
@@ -291,7 +300,7 @@ function initCourse() {
 }
 
 function initCheckout() {
-  const root = $("#co-root");
+  const root = $("#co-root"); track("checkout_viewed");
   const empty = () => { root.innerHTML = `<div class="card empty"><h2>Your cart is empty</h2><p>Choose a course or the documents you need.</p><a class="btn" href="certification.html">Browse courses</a> <a class="btn outline" href="document-services.html">Documents &amp; services</a></div>`; };
   if (!cartLines().lines.length) { empty(); return; }
   root.innerHTML = `<div class="detail"><form class="card" id="co-form"><h2 style="margin-top:0">Your details</h2>
@@ -341,7 +350,7 @@ function initCheckout() {
     const extra = { "Order reference": ref, "Total": fmtMoney(t.sum, t.cur) + " (" + t.cur + ")", "Residence country": cn.name, "Exchange rate date": RATES.asOf };
     if (cl) { extra["Courses"] = cl; } if (dl) { extra["Documents and services"] = dl; extra["Documents total (USD)"] = "$" + usdDocs; }
     try {
-      const r = await sendForm(form, `Order ${ref}`, extra);
+      const r = await sendForm(form, `Order ${ref}`, extra); track("order_submitted", { total: Math.round(t.sum), cur: t.cur });
       const orders = store.get("orders", []); orders.push({ ref, total: fmtMoney(t.sum, t.cur), at: new Date().toISOString() }); store.set("orders", orders); cart.set([]);
       root.innerHTML = `<div class="success" style="max-width:640px;margin:0 auto"><h2>Order request received ✔</h2><p>Reference <b>${ref}</b><br>Total <b>${fmtMoney(t.sum, t.cur)}</b></p><p>We'll email your invoice and payment link within one working day. Any official or third-party fees will be quoted and agreed before work starts.</p>${demoNote(r)}<a class="btn" href="document-services.html">Back to documents</a></div>`;
     } catch (err) { btn.disabled = false; btn.textContent = label; errBox(form, err.message); }
@@ -365,97 +374,178 @@ function initResource() {
     <h2 style="margin-top:28px">More guides</h2><div class="related">${more.map(x => `<a class="card link" href="resource.html?slug=${x.slug}"><span class="tag">${esc(x.tag)}</span><h3>${esc(x.title)}</h3><p style="margin:0;color:var(--muted);font-size:.92rem">${esc(x.summary)}</p></a>`).join("")}</div></div>`;
 }
 
-/* ---------- documents: checklist -> gaps -> services ---------- */
-const COURSE_Q = { "BOSIET (or T-BOSIET)": "BOSIET", "FOET (when BOSIET renewal is due)": "FOET", "HUET (where required, or included in your BOSIET)": "HUET", "H2S awareness / H2S training": "H2S", "H2S awareness": "H2S", "First aid certification": "first aid", "Firefighting and fire prevention training": "fire", "Basic firefighting training": "fire", "Working at heights training": "height", "Confined space entry training": "confined", "Manual handling training": "manual", "STCW Basic Safety Training": "STCW", "Food hygiene certificate (catering roles)": "food" };
-function initDocPage() {
-  const roles = DOC_ROLES, q = new URLSearchParams(location.search);
-  let role = roles.find(r => r.id === q.get("role")) || roles[0];
-  const key = r => "checklist_" + r.id, done = () => new Set(store.get(key(role), []));
+/* ---------- funnel tracking ----------
+   Counts each step locally (for ?debug=funnel) and forwards to Google Analytics (gtag) or Plausible if you add them. */
+function track(ev, data = {}) {
+  try { const f = store.get("funnel", {}); f[ev] = (f[ev] || 0) + 1; store.set("funnel", f); } catch { }
+  try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: ev, ...data }); if (window.gtag) window.gtag("event", ev, data); if (window.plausible) window.plausible(ev, { props: data }); } catch { }
+}
+function funnelDebug() {
+  if (!/debug=funnel/.test(location.search)) return;
+  const order = ["doc_role_selected", "doc_checklist_done", "doc_plan_viewed", "doc_added_to_cart", "checkout_viewed", "order_submitted"], f = store.get("funnel", {});
+  const el = document.createElement("pre"); el.style.cssText = "position:fixed;left:8px;bottom:8px;background:#000c;color:#9fe;padding:10px;font:12px/1.5 monospace;z-index:999;border-radius:8px";
+  el.textContent = "FUNNEL (this device)\n" + order.map(k => k.padEnd(20) + (f[k] || 0)).join("\n"); document.body.appendChild(el);
+}
+
+/* ---------- plain-language labels for the price list ---------- */
+function plainName(n) {
+  let m;
+  if ((m = /^(.*) Registration Assistance$/i.exec(n))) return `Register you for your ${m[1]}`;
+  if ((m = /^(.*?) (?:Training )?Enrolment(?: Assistance)?$/i.exec(n))) return `Book your ${m[1]} course`;
+  if ((m = /^(.*) Application Assistance$/i.exec(n))) return `We handle your ${m[1]} application`;
+  if ((m = /^(.*) Renewal Assistance$/i.exec(n))) return `We handle your ${m[1]} renewal`;
+  if ((m = /^(.*) Replacement Assistance$/i.exec(n))) return `We replace your ${m[1]}`;
+  if ((m = /^(.*) Request Assistance$/i.exec(n))) return `We request your ${m[1]} for you`;
+  if ((m = /^(.*) Coordination$/i.exec(n))) return `We arrange your ${m[1]}`;
+  if ((m = /^(.*) Organization$/i.exec(n))) return `We organise your ${m[1]}`;
+  if ((m = /^(.*) Verification$/i.exec(n))) return `We verify your ${m[1]}`;
+  if ((m = /^(.*) Preparation$/i.exec(n)) && !/Interview/.test(n)) return `We prepare your ${m[1]}`;
+  if (/(CV|Cover Letter|Biography|Portfolio|Summary|Profile|Reference List|Statement of Availability)$/.test(n)) return `We write your ${n}`;
+  return n;
+}
+function describe(n) {
+  if (/Enrolment|Registration/i.test(n)) return "We register you with an approved training provider and handle the paperwork. Course and exam fees are paid to the provider.";
+  if (/Application Assistance|Renewal Assistance|Replacement Assistance/i.test(n)) return "We prepare, submit and follow up your application. Official government fees are extra.";
+  if (/Coordination/i.test(n)) return "We book and manage it with an approved provider. Medical and other third-party fees are extra.";
+  if (/(CV|Cover Letter|Biography|Portfolio|Summary|Profile|List|Statement)$/.test(n)) return "Written by our team from your details. You review and approve it.";
+  return "Done for you by our team at the fixed price shown.";
+}
+const priceLine = usd => { const loc = localFromUSD(1).cur !== "USD"; return loc ? `<b>${docMoney(usd)}</b><small>${usdFmt(usd)}</small>` : `<b>${usdFmt(usd)}</b>`; };
+function cartBarHTML() { const t = cartLines(), n = t.lines.length; return n ? `<div class="wrap"><span>🛒 <b>${n}</b> item${n === 1 ? "" : "s"} in your cart · <b>${fmtMoney(t.sum, t.cur)}</b></span><a class="btn small" href="checkout.html">Checkout →</a></div>` : ""; }
+function showBar(html) { const bar = $("#cartbar"); bar.innerHTML = html; bar.hidden = !html; document.body.classList.toggle("has-cartbar", !!html); }
+const packageByName = n => DOC_PACKAGES.find(p => p.name === n);
+
+/* ---------- guided document flow ---------- */
+function initWizard() {
+  const q = new URLSearchParams(location.search), roles = DOC_ROLES;
+  const fromApp = q.get("from") === "application";
+  let role = roles.find(r => r.id === (q.get("role") || CAT_ROLE[q.get("cat")] || "")) || null;
+  let step = role ? 2 : 1, more = false, pkgOn = false, added = 0; let pick = {}, alt = {};
+  const key = r => "checklist_" + r.id, have = () => new Set(store.get(key(role), []));
   const byName = {}; DOC_CATALOG.forEach(c => c.items.forEach(i => byName[i.name] = docItem(i.id)));
+  const MUST = { E: 1, R: 1 };
+  const itemsFor = () => role.categories.flatMap(c => c.items.map(([t, p]) => ({ t, p, cat: c.name })));
+  const core = () => { const set = DOC_CORE[role.id]; return set.map(t => itemsFor().find(i => i.t === t)).filter(Boolean); };
+  const extras = () => itemsFor().filter(i => !DOC_CORE[role.id].includes(i.t));
+  const shown = () => core().concat(more ? extras() : []);
+  const tr = (i) => ["Your job", "Your documents", "Your plan"][i - 1];
+
+  const progress = () => { $("#wiz-progress").innerHTML = [1, 2, 3].map(i => `<div class="wp ${i === step ? "now" : ""} ${i < step ? "done" : ""}"><span>${i < step ? "✓" : i}</span>${tr(i)}</div>`).join(""); };
+
+  const view1 = () => `<h2>What is your job?</h2><p class="lead">Pick the closest match. This tells us which documents employers usually ask for.</p>
+    <div class="role-grid">${roles.map(r => `<button type="button" class="role-btn" data-act="role" data-r="${r.id}"><span class="ic">${ROLE_INFO[r.id].icon}</span><b>${esc(r.name)}</b><small>${esc(ROLE_INFO[r.id].eg)}</small></button>`).join("")}</div>`;
+
+  const view2 = () => { const d = have(), list = shown(), n = list.filter(i => d.has(i.t)).length, nExtra = extras().length;
+    return `${fromApp ? `<div class="notice" style="margin-bottom:14px">✅ Your application is in. Most employers ask for these documents before making an offer. Check which ones you have.</div>` : ""}
+    <div class="crumb">Showing documents for <b>${esc(role.name)}</b> · <button type="button" class="link-btn2" data-act="change">Change</button></div>
+    <h2>Which of these do you already have?</h2><p class="lead">Tap each one you have. Anything you don't tap, we'll help you get.</p>
+    <div class="have-list">${list.map(i => `<button type="button" class="have-tile" data-act="have" data-t="${esc(i.t)}" aria-pressed="${d.has(i.t)}"><span class="tick">${d.has(i.t) ? "✓" : ""}</span><span class="tx">${esc(i.t)}</span><span class="pri ${MUST[i.p] ? "must" : ""}">${MUST[i.p] ? "Must have" : "Nice to have"}</span></button>`).join("")}</div>
+    ${!more && nExtra ? `<p><button type="button" class="btn small outline" data-act="more">Show ${nExtra} more optional documents</button></p>` : ""}
+    <div class="wiz-nav"><span class="hint"><b>${n}</b> of ${list.length} ticked</span><button type="button" class="btn" data-act="plan">See my plan →</button></div>`; };
+
+  const planRows = () => { const d = have(), seen = shown().filter(i => !d.has(i.t));
+    const rows = seen.filter(i => DOC_MAP[i.t]).map((i, idx) => { const opts = DOC_MAP[i.t].map(n => byName[n]).filter(Boolean), chosen = byName[alt[i.t]] || opts[0], must = !!MUST[i.p];
+      return { ...i, idx, opts, chosen, must, on: i.t in pick ? pick[i.t] : must, inCart: cart.hasDoc(chosen.id) }; });
+    rows.sort((a, b) => (b.must - a.must) || ({ E: 0, R: 1, N: 2, A: 3 }[a.p] - { E: 0, R: 1, N: 2, A: 3 }[b.p]));
+    return { rows, self: seen.filter(i => !DOC_MAP[i.t]), seenCount: seen.length }; };
+  const recoPkg = rows => { const needsCV = rows.some(r => r.t === "Updated professional CV (offshore format)"); if (!needsCV) return null;
+    const pk = packageByName(PKG_FOR_ROLE[role.id] || PKG_FOR_ROLE._default); if (!pk) return null;
+    const sep = PKG_COVERS[pk.name].reduce((a, n) => a + (byName[n]?.usd || 0), 0); return { pk, sep, save: sep - pk.usd }; };
+  const covered = r => pkgOn && CV_SERVICES.includes(r.chosen.name);
+
+  const view3 = () => { const { rows, self } = planRows(), reco = recoPkg(rows), pk = reco && reco.pk;
+    if (!rows.length) return `<div class="success"><h3>You're document-ready ✔</h3><p>You have everything we asked about for this role.</p><a class="btn" href="jobs.html?cat=${role.cat}">See jobs for this role</a></div><p style="margin-top:14px"><button type="button" class="link-btn2" data-act="back">← Change my answers</button></p>`;
+    const sel = rows.filter(r => r.on && !r.inCart && !covered(r)), usd = sel.reduce((a, r) => a + r.chosen.usd, 0) + (pkgOn && pk && !cart.hasDoc(pk.id) ? pk.usd : 0);
+    const rowHTML = r => `<div class="plan-row ${r.on && !covered(r) ? "on" : ""} ${r.inCart || covered(r) ? "done" : ""}">
+      ${r.inCart ? `<span class="okmark">✓</span>` : covered(r) ? `<span class="okmark">✓</span>` : `<label class="plan-check" aria-label="Include"><input type="checkbox" data-act-chk="${esc(r.t)}" ${r.on ? "checked" : ""}></label>`}
+      <div class="plan-main"><div class="for">${esc(r.t)} <span class="pri ${r.must ? "must" : ""}">${r.must ? "Must have" : "Nice to have"}</span></div>
+        <div class="what">${esc(plainName(r.chosen.name))}</div>
+        <div class="hint" style="margin:2px 0 0">${covered(r) ? "Included in the package you chose." : r.inCart ? "In your cart." : esc(describe(r.chosen.name))}</div>
+        ${r.opts.length > 1 && !r.inCart && !covered(r) ? `<details class="alts"><summary>Other options (${r.opts.length - 1})</summary>${r.opts.map(o => `<label class="alt"><input type="radio" name="alt${r.idx}" data-alt="${esc(r.t)}" value="${esc(o.name)}" ${o.id === r.chosen.id ? "checked" : ""}> <span>${esc(plainName(o.name))}</span><span class="pr">${priceLine(o.usd)}</span></label>`).join("")}</details>` : ""}
+      </div><div class="plan-price">${covered(r) ? "<small>included</small>" : priceLine(r.chosen.usd)}</div></div>`;
+    return `<div class="crumb"><button type="button" class="link-btn2" data-act="back">← Change my answers</button> · <b>${esc(role.name)}</b></div>
+      <h2>Your document plan</h2><p class="lead">Based on your answers, here is what we recommend. We've ticked the must-haves. Untick anything you don't need.</p>
+      <div id="doc-cur" style="margin:0 0 14px"></div>
+      ${reco ? `<div class="card reco ${pkgOn ? "chosen" : ""}"><div><span class="tag amber">Better value</span><h3 style="margin:6px 0 4px">${esc(pk.name)}</h3><p class="hint" style="margin:0 0 6px">Includes your offshore CV and ${PKG_COVERS[pk.name].length - 1} more documents: ${esc(pk.includes.slice(0, 4).join(", "))} and more.</p>${reco.save > 0 ? `<p style="margin:0"><b>${usdFmt(pk.usd)}</b> instead of about ${usdFmt(reco.sep)} if bought separately. <span class="ok">You save about ${usdFmt(reco.save)}.</span></p>` : ""}</div>
+        <div class="reco-act">${cart.hasDoc(pk.id) ? `<span class="ok">✓ In your cart</span>` : `<button type="button" class="btn ${pkgOn ? "outline" : ""}" data-act="pkg">${pkgOn ? "✓ Chosen (tap to undo)" : "Choose this package"}</button>`}<a href="all-services.html#packages" class="hint">Compare all packages</a></div></div>` : ""}
+      <div class="plan-list">${rows.map(rowHTML).join("")}</div>
+      ${self.length ? `<p class="hint">You provide these yourself: ${self.map(i => esc(i.t)).join("; ")}.</p>` : ""}
+      <p class="hint">Need something else? <a href="all-services.html">Browse all 349 services</a>. Official fees (government, medical, training tuition, exams) and other third-party costs are extra and agreed with you before we start. No service guarantees a job, certificate, medical clearance or visa. <a href="all-services.html#terms">Full terms</a>.</p>`;
+  };
+
+  const bar = () => {
+    if (step === 3) { const { rows } = planRows(), reco = recoPkg(rows), pk = reco && reco.pk;
+      const sel = rows.filter(r => r.on && !r.inCart && !covered(r)), withPkg = pkgOn && pk && !cart.hasDoc(pk.id), n = sel.length + (withPkg ? 1 : 0);
+      const cur = localFromUSD(1).cur, local = sel.reduce((a, r) => a + localFromUSD(r.chosen.usd).amt, 0) + (withPkg ? localFromUSD(pk.usd).amt : 0);
+      if (n > 0) return `<div class="wrap"><span><b>${n}</b> selected · <b>${fmtMoney(local, cur)}</b></span><button type="button" class="btn" data-act="addsel">Add ${n} to cart →</button></div>`; }
+    return cartBarHTML(); };
+  const render = () => { progress();
+    $("#wiz").innerHTML = step === 1 ? view1() : step === 2 ? view2() : view3();
+    if (step === 3) currencyBar($("#doc-cur"), render);
+    showBar(bar()); };
+  const rerenderKeepScroll = () => { const y = scrollY; render(); scrollTo(0, y); };
+  const refocus = sel => { const el = $(sel); if (el) el.focus({ preventScroll: true }); };
+  const go = n => { step = n; if (n === 3) track("doc_plan_viewed", { role: role.id }); render(); $("#wiz").scrollIntoView({ block: "start", behavior: "smooth" }); };
+
+  $("#wiz").addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return; const act = b.dataset.act;
+    if (act === "role") { role = roles.find(r => r.id === b.dataset.r); pick = {}; alt = {}; more = false; pkgOn = false; track("doc_role_selected", { role: role.id }); go(2); }
+    else if (act === "change") { go(1); }
+    else if (act === "have") { const d = have(), t = b.dataset.t; d.has(t) ? d.delete(t) : d.add(t); store.set(key(role), [...d]); const y = scrollY; render(); scrollTo(0, y); refocus(`.have-tile[data-t="${CSS.escape(t)}"]`); }
+    else if (act === "more") { more = true; rerenderKeepScroll(); }
+    else if (act === "plan") { track("doc_checklist_done", { role: role.id, ticked: have().size }); pick = {}; alt = {}; go(3); }
+    else if (act === "back") { go(2); }
+    else if (act === "pkg") { pkgOn = !pkgOn; rerenderKeepScroll(); }
+  });
+  $("#wiz").addEventListener("change", e => { const c = e.target;
+    if (c.dataset.actChk !== undefined) { const t = c.dataset.actChk; pick[t] = c.checked; rerenderKeepScroll(); refocus(`[data-act-chk="${CSS.escape(t)}"]`); }
+    else if (c.dataset.alt) { const t = c.dataset.alt, v = c.value; alt[t] = v; rerenderKeepScroll(); refocus(`[data-alt="${CSS.escape(t)}"][value="${CSS.escape(v)}"]`); } });
+  $("#cartbar").addEventListener("click", e => { const b = e.target.closest("[data-act=addsel]"); if (!b) return;
+    const { rows } = planRows(), reco = recoPkg(rows), pk = reco && reco.pk;
+    const ids = rows.filter(r => r.on && !r.inCart && !covered(r)).map(r => r.chosen.id); if (pkgOn && pk) ids.push(pk.id);
+    cart.addDocs(ids); track("doc_added_to_cart", { count: ids.length, role: role.id }); rerenderKeepScroll(); });
+  render();
+}
+
+/* ---------- browse everything ---------- */
+function initCatalog() {
+  currencyBar($("#doc-cur"), () => { renderCatalog(); renderPkgs(); showBar(cartBarHTML()); });
   const sel = new Set(), open = new Set(); let filter = "";
-  currencyBar($("#doc-cur"), () => { renderGap(); renderCatalog(); renderPkgs(); renderBar(); });
-
-  /* cart bar */
-  const renderBar = () => {
-    const t = cartLines(), n = t.lines.length, bar = $("#cartbar");
-    document.body.classList.toggle("has-cartbar", n > 0); bar.hidden = n === 0;
-    bar.innerHTML = `<div class="wrap"><span>🛒 <b>${n}</b> item${n === 1 ? "" : "s"} in your cart · <b>${fmtMoney(t.sum, t.cur)}</b></span><a class="btn small" href="checkout.html">Checkout →</a></div>`;
-  };
-  const addIds = ids => { cart.addDocs(ids); renderGap(); refreshAll(); renderPkgs(); renderBar(); };
-
-  /* STEP 1: checklist */
-  const pills = $("#cl-roles"), root = $("#cl-root");
-  pills.innerHTML = roles.map(r => `<button class="pill" data-r="${r.id}">${esc(r.name)}</button>`).join("");
-  const renderChecklist = () => {
-    $$(".pill", pills).forEach(b => b.classList.toggle("on", b.dataset.r === role.id));
-    const d = done(), all = role.categories.flatMap(c => c.items.map(i => i[0])), have = all.filter(t => d.has(t)).length;
-    $("#cl-progress").innerHTML = `<div class="bar"><i style="width:${Math.round(have / all.length * 100)}%"></i></div><b>${have} of ${all.length}</b> documents you already have`;
-    root.innerHTML = role.categories.map(c => `<div class="card cl-cat"><h3><span class="ic">${c.icon}</span> ${esc(c.name)}</h3>${c.note ? `<p class="hint" style="margin:0 0 6px">${esc(c.note)}</p>` : ""}<ul class="cl-list">${c.items.map(([t, p]) => `<li><label class="check"><input type="checkbox" data-t="${esc(t)}" ${d.has(t) ? "checked" : ""}> <span>${esc(t)}</span></label><span class="prio p-${p}">${DOC_PRIORITY[p]}</span></li>`).join("")}</ul></div>`).join("");
-    $("#cl-jobs").href = "jobs.html?cat=" + role.cat;
-  };
-  pills.onclick = e => { const b = e.target.closest(".pill"); if (b) { role = roles.find(r => r.id === b.dataset.r); renderChecklist(); renderGap(); } };
-  root.onchange = e => { const t = e.target.dataset.t; if (!t) return; const d = done(); e.target.checked ? d.add(t) : d.delete(t); store.set(key(role), [...d]); renderChecklist(); renderGap(); };
-  $("#cl-reset").onclick = () => { store.set(key(role), []); renderChecklist(); renderGap(); };
-  $("#cl-all").onclick = () => { store.set(key(role), role.categories.flatMap(c => c.items.map(i => i[0]))); renderChecklist(); renderGap(); };
-
-  /* STEP 2: what you still need */
-  const chip = n => { const it = byName[n]; if (!it) return ""; const inCart = cart.hasDoc(it.id);
-    return `<div class="chip-svc"><span class="nm">${esc(n)}</span><span class="pr">${docPriceHTML(it.usd)}</span>${inCart ? `<button type="button" class="btn small outline" data-rm="${it.id}">✓ In cart · Remove</button>` : `<button type="button" class="btn small" data-add="${it.id}">Add to cart</button>`}</div>`; };
-  const renderGap = () => {
-    const d = done(), missing = role.categories.flatMap(c => c.items.filter(i => !d.has(i[0])).map(i => ({ cat: c.name, t: i[0], p: i[1] })));
-    const order = { E: 0, R: 1, N: 2, A: 3 }; missing.sort((a, b) => order[a.p] - order[b.p]);
-    const box = $("#gap-root");
-    if (!missing.length) { box.innerHTML = `<div class="success"><h3>You're document-ready ✔</h3><p>You have everything on the list for this role.</p><a class="btn" href="jobs.html?cat=${role.cat}">See jobs for this role</a></div>`; $("#gap-count").textContent = "0"; return; }
-    $("#gap-count").textContent = missing.length;
-    box.innerHTML = missing.map(m => { const svc = (DOC_MAP[m.t] || []).map(chip).join(""); const cq = COURSE_Q[m.t];
-      return `<div class="card gap"><div class="gap-h"><b>${esc(m.t)}</b><span class="prio p-${m.p}">${DOC_PRIORITY[m.p]}</span></div><div class="hint" style="margin:2px 0 8px">${esc(m.cat)}</div>
-        ${svc ? `<div class="chips">${svc}</div>` : `<p class="hint" style="margin:0">You provide this yourself. Not sure how? <a href="contact.html">Ask us</a>.</p>`}
-        ${cq ? `<p class="hint" style="margin:8px 0 0">Need the course itself? <a href="certification.html?q=${encodeURIComponent(cq)}">Browse courses →</a></p>` : ""}</div>`; }).join("");
-  };
-  $("#gap-root").onclick = e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.add) addIds([b.dataset.add]); else if (b.dataset.rm) { cart.removeDoc(b.dataset.rm); renderGap(); refreshAll(); renderBar(); } };
-
-  /* STEP 3: catalogue */
   const itemRow = it => { const inCart = cart.hasDoc(it.id);
-    return `<li class="svc-row ${inCart ? "incart" : ""}">${inCart ? `<span class="in">✓</span><span class="nm">${esc(it.name)}</span>` : `<label class="check"><input type="checkbox" data-pick="${it.id}" ${sel.has(it.id) ? "checked" : ""}> <span class="nm">${esc(it.name)}</span></label>`}<span class="pr">${docPriceHTML(it.usd)}</span>${inCart ? `<button type="button" class="link-btn" data-rm="${it.id}">Remove</button>` : ""}</li>`; };
+    return `<li class="svc-row ${inCart ? "incart" : ""}">${inCart ? `<span class="in">✓</span><span class="nm">${esc(it.name)}</span>` : `<label class="check"><input type="checkbox" data-pick="${it.id}" ${sel.has(it.id) ? "checked" : ""}> <span class="nm">${esc(it.name)}</span></label>`}<span class="pr">${priceLine(it.usd)}</span>${inCart ? `<button type="button" class="link-btn" data-rm="${it.id}">Remove</button>` : ""}</li>`; };
   const secInner = c => {
     const items = c.items.filter(i => !filter || i.name.toLowerCase().includes(filter)); if (!items.length) return null;
-    const picked = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)), inCart = c.items.filter(i => cart.hasDoc(i.id)).length;
-    const sub = picked.reduce((a, i) => a + i.usd, 0);
+    const picked = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)), inCart = c.items.filter(i => cart.hasDoc(i.id)).length, sub = picked.reduce((a, i) => a + i.usd, 0);
     return `${c.note ? `<p class="notice" style="margin:0 0 8px">${esc(c.note)}</p>` : ""}${/Enrolment|Training|Certification/.test(c.name) ? `<p class="hint">Enrolment fees cover our help with booking and paperwork. Course tuition and exam fees are paid to the training provider. <a href="certification.html">Or buy the course from us</a>.</p>` : ""}
       <ul class="svc-list">${items.map(itemRow).join("")}</ul>
-      <div class="sec-foot"><div class="cnt"><b>${picked.length}</b> of ${c.items.length} documents selected${sub ? ` · ${docPriceHTML(sub)}` : ""}${inCart ? ` · <span class="ok">${inCart} already in cart</span>` : ""}</div>
+      <div class="sec-foot"><div class="cnt"><b>${picked.length}</b> of ${c.items.length} documents selected${sub ? ` · ${priceLine(sub)}` : ""}${inCart ? ` · <span class="ok">${inCart} already in cart</span>` : ""}</div>
       <button type="button" class="btn" data-addsel="${c.id}" ${picked.length ? "" : "disabled"}>${picked.length ? `Add ${picked.length} selected to cart` : "Select documents above"}</button></div>`;
   };
   const badge = c => { const n = c.items.filter(i => cart.hasDoc(i.id)).length; return n ? `<span class="tag green">${n} in cart</span>` : ""; };
   const renderCatalog = () => {
-    const box = $("#cat-root"), html = DOC_CATALOG.map(c => { const inner = secInner(c); if (inner === null) return ""; const isOpen = open.has(c.id) || !!filter;
+    const html = DOC_CATALOG.map(c => { const inner = secInner(c); if (inner === null) return ""; const isOpen = open.has(c.id) || !!filter;
       return `<details class="sec" id="${c.id}" ${isOpen ? "open" : ""}><summary><span class="ic">${c.icon}</span><span class="t">${c.n}. ${esc(c.name)}</span><span class="meta">${c.items.length} documents</span><span class="bd">${badge(c)}</span></summary><div class="sec-body">${inner}</div></details>`; }).join("");
-    box.innerHTML = html || `<div class="card empty">No documents match "${esc(filter)}".</div>`;
-  };
-  const refreshAll = () => { $$("details.sec").forEach(d => { const c = DOC_CATALOG.find(x => x.id === d.id); if (!c) return; const inner = secInner(c); if (inner !== null) { $(".sec-body", d).innerHTML = inner; $(".bd", d).innerHTML = badge(c); } }); };
+    $("#cat-root").innerHTML = html || `<div class="card empty">No documents match "${esc(filter)}".</div>`; };
+  const refreshAll = () => { $$("#cat-root details.sec").forEach(d => { const c = DOC_CATALOG.find(x => x.id === d.id); if (!c) return; const inner = secInner(c); if (inner !== null) { $(".sec-body", d).innerHTML = inner; $(".bd", d).innerHTML = badge(c); } }); };
   $("#cat-root").addEventListener("toggle", e => { const d = e.target; if (d.tagName === "DETAILS" && !filter) d.open ? open.add(d.id) : open.delete(d.id); }, true);
   $("#cat-root").onchange = e => { const id = e.target.dataset.pick; if (!id) return; e.target.checked ? sel.add(id) : sel.delete(id); const d = e.target.closest("details"); $(".sec-body", d).innerHTML = secInner(DOC_CATALOG.find(x => x.id === d.id)); };
-  $("#cat-root").onclick = e => {
-    const b = e.target.closest("button"); if (!b) return;
-    if (b.dataset.addsel) { const c = DOC_CATALOG.find(x => x.id === b.dataset.addsel), ids = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)).map(i => i.id); ids.forEach(i => sel.delete(i)); addIds(ids); }
-    else if (b.dataset.rm) { cart.removeDoc(b.dataset.rm); renderGap(); refreshAll(); renderBar(); }
-  };
+  $("#cat-root").onclick = e => { const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.addsel) { const c = DOC_CATALOG.find(x => x.id === b.dataset.addsel), ids = c.items.filter(i => sel.has(i.id) && !cart.hasDoc(i.id)).map(i => i.id); ids.forEach(i => sel.delete(i)); cart.addDocs(ids); track("doc_added_to_cart", { count: ids.length, source: "catalogue" }); }
+    else if (b.dataset.rm) cart.removeDoc(b.dataset.rm); else return;
+    refreshAll(); renderPkgs(); showBar(cartBarHTML()); };
   $("#cat-q").oninput = e => { filter = e.target.value.trim().toLowerCase(); renderCatalog(); };
   $("#cat-open").onclick = () => { DOC_CATALOG.forEach(c => open.add(c.id)); renderCatalog(); };
   $("#cat-close").onclick = () => { open.clear(); $("#cat-q").value = ""; filter = ""; renderCatalog(); };
-
-  /* packages + terms */
-  const renderPkgs = () => { $("#pkg-root").innerHTML = DOC_PACKAGES.map((p, i) => { const inCart = cart.hasDoc(p.id);
-    return `<div class="card pkg ${i === 1 ? "featured" : ""}">${i === 1 ? '<span class="badge">MOST CHOSEN</span>' : ""}<h3>${esc(p.name)}</h3><div class="price">${usdFmt(p.usd)}</div>${localFromUSD(1).cur !== "USD" ? `<div class="approx">≈ ${docMoney(p.usd)}</div>` : ""}<h4>Includes</h4><ul class="ticks">${p.includes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+  const renderPkgs = () => { $("#pkg-root").innerHTML = DOC_PACKAGES.map((p, i) => { const inCart = cart.hasDoc(p.id), sep = (PKG_COVERS[p.name] || []).reduce((a, n) => a + (DOC_CATALOG.flatMap(c => c.items).find(x => x.name === n)?.usd || 0), 0);
+    return `<div class="card pkg ${i === 1 ? "featured" : ""}">${i === 1 ? '<span class="badge">MOST CHOSEN</span>' : ""}<h3>${esc(p.name)}</h3><div class="price">${usdFmt(p.usd)}</div>${localFromUSD(1).cur !== "USD" ? `<div class="approx">≈ ${docMoney(p.usd)}</div>` : ""}${sep > p.usd ? `<p class="hint" style="margin:4px 0 0">About ${usdFmt(sep)} if bought separately</p>` : ""}<h4>Includes</h4><ul class="ticks">${p.includes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
       ${inCart ? `<button class="btn outline" data-prm="${p.id}">✓ In cart · Remove</button>` : `<button class="btn ${i === 1 ? "" : "dark"}" data-padd="${p.id}">Add package to cart</button>`}</div>`; }).join(""); };
-  $("#pkg-root").onclick = e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.padd) addIds([b.dataset.padd]); else if (b.dataset.prm) cart.removeDoc(b.dataset.prm); renderPkgs(); renderBar(); };
+  $("#pkg-root").onclick = e => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.padd) { cart.addDocs([b.dataset.padd]); track("doc_added_to_cart", { count: 1, source: "package" }); } else if (b.dataset.prm) cart.removeDoc(b.dataset.prm); renderPkgs(); showBar(cartBarHTML()); };
   $("#terms-list").innerHTML = DOC_TERMS.map(t => `<li>${esc(t)}</li>`).join("");
-
-  renderChecklist(); renderGap(); renderCatalog(); renderPkgs(); renderBar();
-  const hash = location.hash.slice(1); if (hash && DOC_CATALOG.some(c => c.id === hash)) { open.add(hash); renderCatalog(); $("#" + hash).scrollIntoView(); }
+  renderCatalog(); renderPkgs(); showBar(cartBarHTML());
+  const h = location.hash.slice(1); if (h === "terms") { $("#terms").open = true; $("#terms").scrollIntoView(); } else if (h === "packages") $("#packages").scrollIntoView(); else if (DOC_CATALOG.some(c => c.id === h)) { open.add(h); renderCatalog(); $("#" + h).scrollIntoView(); }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  layout(); initForms();
-  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCourses, cert: initCourse, checkout: initCheckout, resources: initResources, resource: initResource, docs: initDocPage }[document.body.dataset.page] || (() => { }))();
+  layout(); initForms(); funnelDebug();
+  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCourses, cert: initCourse, checkout: initCheckout, resources: initResources, resource: initResource, docs: initWizard, catalog: initCatalog }[document.body.dataset.page] || (() => { }))();
 });

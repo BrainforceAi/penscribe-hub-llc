@@ -58,3 +58,6 @@ For production, move delivery to your own backend (for example the Worker + Rese
 - **Prices:** edit `data/price-list.md`, then run `node offshore/ingest/build-price-list.mjs` to regenerate `data/docprices.js` (18 categories, 349 services, 4 packages, terms). Prices are USD and shown converted to the visitor's currency.
 - `documents.html` redirects to the merged page so old links keep working.
 - Cart holds courses and documents together; checkout adapts its fields to what is in the cart.
+
+## Guided document flow (replaces the single long page)
+`document-services.html` is a three-step flow: **job → what you have → your plan**. Step 2 shows the 10 core documents per role (`DOC_CORE` in `data/docplan.js`), the rest sit behind "Show more". Step 3 recommends one service per missing item (the first entry in `DOC_MAP`), ticks the must-haves, lets the applicant see other options, and suggests a better-value package when a CV is needed (savings computed from `PKG_COVERS`). Labels are rewritten into plain language by `plainName()` and `describe()` in `assets/app.js`. The full catalogue lives on `all-services.html`. After a job application, `docPrompt()` links to the flow with the role pre-selected. `track()` records funnel steps (see `docs/USER-TESTING.md`).
