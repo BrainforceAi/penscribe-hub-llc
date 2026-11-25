@@ -52,7 +52,7 @@ const countries = REGIONS.flatMap(r => r.countries.map(c => ({ ...c, region: r.n
 const daysAgo = d => { const n = Math.round((new Date(today()) - new Date(d)) / 864e5); return n <= 0 ? "Today" : n === 1 ? "Yesterday" : n + " days ago"; };
 
 /* ---------- layout ---------- */
-const NAV = [["index.html", "Home"], ["jobs.html", "Jobs"], ["locations.html", "Locations"], ["partners.html", "Partners"], ["cv-services.html", "CV Services"], ["document-services.html", "Documents"], ["certification.html", "Certification"], ["resources.html", "Resources"], ["about.html", "About"], ["contact.html", "Contact"]];
+const NAV = [["index.html", "Home"], ["jobs.html", "Jobs"], ["locations.html", "Locations"], ["partners.html", "Partners"], ["cv-services.html", "CV Services"], ["document-services.html", "Documents"], ["certification.html", "Certification"], ["documents.html", "Checklist"], ["resources.html", "Resources"], ["about.html", "About"], ["contact.html", "Contact"]];
 const LOGO = `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#14b8a6"/><path d="M20 7v18M13 12h14M10 25l10-4 10 4M6 31c4-3 7 3 11 0s7 3 11 0 4-1 6 0" stroke="#0a1f33" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>`;
 
 function layout() {
@@ -63,7 +63,7 @@ function layout() {
   <nav class="main">${NAV.map(([h, t]) => `<a href="${h}" class="${h === page ? "active" : ""}">${t}</a>`).join("")}</nav></div></header>`;
   const ftr = `<footer class="site"><div class="wrap"><div class="cols">
   <div><a class="brand" href="index.html" style="padding:0">${LOGO}<span>${BRAND.name}</span></a><p>${BRAND.tagline}. Recruiting offshore talent for oil, gas and marine operators across 6 regions.</p></div>
-  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Document services</a><a href="certification.html">Certification</a><a href="resources.html">Career guides</a></div>
+  <div><h4>Candidates</h4><a href="jobs.html">Browse jobs</a><a href="cv-services.html">CV services</a><a href="document-services.html">Document services</a><a href="certification.html">Certification</a><a href="documents.html">Documents you need</a><a href="resources.html">Career guides</a></div>
   <div><h4>Company</h4><a href="about.html">About us</a><a href="partners.html">Our partners</a><a href="locations.html">Locations</a><a href="contact.html">Contact</a></div>
   <div><h4>Legal</h4><a href="scam-warning.html">Scam warning</a><a href="#" onclick="return false">Privacy policy</a><a href="#" onclick="return false">Terms of use</a><a href="#" onclick="return false">Refund policy</a></div></div>
   <div class="legal">© ${new Date().getFullYear()} ${BRAND.name}. Prototype: brand, logo and copy are placeholders. Jobs shown are sample data.</div></div></footer>
@@ -140,6 +140,7 @@ function initJob() {
       <label>Certificates held</label><select name="certs" multiple size="4">${CERTS.map(c => `<option>${c}</option>`).join("")}</select>
       <label>Upload CV (PDF/DOC) *</label><input type="file" name="cv" accept=".pdf,.doc,.docx" required><p class="hint">PDF or Word, up to ${SITE.maxFileMB} MB.</p>
       <label>Short note (optional)</label><textarea name="note"></textarea>
+      <p class="notice" style="margin-top:12px">Don't include bank details, card numbers or passwords. We never ask for them when you apply. <a href="documents.html">See the documents you need</a>.</p>
       <label class="check"><input type="checkbox" required> I authorise ${BRAND.name} to submit my application and CV to the employer on my behalf and to store my data for this purpose.</label>
       <p style="margin:14px 0 0"><button class="btn" style="width:100%">Submit application</button></p></form></div></div>`;
   $("#save").onclick = () => { const s = store.get("saved", []); const i = s.indexOf(j.id); i < 0 ? s.push(j.id) : s.splice(i, 1); store.set("saved", s); $("#save").textContent = i < 0 ? "★ Saved" : "☆ Save job"; };
@@ -200,7 +201,7 @@ function initCert() {
 
 /* ---------- resources ---------- */
 function initResources() {
-  $("#res-grid").innerHTML = RESOURCES.map(r => `<a class="card link" href="resource.html?slug=${r.slug}"><div class="icon">${r.icon}</div><span class="tag">${esc(r.tag)}</span><h3>${esc(r.title)}</h3><p style="margin:.3em 0 10px;color:var(--muted)">${esc(r.summary)}</p><span class="meta" style="color:var(--muted);font-size:.88rem">${esc(r.read)} read</span> <span class="btn small outline" style="margin-left:8px">Read guide →</span></a>`).join("");
+  $("#res-grid").innerHTML = RESOURCES.map(r => `<a class="card link" href="resource.html?slug=${r.slug}"><div class="icon">${r.icon}</div><span class="tag">${esc(r.tag)}</span><h3>${esc(r.title)}</h3><p style="margin:.3em 0 10px;color:var(--muted)">${esc(r.summary)}</p><span class="meta" style="color:var(--muted);font-size:.88rem">${esc(r.read)} read</span> <span class="btn small outline" style="margin-left:8px">Read guide →</span></a>`).join("") + `<a class="card link" href="documents.html"><div class="icon">📋</div><span class="tag amber">Checklist</span><h3>Documents you need</h3><p style="margin:.3em 0 10px;color:var(--muted)">An interactive checklist of the documents, certificates and medicals employers ask for, by role.</p><span class="btn small outline">Open checklist →</span></a>`;
 }
 function initResource() {
   const r = RESOURCES.find(x => x.slug === new URLSearchParams(location.search).get("slug")), root = $("#res-root");
@@ -224,7 +225,28 @@ function initDocs() {
   const pre = new URLSearchParams(location.search).get("svc"); if (pre) pick(pre);
 }
 
+/* ---------- document checklist ---------- */
+function initChecklist() {
+  const roles = DOC_ROLES, root = $("#cl-root"), pills = $("#cl-roles");
+  const want = new URLSearchParams(location.search).get("role");
+  let role = roles.find(r => r.id === want) || roles[0];
+  const key = r => "checklist_" + r.id;
+  pills.innerHTML = roles.map(r => `<button class="pill" data-r="${r.id}">${esc(r.name)}</button>`).join("");
+  const render = () => {
+    $$(".pill", pills).forEach(b => b.classList.toggle("on", b.dataset.r === role.id));
+    const done = new Set(store.get(key(role), []));
+    const all = role.categories.flatMap(c => c.items.map(i => i[0])), total = all.length, have = all.filter(t => done.has(t)).length;
+    $("#cl-progress").innerHTML = `<div class="bar"><i style="width:${Math.round(have / total * 100)}%"></i></div><b>${have} of ${total}</b> documents ready` + (have === total ? " ✔ You're set" : "");
+    root.innerHTML = role.categories.map(c => `<div class="card cl-cat"><h3><span class="ic">${c.icon}</span> ${esc(c.name)}</h3>${c.note ? `<p class="hint" style="margin:0 0 6px">${esc(c.note)}</p>` : ""}<ul class="cl-list">${c.items.map(([t, p]) => `<li><label class="check"><input type="checkbox" data-t="${esc(t)}" ${done.has(t) ? "checked" : ""}> <span>${esc(t)}</span></label><span class="prio p-${p}">${DOC_PRIORITY[p]}</span></li>`).join("")}</ul></div>`).join("");
+    $("#cl-jobs").href = "jobs.html?cat=" + role.cat;
+  };
+  pills.onclick = e => { const b = e.target.closest(".pill"); if (b) { role = roles.find(r => r.id === b.dataset.r); render(); } };
+  root.onchange = e => { const t = e.target.dataset.t; if (!t) return; const d = new Set(store.get(key(role), [])); e.target.checked ? d.add(t) : d.delete(t); store.set(key(role), [...d]); render(); };
+  $("#cl-reset").onclick = () => { store.set(key(role), []); render(); };
+  render();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   layout(); initForms();
-  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCerts, cert: initCert, resources: initResources, resource: initResource, docs: initDocs }[document.body.dataset.page] || (() => { }))();
+  ({ home: initHome, jobs: initJobs, job: initJob, locations: initLocations, certs: initCerts, cert: initCert, resources: initResources, resource: initResource, docs: initDocs, checklist: initChecklist }[document.body.dataset.page] || (() => { }))();
 });
